@@ -30,4 +30,10 @@ public class Door : MonoBehaviour {
             camera.transform.position = new Vector3(parent.transform.position.x, parent.transform.position.y, -10);
         }
     }
+
+    public void getProperPosition()
+    {
+        findPosition = exitPoint.GetComponent<checkLocal>();
+    }
+
 }
