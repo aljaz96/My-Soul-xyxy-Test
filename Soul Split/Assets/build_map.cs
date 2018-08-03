@@ -78,15 +78,15 @@ public class build_map : MonoBehaviour {
                 roomNames[i, j] = 0;
             }
         }
-        int x = main_X = Random.Range(10, 20);
-        int y = main_Y = Random.Range(10, 20);
+        int x = main_X = Random.Range(20, 25);
+        int y = main_Y = Random.Range(20, 25);
         roomArray[x, y] = 1;
         roomNames[x, y] = -1;
         previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
         previousRoom.name = "StartingRoom";
         camera.transform.position = new Vector3(main_X * 50, main_Y * 50, -10);
 
-        while (roomCounter != 15)
+        while (roomCounter != 16)
         {
             //  1 -> 10 = up, 11 -> 20 = down, 21 -> 30 = left, 31 -> 40 = right, 41 -> 45 = reset
             
