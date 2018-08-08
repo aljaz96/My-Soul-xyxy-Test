@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main_X: 0
-  main_Y: 0
+  numberOfRooms: 15
+  limit: 220
 --- !u!4 &1058312653
 Transform:
   m_ObjectHideFlags: 0

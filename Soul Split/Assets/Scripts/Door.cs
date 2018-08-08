@@ -8,6 +8,8 @@ public class Door : MonoBehaviour {
     public GameObject exitPoint;
     public checkLocal findPosition;
     public GameObject parent;
+    public Animator animator;
+    public bool isOpen = false;
 
 
     void Start () {

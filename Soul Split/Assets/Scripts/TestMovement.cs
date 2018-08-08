@@ -1,21 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestMovement : MonoBehaviour {
 
+
     // Use this for initialization
     Rigidbody2D player;
     public GameObject scythe;
-    float speed = 2;
+    public GameObject atack;
+    public float speed = 2;
+    public float atackSpeed = 0.5f;
     public Animator animator;
     public float timer = 0;
+    public float dodgeTimer;
+    public float invulnerability = 0;
     public float mouse_X_position;
     public float mouse_Y_position;
     public float angle;
     Vector2 vec2;
+    Vector2 startPos;
+    Vector2 atackPos;
+    float range = 0.5f;
 
-	void Start () {
+    void Start()
+    {
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
     }
@@ -40,29 +50,38 @@ public class TestMovement : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.Space) && timer < 0)
         {
-            animator.SetTrigger("HasAtacked");
-            timer = 1f;
+            //   animator.SetTrigger("HasAtacked");
+            //   timer = 1f;
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && dodgeTimer < 0)
+        {
+            invulnerability = 0.5f;
+            dodgeTimer = 5;
         }
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         timer -= Time.deltaTime;
-        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        pz.z = 0;
-        vec2.x = pz.x;
-        vec2.y = pz.y;
-        mouse_X_position = vec2.x;
-        mouse_Y_position = vec2.y;
-        //angle = Vector2.Angle(transform.position, vec2);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        var relativePos = mousePos - transform.position;
+        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+        var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         if (Input.GetMouseButtonDown(0) && timer < 0)
         {
             animator.SetTrigger("HasAtacked");
-            timer = 0.5f;
+            timer = atackSpeed;
+            startPos.x = transform.position.x;
+            startPos.y = transform.position.y;
+            double distance = Math.Sqrt(Math.Pow((mousePos.x - startPos.x), 2) + Math.Pow((mousePos.y - startPos.y), 2));
+            double T = range / distance;
+            atackPos.x = (float)((1 - T) * startPos.x + T * mousePos.x);
+            atackPos.y = (float)((1 - T) * startPos.y + T * mousePos.y);
+            GameObject slash = Instantiate(atack, new Vector3(atackPos.x, atackPos.y, 0), rotation);
+            //pew.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         }
-        var relativePos = pz - transform.position;
-        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
-        var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         scythe.transform.rotation = rotation;
         //Quaternion target = Quaternion.Euler(0, 0, angle);
         //scythe.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
