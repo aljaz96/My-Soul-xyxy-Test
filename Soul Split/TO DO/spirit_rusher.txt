@@ -1,0 +1,107 @@
+GameObject player;
+GameObject currentRoom;
+GameObject playerRoom;
+public GameObject bullet;
+bool active = false;
+float movementTimer;
+public float speed = 2;
+float rushTimer = 0;
+float bulletTimer = 0;
+public float rushCooldown = 3f;
+public float bulletCooldown = 0.15f;
+bool rush = false;
+int rushDirection = 3;
+
+
+void start(){
+    currentRoom = transform.parent.gameObject;
+    player = GameObject.Find("Player");
+}
+
+void update(){
+    rushTimer -= Time.DeltaTime;
+	bulletTimer -= Time.DeltaTime;
+	movementTimer -= Time.DeltaTime;
+    if(active){
+       //do stuff
+	    if(movementTimer < 0 && !rush){
+	       changeDirection();
+	    }
+		if(rush && bulletTimer < 0){
+		    spawnBullets(rushDirection);
+			bulletTimer = bulletCooldown;
+		}
+	    if(rushTimer < 0){
+	        RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
+		    if(hit.transform == player){
+			    if(transform.position.x == player.transform.position.x && transform.position.y < player.transform.position.y){
+				    RushPlayer(0, speed * 5)
+			    }
+			    else if(transform.position.x == player.transform.position.x && transform.position.y > player.transform.position.y){
+					RushPlayer(0, -speed * 5)
+			    }
+			    else if(transform.position.x < player.transform.position.x && transform.position.y == player.transform.position.y){
+					RushPlayer(speed * 5, 0)
+			    }
+			    else if(transform.position.x > player.transform.position.x && transform.position.y == player.transform.position.y){
+					RushPlayer(-speed * 5, 0)
+			    }
+		    }
+	    }
+    }
+    else{
+	    playerRoom = player.transform.parent.gameObject;
+	    if(playerRoom.Name == currentRoom.Name){
+		    active = true;
+	    }
+    }
+}
+
+void RushPlayer(int x, int y){
+	rush = true;
+	GetComponent<Rigidbody2D>().velocity = new Vector3(x, y, 0);
+	movementTimer = 10;
+	rushTimer = rushCooldown;
+}
+
+void OnCollisionEnter2D(Collision2D col)
+{
+    rush = false;
+    changeDirection();
+}
+
+void spawnBullets(int decision){
+	GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+    GameObject b2 = Instantiate(bullet, transform.position, Quaternion.identity);
+    if(decision == 1){
+		b1.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 1, 0);
+		b2.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -1, 0);
+	}
+	else{
+		b1.GetComponent<Rigidbody2D>().velocity = new Vector3(1, 0, 0);
+		b2.GetComponent<Rigidbody2D>().velocity = new Vector3(-1, 0, 0);
+	}
+}
+
+void changeDirection(){
+    int decision = Random.Range(1,4);
+    switch (decision)
+        {
+        case 1:
+            GetComponent<Rigidbody2D>().velocity = new Vector3(speed, 0, 0);
+            break;
+        case 2:
+            GetComponent<Rigidbody2D>().velocity = new Vector3(-speed, 0, 0);
+            break;
+        case 3:
+            GetComponent<Rigidbody2D>().velocity = new Vector3(0, -speed, 0);
+            break;
+        case 4:
+			GetComponent<Rigidbody2D>().velocity = new Vector3(0, speed, 0);
+            break;
+        default:
+            null;
+            break;
+        }
+		movementTimer = Random.Range(1,6);
+}

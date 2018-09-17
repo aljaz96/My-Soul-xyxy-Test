@@ -27,6 +27,7 @@ public class Door : MonoBehaviour {
         {
             collision.transform.position = new Vector2(findPosition.X, findPosition.Y);
             parent = exitPoint.transform.parent.gameObject;
+            collision.transform.parent = parent.transform;
             parent.transform.TransformPoint(Vector3.zero);
             GameObject camera = GameObject.Find("Main Camera");
             camera.transform.position = new Vector3(parent.transform.position.x, parent.transform.position.y, -10);

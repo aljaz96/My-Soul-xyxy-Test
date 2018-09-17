@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class build_map : MonoBehaviour {
+public class build_map : MonoBehaviour
+{
 
     // Use this for initialization
     GameObject camera;
     GameObject currentRoom;
     GameObject previousRoom;
+    GameObject bossPreRoom;
+    GameObject bossRoom;
 
     GameObject currentRoom_entrance;
     GameObject currentRoom_exit;
@@ -17,6 +20,7 @@ public class build_map : MonoBehaviour {
     GameObject previousRoom_entrance;
     GameObject previousRoom_exit;
     Door previousRoom_door;
+    Vector2 bossPreRoomLocation;
     public int numberOfRooms = 16;
     int[,] roomArray;
     int[,] roomNames;
@@ -100,23 +104,7 @@ public class build_map : MonoBehaviour {
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
-                    previousRoom_entrance = previousRoom.transform.Find("TopEntrance").gameObject;
-                    previousRoom_exit = previousRoom.transform.Find("TopDoor").gameObject;
-                    previousRoom_door = previousRoom_exit.GetComponent<Door>();
-                    currentRoom_entrance = currentRoom.transform.Find("BottomEntrance").gameObject;
-                    currentRoom_exit = currentRoom.transform.Find("BottomDoor").gameObject;
-                    currentRoom_door = currentRoom_exit.GetComponent<Door>();
-                    currentRoom_door.exitPoint = previousRoom_entrance;
-                    previousRoom_door.exitPoint = currentRoom_entrance;
-
-                    currentRoom_exit.SetActive(true);
-                    currentRoom_entrance.SetActive(true);
-                    previousRoom_exit.SetActive(true);
-                    previousRoom_entrance.SetActive(true);
-                    currentRoom_door.getProperPosition();
-                    previousRoom_door.getProperPosition();
-
-                    previousRoom = currentRoom;
+                    setDoors("Top", "Bottom");
                 }
                 else
                 {
@@ -147,23 +135,7 @@ public class build_map : MonoBehaviour {
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
-                    previousRoom_entrance = previousRoom.transform.Find("BottomEntrance").gameObject;
-                    previousRoom_exit = previousRoom.transform.Find("BottomDoor").gameObject;
-                    previousRoom_door = previousRoom_exit.GetComponent<Door>();
-                    currentRoom_entrance = currentRoom.transform.Find("TopEntrance").gameObject;
-                    currentRoom_exit = currentRoom.transform.Find("TopDoor").gameObject;
-                    currentRoom_door = currentRoom_exit.GetComponent<Door>();
-                    currentRoom_door.exitPoint = previousRoom_entrance;
-                    previousRoom_door.exitPoint = currentRoom_entrance;
-
-                    currentRoom_exit.SetActive(true);
-                    currentRoom_entrance.SetActive(true);
-                    previousRoom_exit.SetActive(true);
-                    previousRoom_entrance.SetActive(true);
-                    currentRoom_door.getProperPosition();
-                    previousRoom_door.getProperPosition();
-
-                    previousRoom = currentRoom;
+                    setDoors("Bottom", "Top");
                 }
                 else
                 {
@@ -194,23 +166,7 @@ public class build_map : MonoBehaviour {
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
-                    previousRoom_entrance = previousRoom.transform.Find("LeftEntrance").gameObject;
-                    previousRoom_exit = previousRoom.transform.Find("LeftDoor").gameObject;
-                    previousRoom_door = previousRoom_exit.GetComponent<Door>();
-                    currentRoom_entrance = currentRoom.transform.Find("RightEntrance").gameObject;
-                    currentRoom_exit = currentRoom.transform.Find("RightDoor").gameObject;
-                    currentRoom_door = currentRoom_exit.GetComponent<Door>();
-                    currentRoom_door.exitPoint = previousRoom_entrance;
-                    previousRoom_door.exitPoint = currentRoom_entrance;
-
-                    currentRoom_exit.SetActive(true);
-                    currentRoom_entrance.SetActive(true);
-                    previousRoom_exit.SetActive(true);
-                    previousRoom_entrance.SetActive(true);
-                    currentRoom_door.getProperPosition();
-                    previousRoom_door.getProperPosition();
-
-                    previousRoom = currentRoom;
+                    setDoors("Left", "Right");
                 }
                 else
                 {
@@ -241,23 +197,7 @@ public class build_map : MonoBehaviour {
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
-                    previousRoom_entrance = previousRoom.transform.Find("RightEntrance").gameObject;
-                    previousRoom_exit = previousRoom.transform.Find("RightDoor").gameObject;
-                    previousRoom_door = previousRoom_exit.GetComponent<Door>();
-                    currentRoom_entrance = currentRoom.transform.Find("LeftEntrance").gameObject;
-                    currentRoom_exit = currentRoom.transform.Find("LeftDoor").gameObject;
-                    currentRoom_door = currentRoom_exit.GetComponent<Door>();
-                    currentRoom_door.exitPoint = previousRoom_entrance;
-                    previousRoom_door.exitPoint = currentRoom_entrance;
-
-                    currentRoom_exit.SetActive(true);
-                    currentRoom_entrance.SetActive(true);
-                    previousRoom_exit.SetActive(true);
-                    previousRoom_entrance.SetActive(true);
-                    currentRoom_door.getProperPosition();
-                    previousRoom_door.getProperPosition();
-
-                    previousRoom = currentRoom;
+                    setDoors("Right", "Left");
                 }
                 else
                 {
@@ -275,10 +215,8 @@ public class build_map : MonoBehaviour {
                 }
             }
         }
-        GameObject bossPreRoom;
-        GameObject bossRoom;
         int max = 0;
-        Vector2 bossPreRoomLocation = new Vector2();
+        bossPreRoomLocation = new Vector2();
         for (int i = 0; i < 50; i++)
         {
             for (int j = 0; j < 50; j++)
@@ -300,6 +238,7 @@ public class build_map : MonoBehaviour {
                 if (roomArray[(int)bossPreRoomLocation.x, (int)bossPreRoomLocation.y + 1] == 0)
                 {
                     bossPreRoomLocation.y++;
+                    setBossRoom("Top", "Bottom");
                     break;
                 }
             }
@@ -308,6 +247,7 @@ public class build_map : MonoBehaviour {
                 if (roomArray[(int)bossPreRoomLocation.x, (int)bossPreRoomLocation.y - 1] == 0)
                 {
                     bossPreRoomLocation.y--;
+                    setBossRoom("Bottom", "Top");
                     break;
                 }
             }
@@ -316,6 +256,7 @@ public class build_map : MonoBehaviour {
                 if (roomArray[(int)bossPreRoomLocation.x - 1, (int)bossPreRoomLocation.y] == 0)
                 {
                     bossPreRoomLocation.x--;
+                    setBossRoom("Left", "Right");
                     break;
                 }
             }
@@ -324,16 +265,55 @@ public class build_map : MonoBehaviour {
                 if (roomArray[(int)bossPreRoomLocation.x + 1, (int)bossPreRoomLocation.y] == 0)
                 {
                     bossPreRoomLocation.x++;
+                    setBossRoom("Right", "Left");
                     break;
                 }
             }
         }
+
+
+    }
+
+    void setDoors(string previous, string current)
+    {
+        previousRoom_entrance = previousRoom.transform.Find(previous + "Entrance").gameObject;
+        previousRoom_exit = previousRoom.transform.Find(previous + "Door").gameObject;
+        previousRoom_door = previousRoom_exit.GetComponent<Door>();
+        currentRoom_entrance = currentRoom.transform.Find(current + "Entrance").gameObject;
+        currentRoom_exit = currentRoom.transform.Find(current + "Door").gameObject;
+        currentRoom_door = currentRoom_exit.GetComponent<Door>();
+        currentRoom_door.exitPoint = previousRoom_entrance;
+        previousRoom_door.exitPoint = currentRoom_entrance;
+
+        currentRoom_exit.SetActive(true);
+        currentRoom_entrance.SetActive(true);
+        previousRoom_exit.SetActive(true);
+        previousRoom_entrance.SetActive(true);
+        currentRoom_door.getProperPosition();
+        previousRoom_door.getProperPosition();
+
+        previousRoom = currentRoom;
+    }
+
+    void setBossRoom(string previous, string current)
+    {
         bossRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(bossPreRoomLocation.x * 50, bossPreRoomLocation.y * 50, 0), Quaternion.identity);
         bossRoom.name = "BossRoom";
+        previousRoom_entrance = bossPreRoom.transform.Find(previous + "Entrance").gameObject;
+        previousRoom_exit = bossPreRoom.transform.Find(previous + "Door").gameObject;
+        previousRoom_door = previousRoom_exit.GetComponent<Door>();
+        currentRoom_entrance = bossRoom.transform.Find(current + "Entrance").gameObject;
+        currentRoom_exit = bossRoom.transform.Find(current + "Door").gameObject;
+        currentRoom_door = currentRoom_exit.GetComponent<Door>();
+        currentRoom_door.exitPoint = previousRoom_entrance;
+        previousRoom_door.exitPoint = currentRoom_entrance;
 
-
-
-
+        currentRoom_exit.SetActive(true);
+        currentRoom_entrance.SetActive(true);
+        previousRoom_exit.SetActive(true);
+        previousRoom_entrance.SetActive(true);
+        currentRoom_door.getProperPosition();
+        previousRoom_door.getProperPosition();
     }
 
     //previousRoom = GameObject.Find("StartingRoom");

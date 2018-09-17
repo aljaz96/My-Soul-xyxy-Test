@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 787, y: 492}
   m_MaxSize: {x: 16012, y: 14042}
   vertical: 0
-  controlID: 31
+  controlID: 11
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -114,8 +114,8 @@ MonoBehaviour:
     y: 0
     width: 202
     height: 676
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_MinSize: {x: 510, y: 492}
   m_MaxSize: {x: 12010, y: 14042}
   vertical: 1
-  controlID: 32
+  controlID: 12
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_MinSize: {x: 510, y: 221}
   m_MaxSize: {x: 12010, y: 4021}
   vertical: 0
-  controlID: 33
+  controlID: 13
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -279,8 +279,8 @@ MonoBehaviour:
     y: 0
     width: 911
     height: 676
-  m_MinSize: {x: 204, y: 221}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -387,9 +387,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 635
+    y: 768
     width: 1498
-    height: 383
+    height: 250
   m_PersistentViewDataDictionary: {fileID: 0}
   m_ViewTransforms:
     m_KeySerializationHelper:
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_AnimEditor: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 3284
+  m_LastSelectedObjectID: -963322
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -491,20 +491,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/Rooms
+    - Assets/Resources/Prefabs
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Prefabs/Rooms
+  - Assets/Resources/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\mikik\OneDrive\Documents\GitHub\Soul-Split\Soul Split
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a00b0000
-    m_LastClickedID: 2976
-    m_ExpandedIDs: 0000000056090000c00a0000020b0000040c000000ca9a3b
+    m_SelectedIDs: 120b0000
+    m_LastClickedID: 2834
+    m_ExpandedIDs: 0000000060090000d00a0000120b00001a0c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -532,7 +532,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000056090000c00a0000020b0000040c0000
+    m_ExpandedIDs: 0000000060090000d00a0000120b00001a0c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -648,23 +648,23 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 9c03ffff9e03ffffa003ffffbc0fffffa25effffe6fbffff00000000
+    m_SelectedIDs: ea8bfeff
+    m_LastClickedID: -95254
+    m_ExpandedIDs: a4f8feffa8f8feffa2dfffffa6dfffffe6fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: StartingRoom
-      m_OriginalName: StartingRoom
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: -7318
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 5}
     m_SearchString: 
@@ -700,14 +700,14 @@ MonoBehaviour:
     height: 655
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 178.13781758575936
+  lastFramingTime: 4174.3283575067135
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1389.3794, y: 1919.4403, z: -2.909657}
+    m_Target: {x: 1250, y: 500, z: 0}
     speed: 2
-    m_Value: {x: 1389.3794, y: 1919.4403, z: -2.909657}
+    m_Value: {x: 1250, y: 500, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -739,9 +739,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 313.7077
+    m_Target: 11.671928
     speed: 2
-    m_Value: 313.7077
+    m_Value: 11.671928
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 635
+    y: 768
     width: 1498
-    height: 383
+    height: 250
   m_PersistentViewDataDictionary: {fileID: 0}

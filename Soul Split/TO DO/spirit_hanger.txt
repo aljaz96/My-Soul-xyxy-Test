@@ -1,0 +1,63 @@
+GameObject player;
+GameObject currentRoom;
+GameObject playerRoom;
+public GameObject bullet;
+bool active = false;
+public float movementTimer = 5;
+public float speed = 0.2f;
+public float bulletCooldown = 2.5f;
+float bulletTimer = 0;
+float originalPosition;
+
+
+void start(){
+    currentRoom = transform.parent.gameObject;
+    player = GameObject.Find("Player");
+	originalPosition = transform.position.y;
+}
+
+void update(){
+	movementTimer -= Time.DeltaTime;
+	bulletTimer -= Time.DeltaTime;
+    if(active){
+       //do stuff
+	    if(bulletTimer < 0){
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
+		    if(hit.transform == player){
+			    for(int i=0; i<5; i++){
+					GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+					Vector3 v3 = player.transform.position - transform.position;
+					v3.x += Random.Range(-1f, 1f);
+					v3.y += Random.Range(-1f, 1f);
+					b1.GetComponent<Rigidbody2D>().velocity = v3;
+					bulletTimer = bulletCooldown;
+				}
+			}
+	    }
+		if(transform.position.y > originalPosition + 5 || transform.position.y < originalPosition - 5){
+		    GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+		}
+		if(movementTimer < 0){
+		    moveRandomly();
+		}
+    }
+    else{
+	    playerRoom = player.transform.parent.gameObject;
+	    if(playerRoom.Name == currentRoom.Name){
+		    active = true;
+	    }
+    }
+	
+}
+
+Void moveRandomly(){
+    if(Random.Range(0,1) == 0){
+	    GetComponent<Rigidbody2D>().velocity = new Vector3(0, speed, 0);
+	}
+	else{
+	    GetComponent<Rigidbody2D>().velocity = new Vector3(0, -speed, 0);
+	}
+	movementTimer = Random.Range(1,4);
+}
+
+

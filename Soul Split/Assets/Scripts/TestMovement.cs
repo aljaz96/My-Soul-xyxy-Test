@@ -86,4 +86,20 @@ public class TestMovement : MonoBehaviour {
         //Quaternion target = Quaternion.Euler(0, 0, angle);
         //scythe.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
     }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "EnemyBullet" || col.gameObject.tag == "Enemy" && invulnerability < 0)
+        {
+            invulnerability = 0.5f;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "EnemyBullet" || collision.tag == "Enemy" && invulnerability < 0)
+        {
+            invulnerability = 0.5f;
+        }
+    }
 }

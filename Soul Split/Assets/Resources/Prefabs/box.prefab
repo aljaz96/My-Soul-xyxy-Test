@@ -251,8 +251,11 @@ MonoBehaviour:
   parent: {fileID: 1392793313351004}
   projectile: {fileID: 1474658487439864, guid: 4e2a13bca5bef1c43ad7b3ed9f51eabd, type: 2}
   projectileSpeed: 8
+  numberOfBullets: 5
   atackSpeed: 0.05
+  isColiding: 0
   backShot: 0
+  bulletType: 1
 --- !u!212 &212198343492201530
 SpriteRenderer:
   m_ObjectHideFlags: 1
