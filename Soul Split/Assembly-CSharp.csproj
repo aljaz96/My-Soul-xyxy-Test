@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Boss2.cs" />
+    <Compile Include="Assets\Scripts\Boss3.cs" />
     <Compile Include="Assets\Scripts\build_map.cs" />
     <Compile Include="Assets\Scripts\Bullet_bomb.cs" />
     <Compile Include="Assets\Scripts\checkLocal.cs" />
