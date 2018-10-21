@@ -70,7 +70,7 @@ public class build_map : MonoBehaviour
         roomNames[x, y] = -1;
         roomDistance[x, y] = distance;
         //Make starting room
-        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
+        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom2", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
         previousRoom.name = "StartingRoom";
         camera.transform.position = new Vector3(main_X * 50, main_Y * 50, -10);
 
@@ -79,6 +79,7 @@ public class build_map : MonoBehaviour
             //  1 -> 50 = up, 51 -> 100 = down, 101 -> 150 = left, 151 -> 200 = right, 201 -> limit = reset
 
             int decision = Random.Range(1, limit);
+            int roomNumber = Random.RandomRange(1, 3);
             if (decision >= 201 || x < 0 || x > 49 || y < 0 || y > 49)
             {
                 previousRoom = GameObject.Find("StartingRoom");
@@ -99,11 +100,14 @@ public class build_map : MonoBehaviour
                     roomArray[x, y + 1] = 2;
                     roomNames[x, y + 1] = roomCounter;
                     roomDistance[x, y + 1] = distance;
-                    y++;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
+                    y++;            
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
+                    removeWall("Top", previousRoom);
+                    removeWall("Bottom", currentRoom);
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
+
                     setDoors("Top", "Bottom");
                 }
                 else
@@ -131,9 +135,11 @@ public class build_map : MonoBehaviour
                     roomNames[x, y - 1] = roomCounter;
                     roomDistance[x, y - 1] = distance;
                     y--;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
+                    removeWall("Bottom", previousRoom);
+                    removeWall("Top", currentRoom);
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
                     setDoors("Bottom", "Top");
                 }
@@ -162,7 +168,7 @@ public class build_map : MonoBehaviour
                     roomNames[x - 1, y] = roomCounter;
                     roomDistance[x - 1, y] = distance;
                     x--;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
@@ -193,7 +199,7 @@ public class build_map : MonoBehaviour
                     roomNames[x + 1, y] = roomCounter;
                     roomDistance[x + 1, y] = distance;
                     x++;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * 50, y * 50, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
@@ -238,6 +244,8 @@ public class build_map : MonoBehaviour
                 if (roomArray[(int)bossPreRoomLocation.x, (int)bossPreRoomLocation.y + 1] == 0)
                 {
                     bossPreRoomLocation.y++;
+                    removeWall("Top", bossPreRoom);
+                    removeWall("Bottom", currentRoom);
                     setBossRoom("Top", "Bottom");
                     break;
                 }
@@ -247,6 +255,8 @@ public class build_map : MonoBehaviour
                 if (roomArray[(int)bossPreRoomLocation.x, (int)bossPreRoomLocation.y - 1] == 0)
                 {
                     bossPreRoomLocation.y--;
+                    removeWall("Bottom", bossPreRoom);
+                    removeWall("Top", currentRoom);
                     setBossRoom("Bottom", "Top");
                     break;
                 }
@@ -274,6 +284,15 @@ public class build_map : MonoBehaviour
 
     }
 
+    void removeWall(string side, GameObject room)
+    {
+        if (side == "Bottom" || side == "Top")
+        {
+            GameObject wall = room.transform.Find("No" + side + "Door").gameObject;
+            wall.SetActive(false);
+        }
+    }
+
     void setDoors(string previous, string current)
     {
         previousRoom_entrance = previousRoom.transform.Find(previous + "Entrance").gameObject;
@@ -291,13 +310,12 @@ public class build_map : MonoBehaviour
         previousRoom_entrance.SetActive(true);
         currentRoom_door.getProperPosition();
         previousRoom_door.getProperPosition();
-
         previousRoom = currentRoom;
     }
 
     void setBossRoom(string previous, string current)
     {
-        bossRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room", typeof(GameObject)) as GameObject, new Vector3(bossPreRoomLocation.x * 50, bossPreRoomLocation.y * 50, 0), Quaternion.identity);
+        bossRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room2", typeof(GameObject)) as GameObject, new Vector3(bossPreRoomLocation.x * 50, bossPreRoomLocation.y * 50, 0), Quaternion.identity);
         bossRoom.name = "BossRoom";
         previousRoom_entrance = bossPreRoom.transform.Find(previous + "Entrance").gameObject;
         previousRoom_exit = bossPreRoom.transform.Find(previous + "Door").gameObject;
