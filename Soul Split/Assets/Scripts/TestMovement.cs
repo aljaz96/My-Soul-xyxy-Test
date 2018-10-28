@@ -22,6 +22,7 @@ public class TestMovement : MonoBehaviour {
     Vector2 vec2;
     Vector2 startPos;
     Vector2 atackPos;
+    public float active = 0;
     float range = 0.5f;
 
     void Start()
@@ -32,37 +33,41 @@ public class TestMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (active < 0)
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.position += Vector3.up * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.position += Vector3.down * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.Space) && timer < 0)
-        {
-            //   animator.SetTrigger("HasAtacked");
-            //   timer = 1f;
-        }
-        if (Input.GetKey(KeyCode.LeftShift) && dodgeTimer < 0)
-        {
-            invulnerability = 0.5f;
-            dodgeTimer = 5;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.position += Vector3.right * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                transform.position += Vector3.up * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                transform.position += Vector3.down * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.Space) && timer < 0)
+            {
+                //   animator.SetTrigger("HasAtacked");
+                //   timer = 1f;
+            }
+            if (Input.GetKey(KeyCode.LeftShift) && dodgeTimer < 0)
+            {
+                invulnerability = 0.5f;
+                dodgeTimer = 5;
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        active -= Time.deltaTime;
         timer -= Time.deltaTime;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
@@ -101,5 +106,10 @@ public class TestMovement : MonoBehaviour {
         {
             invulnerability = 0.5f;
         }
+    }
+
+    public void passing()
+    {
+        active = 1;
     }
 }

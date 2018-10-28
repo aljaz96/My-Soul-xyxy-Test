@@ -65,11 +65,13 @@
     <Compile Include="Assets\Scripts\Boss3.cs" />
     <Compile Include="Assets\Scripts\build_map.cs" />
     <Compile Include="Assets\Scripts\Bullet_bomb.cs" />
+    <Compile Include="Assets\Scripts\Camera_script.cs" />
     <Compile Include="Assets\Scripts\checkLocal.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\familiar.cs" />
     <Compile Include="Assets\Scripts\ProjectileHitEffect.cs" />
     <Compile Include="Assets\Scripts\projectileScript.cs" />
+    <Compile Include="Assets\Scripts\Room.cs" />
     <Compile Include="Assets\Scripts\Rusher.cs" />
     <Compile Include="Assets\Scripts\SlashEffect.cs" />
     <Compile Include="Assets\Scripts\TestMovement.cs" />
