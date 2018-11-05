@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfRooms: 10
   limit: 220
-  range: 25
+  range: 21
 --- !u!4 &1058312653
 Transform:
   m_ObjectHideFlags: 0

@@ -69,6 +69,7 @@ public class TestMovement : MonoBehaviour {
     {
         active -= Time.deltaTime;
         timer -= Time.deltaTime;
+        player.velocity = new Vector3(0, 0, 0);
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         var relativePos = mousePos - transform.position;

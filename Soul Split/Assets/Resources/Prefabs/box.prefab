@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114383422733986530}
   m_Layer: 0
   m_Name: box
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,6 +237,7 @@ MonoBehaviour:
   mouse_X_position: 0
   mouse_Y_position: 0
   angle: 0
+  active: 0
 --- !u!114 &114643969655121356
 MonoBehaviour:
   m_ObjectHideFlags: 1

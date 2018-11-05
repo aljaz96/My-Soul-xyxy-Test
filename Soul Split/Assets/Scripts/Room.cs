@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Pathfinding;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +12,24 @@ public class Room : MonoBehaviour {
     public GameObject bottomDoor;
     public GameObject leftDoor;
     public GameObject rightDoor;
+    public GameObject pathing;
     Door d;
     bool active = false;
+    public string test;
 
     void Start()
     {
-        player = GameObject.Find("box");
+        player = GameObject.FindGameObjectWithTag("Player");
         enemies = transform.Find("Enemies").gameObject;
+        try
+        {
+            pathing = transform.Find("A_").gameObject;
+           
+        }
+        catch
+        {
+            pathing = null;
+        }
     }
 
     // Update is called once per frame
@@ -42,6 +54,24 @@ public class Room : MonoBehaviour {
                 rightDoor.GetComponent<Door>().animator.SetTrigger("Close");
             }
             active = true;
+            pathing.SetActive(true);
+            AstarPath astar = pathing.GetComponent<AstarPath>();
+            test = astar.graphs[0].name;
+            GridGraph g = (GridGraph)astar.graphs[0];
+            g.center = transform.position;
+            astar.graphs[0] = g;
+            astar.graphs[0].Scan();
+            //var m = Matrix4x4.TRS(transform.position, Quaternion.identity, Vector3.one);
+            //astar.graphs[0].SetMatrix(m);
+            //astar.graphs[0].RelocateNodes(m);
+            // astar.graphs[0].
+   
+            foreach (Transform child in enemies.transform)
+            {
+                child.GetComponent<AIPath>().enabled = true;
+                child.GetComponent<Seeker>().enabled = true;
+                child.GetComponent<AIDestinationSetter>().enabled = true;
+            }
         }
         else if (active && enemies.transform.childCount == 0)
         {
@@ -66,6 +96,8 @@ public class Room : MonoBehaviour {
                 d = rightDoor.GetComponent<Door>();
                 openDoor();
             }
+            pathing.SetActive(false);
+            Destroy(this);
         }
     }
 

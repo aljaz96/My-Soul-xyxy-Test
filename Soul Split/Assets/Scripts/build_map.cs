@@ -30,8 +30,9 @@ public class build_map : MonoBehaviour
     int distance = 0;
     public int limit = 220;
     int roomCounter = 1;
+    //AstarPath astar;
 
-    public int range = 20;
+    public int range = 10;
     /*
      * 1-Starting Room
      * 2-Normal Room
@@ -43,6 +44,7 @@ public class build_map : MonoBehaviour
     {
         camera = GameObject.Find("Main Camera");
         MakeMap();
+        //astar.Scan();
     }
 
     // Update is called once per frame
@@ -67,13 +69,18 @@ public class build_map : MonoBehaviour
         }
         int x = main_X = Random.Range(9, 40);
         int y = main_Y = Random.Range(9, 40);
+        int room_X = 0;
+        int room_Y = 0;
         roomArray[x, y] = 1;
         roomNames[x, y] = -1;
         roomDistance[x, y] = distance;
         //Make starting room
-        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom2", typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom2", typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
         previousRoom.name = "StartingRoom";
-        camera.transform.position = new Vector3(main_X * range, main_Y * range, -10);
+        camera.transform.position = new Vector3(0* range, 0 * range, -10);
+        //GameObject makePathFinding = Instantiate(Resources.Load("Prefabs/Room_components/A_", typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
+        //astar = makePathFinding.GetComponent<AstarPath>();
+        
 
         while (roomCounter != numberOfRooms)
         {
@@ -87,6 +94,8 @@ public class build_map : MonoBehaviour
                 distance = 0;
                 x = main_X;
                 y = main_Y;
+                room_X = 0;
+                room_Y = 0;
                 if (limit > 200)
                 {
                     limit--;
@@ -101,8 +110,9 @@ public class build_map : MonoBehaviour
                     roomArray[x, y + 1] = 2;
                     roomNames[x, y + 1] = roomCounter;
                     roomDistance[x, y + 1] = distance;
-                    y++;            
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+                    y++;
+                    room_Y++;
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     removeWall("Top", previousRoom);
@@ -124,6 +134,7 @@ public class build_map : MonoBehaviour
                         distance++;
                     }
                     y++;
+                    room_Y++;
                 }
             }
             //IF NO ROOM DOWN, MAKE ROOM DOWNWARDS FROM CURRENT ROOM, ELSE MOVE DOWN
@@ -136,7 +147,8 @@ public class build_map : MonoBehaviour
                     roomNames[x, y - 1] = roomCounter;
                     roomDistance[x, y - 1] = distance;
                     y--;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+                    room_Y--;
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     removeWall("Bottom", previousRoom);
@@ -157,6 +169,7 @@ public class build_map : MonoBehaviour
                         distance++;
                     }
                     y--;
+                    room_Y--;
                 }
             }
             //IF NO ROOM LEFT, MAKE ROOM LEFT FROM CURRENT ROOM, ELSE MOVE LEFT
@@ -169,7 +182,8 @@ public class build_map : MonoBehaviour
                     roomNames[x - 1, y] = roomCounter;
                     roomDistance[x - 1, y] = distance;
                     x--;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+                    room_X--;
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
@@ -188,6 +202,7 @@ public class build_map : MonoBehaviour
                         distance++;
                     }
                     x--;
+                    room_X--;
                 }
             }
             //IF NO ROOM RIGHT, MAKE ROOM RIGHT FROM CURRENT ROOM, ELSE MORE RIGHT
@@ -200,7 +215,8 @@ public class build_map : MonoBehaviour
                     roomNames[x + 1, y] = roomCounter;
                     roomDistance[x + 1, y] = distance;
                     x++;
-                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+                    room_X++;
+                    currentRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
@@ -219,6 +235,7 @@ public class build_map : MonoBehaviour
                         distance++;
                     }
                     x++;
+                    room_X++;
                 }
             }
         }
@@ -299,9 +316,11 @@ public class build_map : MonoBehaviour
         previousRoom_entrance = previousRoom.transform.Find(previous + "Entrance").gameObject;
         previousRoom_exit = previousRoom.transform.Find(previous + "Door").gameObject;
         previousRoom_door = previousRoom_exit.GetComponent<Door>();
+        previousRoom_exit.tag = "ExitDoor";
         currentRoom_entrance = currentRoom.transform.Find(current + "Entrance").gameObject;
         currentRoom_exit = currentRoom.transform.Find(current + "Door").gameObject;
         currentRoom_door = currentRoom_exit.GetComponent<Door>();
+        currentRoom_exit.tag = "EnterDoor";
         currentRoom_door.exitPoint = previousRoom_entrance;
         previousRoom_door.exitPoint = currentRoom_entrance;
 
@@ -321,9 +340,11 @@ public class build_map : MonoBehaviour
         previousRoom_entrance = bossPreRoom.transform.Find(previous + "Entrance").gameObject;
         previousRoom_exit = bossPreRoom.transform.Find(previous + "Door").gameObject;
         previousRoom_door = previousRoom_exit.GetComponent<Door>();
+        previousRoom_exit.tag = "ExitDoor";
         currentRoom_entrance = bossRoom.transform.Find(current + "Entrance").gameObject;
         currentRoom_exit = bossRoom.transform.Find(current + "Door").gameObject;
         currentRoom_door = currentRoom_exit.GetComponent<Door>();
+        currentRoom_exit.tag = "EnterDoor";
         currentRoom_door.exitPoint = previousRoom_entrance;
         previousRoom_door.exitPoint = currentRoom_entrance;
 
