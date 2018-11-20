@@ -189,6 +189,7 @@ MonoBehaviour:
   audioData: {fileID: 82645423749778824}
   destroyedEffect: {fileID: 1756056776893568, guid: 72140e317a67e4e4cb3ab25df33aacda,
     type: 2}
+  damage: 0.1
 --- !u!212 &212585233126174094
 SpriteRenderer:
   m_ObjectHideFlags: 1

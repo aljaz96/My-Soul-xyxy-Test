@@ -116,7 +116,7 @@ MonoBehaviour:
   findPosition: {fileID: 0}
   parent: {fileID: 0}
   animator: {fileID: 0}
-  isOpen: 0
+  isOpen: 1
 --- !u!212 &212870898239698916
 SpriteRenderer:
   m_ObjectHideFlags: 1

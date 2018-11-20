@@ -1,30 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Rusher : MonoBehaviour {
 
-    public GameObject player;
-    public GameObject currentRoom;
-    public GameObject playerRoom;
+    GameObject player;
+    GameObject currentRoom;
+    GameObject playerRoom;
     public bool active = false;
     public float movementTimer;
     public float speed = 2;
     public float rushTimer = 0;
     public float rushCooldown = 3;
     public bool rush = false;
-
+    float player_X;
+    float player_Y;
+    float enemy_X;
+    float enemy_Y;
+    int side = -1;
+    GameObject raycasted;
+    public float velocity;
     // Use this for initialization
     void Start () {
-        player = GameObject.Find("box");
+        player = GameObject.FindWithTag("Player");
         currentRoom = new GameObject();
-        currentRoom = transform.parent.gameObject;
+        currentRoom = transform.parent.gameObject.transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
 	void Update () {
         rushTimer -= Time.deltaTime;
         movementTimer -= Time.deltaTime;
+        velocity = gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
         if (active)
         {
             //do stuff
@@ -35,25 +43,34 @@ public class Rusher : MonoBehaviour {
             if (rushTimer < 0)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
-                if (hit.transform == player)
+                raycasted = hit.transform.gameObject;
+                if (hit.transform.gameObject == player)
                 {
-                    if (transform.position.x == player.transform.position.x && transform.position.y < player.transform.position.y)
+                    player_X = (float)Math.Round(player.transform.position.x, 1, MidpointRounding.ToEven);
+                    player_Y = (float)Math.Round(player.transform.position.y, 1, MidpointRounding.ToEven);
+                    enemy_X = (float)Math.Round(transform.position.x, 1, MidpointRounding.ToEven);
+                    enemy_Y = (float)Math.Round(transform.position.y, 1, MidpointRounding.ToEven);
+                    if (enemy_X == player_X && enemy_Y < player_Y)
                     {
                         RushPlayer(0, speed * 4);
                     }
-                    else if (transform.position.x == player.transform.position.x && transform.position.y > player.transform.position.y)
+                    else if (enemy_X == player_X && enemy_Y > player_Y)
                     {
                         RushPlayer(0, -speed * 4);  
                     }
-                    else if (transform.position.x < player.transform.position.x && transform.position.y == player.transform.position.y)
+                    else if (enemy_X < player_X && enemy_Y == player_Y)
                     {
                         RushPlayer(speed * 4, 0);   
                     }
-                    else if (transform.position.x > player.transform.position.x && transform.position.y == player.transform.position.y)
+                    else if (enemy_X > player_X && enemy_Y == player_Y)
                     {
                         RushPlayer(-speed * 4, 0);    
                     }
                 }
+            }
+            if (velocity == 0)
+            {
+              changeDirection();
             }
         }
         else
@@ -84,7 +101,13 @@ public class Rusher : MonoBehaviour {
 
     void changeDirection()
     {
-        int decision = Random.Range(1, 5);
+        int decision = decision = UnityEngine.Random.Range(1, 5);
+        while (decision == side)
+        {
+            decision = UnityEngine.Random.Range(1, 5);
+        }
+        side = decision;
+
         switch (decision)
         {
             case 1:
@@ -100,6 +123,6 @@ public class Rusher : MonoBehaviour {
                 GetComponent<Rigidbody2D>().velocity = new Vector3(0, speed, 0);
                 break;
         }
-        movementTimer = Random.Range(1, 6);
+        movementTimer = UnityEngine.Random.Range(1, 6);
     }
 }

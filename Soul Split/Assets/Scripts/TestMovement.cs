@@ -8,6 +8,7 @@ public class TestMovement : MonoBehaviour {
 
     // Use this for initialization
     Rigidbody2D player;
+    public AudioSource audioData;
     public GameObject scythe;
     public GameObject atack;
     public float speed = 2;
@@ -35,19 +36,19 @@ public class TestMovement : MonoBehaviour {
     {
         if (active < 0)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.A))
             {
                 transform.position += Vector3.left * speed * Time.deltaTime;
             }
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.D))
             {
                 transform.position += Vector3.right * speed * Time.deltaTime;
             }
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W))
             {
                 transform.position += Vector3.up * speed * Time.deltaTime;
             }
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.S))
             {
                 transform.position += Vector3.down * speed * Time.deltaTime;
             }
@@ -86,6 +87,7 @@ public class TestMovement : MonoBehaviour {
             atackPos.x = (float)((1 - T) * startPos.x + T * mousePos.x);
             atackPos.y = (float)((1 - T) * startPos.y + T * mousePos.y);
             GameObject slash = Instantiate(atack, new Vector3(atackPos.x, atackPos.y, 0), rotation);
+            audioData.Play();
             //pew.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         }
         scythe.transform.rotation = rotation;

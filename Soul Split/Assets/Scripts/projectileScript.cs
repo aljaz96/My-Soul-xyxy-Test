@@ -11,7 +11,7 @@ public class projectileScript : MonoBehaviour {
     float angle;
     Vector3 startPos;
     Vector3 endPos;
-    float damage = 1;
+    public float damage = 0.1f;
 
     void Start()
     {
@@ -30,16 +30,6 @@ public class projectileScript : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        endPos = transform.position;
-        var relativePos = startPos - endPos;
-        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
-        var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
-        Destroy(gameObject);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Wall" || collision.tag == "Enemy")
@@ -50,6 +40,10 @@ public class projectileScript : MonoBehaviour {
             var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
             Destroy(gameObject);
+            if(collision.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
+            }
         }
     }
 }

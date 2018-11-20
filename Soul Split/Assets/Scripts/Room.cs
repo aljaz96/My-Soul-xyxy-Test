@@ -13,12 +13,14 @@ public class Room : MonoBehaviour {
     public GameObject leftDoor;
     public GameObject rightDoor;
     public GameObject pathing;
+    GameObject middle;
     Door d;
     bool active = false;
     public string test;
 
     void Start()
     {
+        middle = transform.Find("Mid").gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
         enemies = transform.Find("Enemies").gameObject;
         try
@@ -40,25 +42,29 @@ public class Room : MonoBehaviour {
             if (topDoor.activeSelf)
             {
                 topDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                topDoor.GetComponent<Door>().isOpen = false;
             }
             if (bottomDoor.activeSelf)
             {
                 bottomDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                bottomDoor.GetComponent<Door>().isOpen = false;
             }
             if (leftDoor.activeSelf)
             {
                 leftDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                leftDoor.GetComponent<Door>().isOpen = false;
             }
             if (rightDoor.activeSelf)
             {
                 rightDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                rightDoor.GetComponent<Door>().isOpen = false;
             }
             active = true;
             pathing.SetActive(true);
             AstarPath astar = pathing.GetComponent<AstarPath>();
             test = astar.graphs[0].name;
             GridGraph g = (GridGraph)astar.graphs[0];
-            g.center = transform.position;
+            g.center = middle.transform.position;
             astar.graphs[0] = g;
             astar.graphs[0].Scan();
             //var m = Matrix4x4.TRS(transform.position, Quaternion.identity, Vector3.one);
@@ -68,9 +74,16 @@ public class Room : MonoBehaviour {
    
             foreach (Transform child in enemies.transform)
             {
-                child.GetComponent<AIPath>().enabled = true;
-                child.GetComponent<Seeker>().enabled = true;
-                child.GetComponent<AIDestinationSetter>().enabled = true;
+                try
+                {
+                    child.GetComponent<AIPath>().enabled = true;
+                    child.GetComponent<Seeker>().enabled = true;
+                    child.GetComponent<AIDestinationSetter>().enabled = true;
+                }
+                catch
+                {
+                   // do nothing;
+                }
             }
         }
         else if (active && enemies.transform.childCount == 0)
@@ -79,21 +92,25 @@ public class Room : MonoBehaviour {
             if (topDoor.activeSelf)
             {
                 d = topDoor.GetComponent<Door>();
+                d.isOpen = true;
                 openDoor();
             }
             if (bottomDoor.activeSelf)
             {
                 d = bottomDoor.GetComponent<Door>();
+                d.isOpen = true;
                 openDoor();
             }
             if (leftDoor.activeSelf)
             {
                 d = leftDoor.GetComponent<Door>();
+                d.isOpen = true;
                 openDoor();
             }
             if (rightDoor.activeSelf)
             {
                 d = rightDoor.GetComponent<Door>();
+                d.isOpen = true;
                 openDoor();
             }
             pathing.SetActive(false);

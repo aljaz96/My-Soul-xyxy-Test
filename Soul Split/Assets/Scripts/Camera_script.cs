@@ -11,7 +11,10 @@ public class Camera_script : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        
+        GameObject mainRoom = GameObject.Find("StartingRoom");
+        Vector3 v3 = mainRoom.transform.Find("Mid").gameObject.transform.position;
+        v3.z = -10;
+        transform.position = v3;
     }
 
     // Update is called once per frame

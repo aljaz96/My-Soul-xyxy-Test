@@ -28,13 +28,15 @@ public class Door : MonoBehaviour {
         {
             collision.transform.position = new Vector2(findPosition.X, findPosition.Y);
             TestMovement t = collision.gameObject.GetComponent<TestMovement>();
+            
             parent = exitPoint.transform.parent.gameObject;
             collision.transform.parent = parent.transform;
             parent.transform.TransformPoint(Vector3.zero);
+            GameObject middle = parent.transform.Find("Mid").gameObject;
             GameObject camera = GameObject.Find("Main Camera");
             Camera_script s = camera.GetComponent<Camera_script>();
             //s.target = parent.transform;
-            s.target = new Vector3(parent.transform.position.x , parent.transform.position.y, -10);
+            s.target = new Vector3(middle.transform.position.x , middle.transform.position.y, -10);
             //camera.target = parent;
             StartCoroutine(camera.GetComponent<Camera_script>().Transition());
             t.passing();

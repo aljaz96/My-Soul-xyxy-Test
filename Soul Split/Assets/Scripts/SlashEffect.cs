@@ -5,13 +5,12 @@ using UnityEngine;
 public class SlashEffect : MonoBehaviour {
 
     // Use this for initialization
-    public float timer = 0.3f;
-    public AudioSource audioData;
+    float timer = 0.1f;
+    public float slashDamage = 5;
     //public GameObject destroyedEffect;
 
     void Start()
     {
-        audioData = GetComponent<AudioSource>();
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = pz - transform.position;
         direction.Normalize();
@@ -33,7 +32,10 @@ public class SlashEffect : MonoBehaviour {
     {
         if (collision.tag == "Enemy")
         {
-            audioData.Play();
+            if (collision.gameObject.GetComponent<MonsterStats>().active == true)
+            {
+                collision.gameObject.GetComponent<MonsterStats>().hp -= slashDamage;
+            }
         }
     }
 }
