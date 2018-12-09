@@ -59,7 +59,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -125,6 +125,8 @@ MonoBehaviour:
   Bullet: {fileID: 1269691048615386, guid: 84e0a45de26758a469f2e5ea23d302b3, type: 2}
   hp: 985
   blobSize: 3
+  rushTimer: 0
+  rush: 0
 --- !u!114 &114769577870536472
 MonoBehaviour:
   m_ObjectHideFlags: 1

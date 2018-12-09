@@ -55,7 +55,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -100,12 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532a07e747b3e1b4a9da85c5bd820a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
-  movementTimer: 0
-  speed: 2
-  rushTimer: 0
   rushCooldown: 3
-  rush: 0
   velocity: 0
 --- !u!114 &114168387118106376
 MonoBehaviour:
@@ -122,6 +117,7 @@ MonoBehaviour:
   damage: 1
   speed: 1
   playerDistance: 1
+  active: 0
 --- !u!212 &212307640340132560
 SpriteRenderer:
   m_ObjectHideFlags: 1

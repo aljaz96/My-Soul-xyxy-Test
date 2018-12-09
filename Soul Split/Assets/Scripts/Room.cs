@@ -32,9 +32,11 @@ public class Room : MonoBehaviour {
         {
             pathing = null;
         }
+        
     }
 
     // Update is called once per frame
+    
     void Update()
     {
         if (!active && player.transform.parent.name == gameObject.name && enemies.transform.childCount > 0)
@@ -67,11 +69,8 @@ public class Room : MonoBehaviour {
             g.center = middle.transform.position;
             astar.graphs[0] = g;
             astar.graphs[0].Scan();
-            //var m = Matrix4x4.TRS(transform.position, Quaternion.identity, Vector3.one);
-            //astar.graphs[0].SetMatrix(m);
-            //astar.graphs[0].RelocateNodes(m);
-            // astar.graphs[0].
-   
+            
+            /*
             foreach (Transform child in enemies.transform)
             {
                 try
@@ -85,6 +84,7 @@ public class Room : MonoBehaviour {
                    // do nothing;
                 }
             }
+            */
         }
         else if (active && enemies.transform.childCount == 0)
         {
@@ -117,7 +117,7 @@ public class Room : MonoBehaviour {
             Destroy(this);
         }
     }
-
+    
     void openDoor()
     {
         d.animator.SetTrigger("Open");

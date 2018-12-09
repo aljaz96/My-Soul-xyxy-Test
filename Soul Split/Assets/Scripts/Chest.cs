@@ -5,7 +5,6 @@ using UnityEngine;
 public class Chest : MonoBehaviour {
 
     // Use this for initialization
-    GameObject player;
     public GameObject E;
     bool active = false;
     bool opened = false;
@@ -14,7 +13,6 @@ public class Chest : MonoBehaviour {
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
     }
 

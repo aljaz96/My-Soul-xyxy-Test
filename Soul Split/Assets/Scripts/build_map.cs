@@ -21,6 +21,8 @@ public class build_map : MonoBehaviour
     GameObject previousRoom_exit;
     Door previousRoom_door;
     Vector2 bossPreRoomLocation;
+    public int min_gen_room;
+    public int max_gen_room;
     public int numberOfRooms = 16;
     int[,] roomArray;
     int[,] roomNames;
@@ -85,7 +87,7 @@ public class build_map : MonoBehaviour
             //  1 -> 50 = up, 51 -> 100 = down, 101 -> 150 = left, 151 -> 200 = right, 201 -> limit = reset
 
             int decision = Random.Range(1, limit);
-            int roomNumber = Random.Range(1, 7);
+            int roomNumber = Random.Range(min_gen_room, max_gen_room+1);
             if (decision >= 201 || x < 0 || x > 49 || y < 0 || y > 49)
             {
                 previousRoom = GameObject.Find("StartingRoom");
@@ -323,7 +325,8 @@ public class build_map : MonoBehaviour
 
     void setBossRoom(string previous, string current)
     {
-        bossRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room2", typeof(GameObject)) as GameObject, new Vector3(bossPreRoomLocation.x * range, bossPreRoomLocation.y * range, 0), Quaternion.identity);
+        int roomNumber = 6;//= Random.Range(min_gen_room, max_gen_room+1);
+        bossRoom = Instantiate(Resources.Load("Prefabs/Rooms/Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(bossPreRoomLocation.x * range, bossPreRoomLocation.y * range, 0), Quaternion.identity);
         bossRoom.name = "BossRoom";
         previousRoom_entrance = bossPreRoom.transform.Find(previous + "Entrance").gameObject;
         previousRoom_exit = bossPreRoom.transform.Find(previous + "Door").gameObject;

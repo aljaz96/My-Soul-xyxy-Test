@@ -5,15 +5,22 @@ using UnityEngine;
 
 public class MonsterStats : MonoBehaviour {
 
+    
     // Use this for initialization
     public float hp = 1;
     public float damage = 1;
     public float speed = 1;
     public float playerDistance = 1;
     public bool active = false;
-    float timer = 0.5f;
+    float timer = 0.0f;
+    GameObject player;
+    GameObject currentRoom;
+    GameObject playerRoom;
     AIPath aiPath;
+    
 	void Start () {
+        player = GameObject.FindWithTag("Player");
+        currentRoom = transform.parent.gameObject.transform.parent.gameObject;
         try
         {
             aiPath = gameObject.GetComponent<AIPath>();
@@ -24,7 +31,7 @@ public class MonsterStats : MonoBehaviour {
         {
             aiPath = null;
         }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,9 +40,30 @@ public class MonsterStats : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        if(timer <= 0)
+        if (!active)
         {
-            active = true;
+            playerRoom = player.transform.parent.gameObject;
+        }
+        if(timer <= 0 && playerRoom.name == currentRoom.name && !active)
+        {
+            StartCoroutine(SetActive());
         }
 	}
+
+    IEnumerator SetActive()
+    {
+        yield return new WaitForSeconds(1);
+        try
+        {
+            GetComponent<AIPath>().enabled = true;
+            GetComponent<Seeker>().enabled = true;
+            GetComponent<AIDestinationSetter>().enabled = true;
+        }
+        catch
+        {
+            aiPath = null;
+        }
+        active = true;
+    }
+
 }

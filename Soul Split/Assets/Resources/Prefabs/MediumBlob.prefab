@@ -59,7 +59,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 1000
   damage: 1
-  speed: 5
+  speed: 4.3
   playerDistance: 0.5
   active: 0
 --- !u!114 &114460473644452610
@@ -162,6 +162,8 @@ MonoBehaviour:
   Bullet: {fileID: 1269691048615386, guid: 84e0a45de26758a469f2e5ea23d302b3, type: 2}
   hp: 995
   blobSize: 2
+  rushTimer: 0
+  rush: 0
 --- !u!114 &114791359118107186
 MonoBehaviour:
   m_ObjectHideFlags: 1

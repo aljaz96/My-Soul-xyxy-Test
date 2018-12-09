@@ -17,9 +17,16 @@ public class Room_kill_enemies : MonoBehaviour {
 
     void Start()
     {
-        ai = gameObject.GetComponent<AIDestinationSetter>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        ai.target = player.transform;
+        try
+        {
+            ai = gameObject.GetComponent<AIDestinationSetter>();
+            ai.target = player.transform;
+        }
+        catch
+        {
+            ai = null;
+        }
         GameObject room = gameObject.transform.parent.gameObject.transform.parent.gameObject;
         topDoor = room.transform.Find("TopDoor").gameObject;
         bottomDoor = room.transform.Find("BottomDoor").gameObject;

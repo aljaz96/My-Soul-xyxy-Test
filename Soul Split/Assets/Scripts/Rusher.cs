@@ -6,26 +6,23 @@ using UnityEngine;
 public class Rusher : MonoBehaviour {
 
     GameObject player;
-    GameObject currentRoom;
-    GameObject playerRoom;
-    public bool active = false;
-    public float movementTimer;
-    public float speed = 2;
-    public float rushTimer = 0;
+    MonsterStats stats;
+    float movementTimer;
+    float speed;
+    float rushTimer = 0;
     public float rushCooldown = 3;
-    public bool rush = false;
+    bool rush = false;
     float player_X;
     float player_Y;
     float enemy_X;
     float enemy_Y;
     int side = -1;
-    GameObject raycasted;
     public float velocity;
     // Use this for initialization
     void Start () {
+        stats = gameObject.GetComponent<MonsterStats>();
+        speed = stats.speed;
         player = GameObject.FindWithTag("Player");
-        currentRoom = new GameObject();
-        currentRoom = transform.parent.gameObject.transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
@@ -33,7 +30,7 @@ public class Rusher : MonoBehaviour {
         rushTimer -= Time.deltaTime;
         movementTimer -= Time.deltaTime;
         velocity = gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
-        if (active)
+        if (stats.active)
         {
             //do stuff
             if (movementTimer < 0 && !rush)
@@ -43,7 +40,6 @@ public class Rusher : MonoBehaviour {
             if (rushTimer < 0)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
-                raycasted = hit.transform.gameObject;
                 if (hit.transform.gameObject == player)
                 {
                     player_X = (float)Math.Round(player.transform.position.x, 1, MidpointRounding.ToEven);
@@ -71,15 +67,6 @@ public class Rusher : MonoBehaviour {
             if (velocity == 0)
             {
               changeDirection();
-            }
-        }
-        else
-        {  
-            playerRoom = player.transform.parent.gameObject;
-            
-            if (playerRoom.name == currentRoom.name)
-            {
-                active = true;
             }
         }
     }
