@@ -30,6 +30,11 @@ public class Chest : MonoBehaviour {
             //Play animation
             animator.SetTrigger("Open");
             //Spawn item
+            int r = Random.Range(0, CharacterStats.all_items.Count);
+            string item = CharacterStats.all_items[r];
+            CharacterStats.all_items.RemoveAt(r);
+            GameObject g = Instantiate(Resources.Load("Prefabs/Items/" + item, typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
+            g.name = "Apple"; 
             //Instantiate(item, new Vector3(0, 0, 0), Quaternion.identity);
             opened = true;
             E.SetActive(false);

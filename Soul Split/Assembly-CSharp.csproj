@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Bullet_bomb.cs" />
     <Compile Include="Assets\Scripts\Camera_script.cs" />
     <Compile Include="Assets\Scripts\Caster.cs" />
+    <Compile Include="Assets\Scripts\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Charger.cs" />
     <Compile Include="Assets\Scripts\checkLocal.cs" />
     <Compile Include="Assets\Scripts\Chest.cs" />
@@ -78,7 +79,9 @@
     <Compile Include="Assets\Scripts\EnemyProjectile.cs" />
     <Compile Include="Assets\Scripts\familiar.cs" />
     <Compile Include="Assets\Scripts\Hanger.cs" />
+    <Compile Include="Assets\Scripts\HPbar.cs" />
     <Compile Include="Assets\Scripts\MonsterStats.cs" />
+    <Compile Include="Assets\Scripts\PickUp.cs" />
     <Compile Include="Assets\Scripts\ProjectileHitEffect.cs" />
     <Compile Include="Assets\Scripts\projectileScript.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />

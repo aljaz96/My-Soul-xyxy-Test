@@ -11,8 +11,8 @@ public class TestMovement : MonoBehaviour {
     public AudioSource audioData;
     public GameObject scythe;
     public GameObject atack;
-    public float speed = 2;
-    public float atackSpeed = 0.5f;
+    public float speed;
+    public float atackSpeed;
     public Animator animator;
     public float timer = 0;
     public float dodgeTimer;
@@ -28,6 +28,8 @@ public class TestMovement : MonoBehaviour {
 
     void Start()
     {
+        CharacterStats.ResetStats();
+        setStats();
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
     }
@@ -70,6 +72,7 @@ public class TestMovement : MonoBehaviour {
     {
         active -= Time.deltaTime;
         timer -= Time.deltaTime;
+        invulnerability -= Time.deltaTime;
         player.velocity = new Vector3(0, 0, 0);
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
@@ -100,6 +103,7 @@ public class TestMovement : MonoBehaviour {
         if (col.gameObject.tag == "EnemyBullet" || col.gameObject.tag == "Enemy" && invulnerability < 0)
         {
             invulnerability = 0.5f;
+            CharacterStats.hp -= 5;
         }
     }
 
@@ -108,11 +112,19 @@ public class TestMovement : MonoBehaviour {
         if (collision.tag == "EnemyBullet" || collision.tag == "Enemy" && invulnerability < 0)
         {
             invulnerability = 0.5f;
+            CharacterStats.hp -= 5;
         }
     }
 
     public void passing()
     {
         active = 1;
+    }
+
+    void setStats()
+    {
+        speed = CharacterStats.speed;
+        atackSpeed = CharacterStats.atackSpeed;
+        range = CharacterStats.range;
     }
 }
