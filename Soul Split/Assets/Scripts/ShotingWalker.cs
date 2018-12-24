@@ -96,6 +96,7 @@ public class ShotingWalker : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.y = pos.y - 0.25f;
         GameObject b1 = Instantiate(bullet, pos, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector2 direction = player.transform.position - transform.position;
         direction.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = direction * 6;
@@ -108,6 +109,7 @@ public class ShotingWalker : MonoBehaviour {
         for (int i = 0; i < num; i++)
         {
             GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
             Vector2 direction = player.transform.position - transform.position;
             direction.x = direction.x + UnityEngine.Random.Range(-0.50f, 0.51f);
             direction.y = direction.y + UnityEngine.Random.Range(-0.50f, 0.51f);
@@ -122,6 +124,7 @@ public class ShotingWalker : MonoBehaviour {
     {
         yield return new WaitForSeconds(timer);
         GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector2 direction = player.transform.position - transform.position;
         direction.x = direction.x + UnityEngine.Random.Range(-0.30f, 0.31f);
         direction.y = direction.y + UnityEngine.Random.Range(-0.30f, 0.31f);

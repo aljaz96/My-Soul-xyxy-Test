@@ -8,28 +8,23 @@ public class TestMovement : MonoBehaviour {
 
     // Use this for initialization
     Rigidbody2D player;
-    public AudioSource audioData;
+    AudioSource audioData;
     public GameObject scythe;
     public GameObject atack;
-    public float speed;
-    public float atackSpeed;
     public Animator animator;
     public float timer = 0;
-    public float dodgeTimer;
-    public float invulnerability = 0;
-    public float mouse_X_position;
-    public float mouse_Y_position;
-    public float angle;
+    float dodgeTimer = 0;
+    float invulnerability = 0;
+    float angle;
     Vector2 vec2;
     Vector2 startPos;
     Vector2 atackPos;
     public float active = 0;
-    float range = 0.5f;
 
     void Start()
     {
+        audioData = GetComponent<AudioSource>();
         CharacterStats.ResetStats();
-        setStats();
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
     }
@@ -40,19 +35,19 @@ public class TestMovement : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.A))
             {
-                transform.position += Vector3.left * speed * Time.deltaTime;
+                transform.position += Vector3.left * CharacterStats.speed * Time.deltaTime;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.position += Vector3.right * speed * Time.deltaTime;
+                transform.position += Vector3.right * CharacterStats.speed * Time.deltaTime;
             }
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position += Vector3.up * speed * Time.deltaTime;
+                transform.position += Vector3.up * CharacterStats.speed * Time.deltaTime;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                transform.position += Vector3.down * speed * Time.deltaTime;
+                transform.position += Vector3.down * CharacterStats.speed * Time.deltaTime;
             }
             if (Input.GetKey(KeyCode.Space) && timer < 0)
             {
@@ -63,6 +58,30 @@ public class TestMovement : MonoBehaviour {
             {
                 invulnerability = 0.5f;
                 dodgeTimer = 5;
+            }
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                CharacterStats.bulletType = 1;
+                CharacterStats.weaponType = 1;
+                atack = (GameObject)Resources.Load("Prefabs/slash", typeof(GameObject));
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                CharacterStats.bulletType = 2;
+                CharacterStats.weaponType = 2;
+                atack = (GameObject)Resources.Load("Prefabs/slash2", typeof(GameObject));
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                CharacterStats.bulletType = 3;
+                CharacterStats.weaponType = 3;
+                atack = (GameObject)Resources.Load("Prefabs/slash3", typeof(GameObject));
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                CharacterStats.bulletType = 4;
+                CharacterStats.weaponType = 4;
+                atack = (GameObject)Resources.Load("Prefabs/slash4", typeof(GameObject));
             }
         }
     }
@@ -82,11 +101,25 @@ public class TestMovement : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && timer < 0)
         {
             animator.SetTrigger("HasAtacked");
-            timer = atackSpeed;
+            switch (CharacterStats.weaponType)
+            {
+                case 1:
+                    timer = CharacterStats.atackSpeed;
+                    break;
+                case 2:
+                    timer = CharacterStats.atackSpeed + CharacterStats.atackSpeed / 2;
+                    break;
+                case 3:
+                    timer = CharacterStats.atackSpeed / 4;
+                    break;
+                case 4:
+                    timer = CharacterStats.atackSpeed * 3;
+                    break;
+            }
             startPos.x = transform.position.x;
             startPos.y = transform.position.y;
             double distance = Math.Sqrt(Math.Pow((mousePos.x - startPos.x), 2) + Math.Pow((mousePos.y - startPos.y), 2));
-            double T = range / distance;
+            double T = CharacterStats.range / distance;
             atackPos.x = (float)((1 - T) * startPos.x + T * mousePos.x);
             atackPos.y = (float)((1 - T) * startPos.y + T * mousePos.y);
             GameObject slash = Instantiate(atack, new Vector3(atackPos.x, atackPos.y, 0), rotation);
@@ -100,31 +133,30 @@ public class TestMovement : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "EnemyBullet" || col.gameObject.tag == "Enemy" && invulnerability < 0)
+        if (col.gameObject.tag == "Enemy" && invulnerability < 0)
         {
             invulnerability = 0.5f;
-            CharacterStats.hp -= 5;
+            CharacterStats.hp -= col.gameObject.GetComponent<MonsterStats>().damage;
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "EnemyBullet" || collision.tag == "Enemy" && invulnerability < 0)
+        if (collision.tag == "EnemySpell" && invulnerability < 0)
         {
             invulnerability = 0.5f;
-            CharacterStats.hp -= 5;
+            CharacterStats.hp -= collision.gameObject.GetComponent<EnemyProjectile>().damage;
+            //CharacterStats.hp -= 10;
+        }
+        if (collision.tag == "EnemyBullet" && invulnerability < 0)
+        {
+            invulnerability = 0.5f;
+            CharacterStats.hp -= collision.gameObject.GetComponent<EnemyProjectile>().damage;
         }
     }
 
     public void passing()
     {
         active = 1;
-    }
-
-    void setStats()
-    {
-        speed = CharacterStats.speed;
-        atackSpeed = CharacterStats.atackSpeed;
-        range = CharacterStats.range;
     }
 }

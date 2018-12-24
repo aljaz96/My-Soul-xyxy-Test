@@ -10,6 +10,9 @@ TagManager:
   - Door
   - EnterDoor
   - ExitDoor
+  - EnemyBullet
+  - EnemySpell
+  - Vessel
   layers:
   - Default
   - TransparentFX

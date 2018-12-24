@@ -8,11 +8,12 @@ public class MonsterStats : MonoBehaviour {
     
     // Use this for initialization
     public float hp = 1;
-    public float damage = 1;
+    public int damage = 10;
+    public int p_damage = 5;
     public float speed = 1;
     public float playerDistance = 1;
     public bool active = false;
-    float timer = 0.0f;
+    float timer = 0.5f;
     GameObject player;
     GameObject currentRoom;
     GameObject playerRoom;

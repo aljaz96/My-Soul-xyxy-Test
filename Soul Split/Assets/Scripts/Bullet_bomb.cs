@@ -11,33 +11,20 @@ public class Bullet_bomb : MonoBehaviour {
     public int numberOfBullets = 20;
 
 
-    void start()
+    void Start()
     {
         x = transform.localScale.x;
     }
 
-    void update()
+    void Update()
     {
 
-        x = transform.localScale.x;
-        while (x > 0 && !active)
-        {
-            x -= 0.001f;
-            Vector3 v3 = new Vector3();
-            v3.x = x;
-            v3.y = x;
-            transform.localScale = v3;
-        }
-        if (!active)
-        {
-            destroyTimer -= Time.deltaTime;
-        }
     }
 
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Wall" || col.tag == "Prop" || col.tag == "Enemy" || col.tag == "Boss")
+        if (col.tag == "Wall" || col.tag == "Enemy")
         {
             active = false;
             for (int i = 0; i < numberOfBullets; i++)

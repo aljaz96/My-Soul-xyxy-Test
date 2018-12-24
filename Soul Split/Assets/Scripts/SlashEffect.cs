@@ -6,7 +6,6 @@ public class SlashEffect : MonoBehaviour {
 
     // Use this for initialization
     float timer = 0.1f;
-    public float slashDamage = 5;
     //public GameObject destroyedEffect;
 
     void Start()
@@ -34,7 +33,24 @@ public class SlashEffect : MonoBehaviour {
         {
             if (collision.gameObject.GetComponent<MonsterStats>().active == true)
             {
-                collision.gameObject.GetComponent<MonsterStats>().hp -= slashDamage;
+                float damage = 0;
+                switch (CharacterStats.weaponType)
+                {
+                    case 1:
+                        damage = CharacterStats.damage;
+                        break;
+                    case 2:
+                        damage = CharacterStats.damage;
+                        break;
+                    case 3:
+                        damage = CharacterStats.damage * 0.8f;
+                        break;
+                    case 4:
+                        damage = CharacterStats.damage * 0.9f;
+                        break;
+                }
+                collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
+                CharacterStats.energy += 5;
             }
         }
     }

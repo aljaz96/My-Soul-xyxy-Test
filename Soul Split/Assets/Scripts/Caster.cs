@@ -14,6 +14,7 @@ public class Caster : MonoBehaviour {
     float velocity;
     public bool casting = false;
     public int type = 0;
+    public AudioSource audio;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class Caster : MonoBehaviour {
         speed = stats.speed;
         player = GameObject.FindWithTag("Player");
         spellTimer = Random.Range(1.0f, 4.0f);
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -60,6 +62,8 @@ public class Caster : MonoBehaviour {
     {
         yield return new WaitForSeconds(timer);
         GameObject b1 = Instantiate(spell, player_pos, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        audio.Play();
         StartCoroutine(Move());
     }
 

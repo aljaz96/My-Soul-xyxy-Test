@@ -143,7 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1000
-  damage: 1
+  damage: 10
+  p_damage: 5
   speed: 4.3
   playerDistance: 0.5
   active: 0

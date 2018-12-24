@@ -7,14 +7,15 @@ public class Charger : MonoBehaviour {
 
     GameObject player;
     MonsterStats stats;
-    float rushTimer = 1;
-    public float rushCooldown = 5;
+    float rushTimer;
+    float rushCooldown = 5;
     bool rush = false;
     // Use this for initialization
     void Start()
     {
         stats = gameObject.GetComponent<MonsterStats>();
         player = GameObject.FindWithTag("Player");
+        rushTimer = Random.Range(1.00f, 3.00f);
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class Charger : MonoBehaviour {
             if (rushTimer < 0 && !rush)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
-                if (hit.transform.gameObject == player)
+                if (hit.transform.gameObject == player && !rush)
                 {
                     Vector3 v = new Vector3(0, 0, 0);
                     GetComponent<Rigidbody2D>().velocity = v;

@@ -7,18 +7,15 @@ public class EnemyProjectile : MonoBehaviour {
     // Use this for initialization
     // Use this for initialization
     public float timer = 4;
-    public AudioSource audioData;
     public GameObject destroyedEffect;
     float angle;
     Vector3 startPos;
     Vector3 endPos;
-    public float damage = 1f;
+    public int damage = 5;
 
     void Start()
     {
         startPos = transform.position;
-        audioData = GetComponent<AudioSource>();
-        audioData.Play();
     }
 
     // Update is called once per frame
@@ -33,7 +30,7 @@ public class EnemyProjectile : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Wall" || collision.tag == "Player")
+        if ((collision.tag == "Wall" || collision.tag == "Player") && gameObject.tag == "EnemyBullet")
         {
             endPos = transform.position;
             var relativePos = startPos - endPos;
@@ -41,10 +38,6 @@ public class EnemyProjectile : MonoBehaviour {
             var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
             Destroy(gameObject);
-            if (collision.tag == "Enemy")
-            {
-                collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
-            }
         }
     }
 }

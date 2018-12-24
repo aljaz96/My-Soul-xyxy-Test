@@ -104,9 +104,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
-  damage: 1
+  damage: 10
+  p_damage: 5
   speed: 2
   playerDistance: 0.5
+  active: 0
 --- !u!114 &114184942835251496
 MonoBehaviour:
   m_ObjectHideFlags: 1

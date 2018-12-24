@@ -133,7 +133,9 @@ public class SpiritRusher : MonoBehaviour {
     void spawnBullets(int decision)
     {
         GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         GameObject b2 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         if (decision == 1 || decision == 2)
         {
             b1.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 1, 0) * 3;

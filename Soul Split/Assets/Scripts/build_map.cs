@@ -75,7 +75,7 @@ public class build_map : MonoBehaviour
         roomNames[x, y] = -1;
         roomDistance[x, y] = distance;
         //Make starting room
-        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom2", typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+        previousRoom = Instantiate(Resources.Load("Prefabs/Rooms/StartingRoom", typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
         previousRoom.name = "StartingRoom";
         camera.transform.position = new Vector3(x * range, y * range, -10);
         //GameObject makePathFinding = Instantiate(Resources.Load("Prefabs/Room_components/A_", typeof(GameObject)) as GameObject, new Vector3(room_X * range, room_Y * range, 0), Quaternion.identity);

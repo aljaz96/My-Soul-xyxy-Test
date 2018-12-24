@@ -69,6 +69,7 @@ public class Hanger : MonoBehaviour {
     void SpawnBullet()
     {
         GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector3 v3 = player.transform.position - transform.position;
         v3.x += Random.Range(-0.5f, 0.5f);
         v3.y += Random.Range(-0.5f, 0.5f);
@@ -78,8 +79,11 @@ public class Hanger : MonoBehaviour {
     void Spawn3Bullets()
     {
         GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         GameObject b2 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         GameObject b3 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector3 v3 = (player.transform.position - transform.position) * 1000;
         v3.Normalize();
         dir = GetSide(v3.x, v3.y);

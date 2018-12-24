@@ -158,8 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e32c6a5ccd2934fa68ee7a65ae5a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  damage: 1
+  hp: 15
+  damage: 10
+  p_damage: 5
   speed: 2
   playerDistance: 0.2
   active: 0

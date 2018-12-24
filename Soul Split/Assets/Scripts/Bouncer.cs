@@ -85,6 +85,10 @@ public class Bouncer : MonoBehaviour {
         GameObject b2 = Instantiate(Bullet, transform.position, Quaternion.identity);
         GameObject b3 = Instantiate(Bullet, transform.position, Quaternion.identity);
         GameObject b4 = Instantiate(Bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b4.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector3 v = new Vector3();
         v.x = 1;
         v.y = 1;
@@ -107,6 +111,14 @@ public class Bouncer : MonoBehaviour {
         GameObject b6 = Instantiate(Bullet, transform.position, Quaternion.identity);
         GameObject b7 = Instantiate(Bullet, transform.position, Quaternion.identity);
         GameObject b8 = Instantiate(Bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b4.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b5.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b6.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b7.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        b8.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector3 v = new Vector3();
         v.x = 1;
         v.y = 1;

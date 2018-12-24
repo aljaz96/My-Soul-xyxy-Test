@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114582547045877848}
   m_Layer: 0
   m_Name: EnemyBullet
-  m_TagString: Bullet
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,7 +189,6 @@ MonoBehaviour:
   audioData: {fileID: 82140199310798658}
   destroyedEffect: {fileID: 1756056776893568, guid: 72140e317a67e4e4cb3ab25df33aacda,
     type: 2}
-  damage: 1
 --- !u!212 &212558806841623068
 SpriteRenderer:
   m_ObjectHideFlags: 1

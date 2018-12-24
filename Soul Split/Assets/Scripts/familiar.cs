@@ -11,20 +11,19 @@ public class familiar : MonoBehaviour
     //public float radius = 2.0f;
     //public float radiusSpeed = 0.5f;
     //public float rotationSpeed = 80.0f;
-    private float RotateSpeed = 2f;
-    private float Radius = 0.5f;
+    private float rotateSpeed = 2f;
+    private float radius = 0.5f;
     public GameObject parent;
-    public GameObject projectile;
+    public GameObject normalBullet;
+    public GameObject bombBullet;
+    public GameObject sprinklerBullet;
     private Vector2 center;
     private float angle;
-    public float projectileSpeed = 5;
-    public float numberOfBullets = 5;
+    public float numberOfBullets = 20;
     public float atackSpeed = 0.05f;
     public bool isColiding = false;
     public bool backShot = false;
     float timer = 0.02f;
-
-    public int bulletType = 1;        //1 - normal, 2 - shotgun, 3 - special
 
     void Start()
     {
@@ -39,8 +38,8 @@ public class familiar : MonoBehaviour
         if (!isColiding)
         {
             center = parent.transform.position;
-            angle += RotateSpeed * Time.deltaTime;
-            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * Radius;
+            angle += rotateSpeed * Time.deltaTime;
+            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * radius;
             transform.position = center + offset;
             //transform.RotateAround(center.position, axis, rotationSpeed * Time.deltaTime);
             //var desiredPosition = (transform.position - center.position).normalized * radius + center.position;
@@ -49,20 +48,32 @@ public class familiar : MonoBehaviour
         timer -= Time.deltaTime;
         if (Input.GetMouseButton(1) && timer < 0)
         {
-            if (bulletType == 1)
+            if (CharacterStats.bulletType == 1 && CharacterStats.energy >= 1)
             {
-                normal_bullets();
+                NormalBullets();
+                CharacterStats.energy -= 1;
             }
-            else if (bulletType == 2)
+            else if (CharacterStats.bulletType == 2 && CharacterStats.energy >= 10)
             {
-                shotgun_bullets();
+                ShotgunBullets();
+                CharacterStats.energy -= 10;
+            }
+            else if (CharacterStats.bulletType == 3 && CharacterStats.energy >= 33)
+            {
+                BombBullet();
+                CharacterStats.energy -= 33;
+            }
+            else if (CharacterStats.bulletType == 4 && CharacterStats.energy >= 40)
+            {
+                SprinklerBullet();
+                CharacterStats.energy -= 40;
             }
         }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "OuterWall")
+        if (col.gameObject.tag == "Wall")
         {
             isColiding = true;
             col.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
@@ -71,29 +82,53 @@ public class familiar : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "OuterWall")
+        if (col.gameObject.tag == "Wall")
         {
             isColiding = false;
             col.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         }
     }
 
-    void normal_bullets()
+    void NormalBullets()
     {
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = pz - transform.position;
         direction.Normalize();
-        GameObject pew = (GameObject)Instantiate(projectile, transform.position, Quaternion.identity);
-        pew.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+        GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
+        b1.GetComponent<projectileScript>().SetType(1);
+        b1.GetComponent<Rigidbody2D>().velocity = direction * CharacterStats.bulletSpeed;
         if (backShot)
         {
-            GameObject pew2 = (GameObject)Instantiate(projectile, transform.position, Quaternion.identity);
-            pew2.GetComponent<Rigidbody2D>().velocity = direction * -projectileSpeed;
+            GameObject b2 = Instantiate(normalBullet, transform.position, Quaternion.identity);
+            b2.GetComponent<projectileScript>().SetType(1);
+            b2.GetComponent<Rigidbody2D>().velocity = direction * - CharacterStats.bulletSpeed;
         }
         timer = atackSpeed;
     }
 
-    void shotgun_bullets()
+    void BombBullet()
+    {
+        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = pz - transform.position;
+        direction.Normalize();
+        GameObject b1 = Instantiate(bombBullet, transform.position, Quaternion.identity);
+        b1.GetComponent<projectileScript>().SetType(3);
+        b1.GetComponent<Rigidbody2D>().velocity = direction * CharacterStats.bulletSpeed;
+        timer = atackSpeed * 40;
+    }
+
+    void SprinklerBullet()
+    {
+        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = pz - transform.position;
+        direction.Normalize();
+        GameObject b1 = Instantiate(sprinklerBullet, transform.position, Quaternion.identity);
+        b1.GetComponent<projectileScript>().SetType(4);
+        b1.GetComponent<Rigidbody2D>().velocity = direction * 1;
+        timer = atackSpeed * 40;
+    }
+
+    void ShotgunBullets()
     {
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = pz - transform.position;
@@ -104,12 +139,14 @@ public class familiar : MonoBehaviour
             changedDirection.x = changedDirection.x * (Random.Range(0.7f, 1.3f));
             changedDirection.y = changedDirection.y * (Random.Range(0.7f, 1.3f));
             changedDirection.Normalize();
-            GameObject pew = Instantiate(projectile, transform.position, Quaternion.identity);
-            pew.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(projectileSpeed * (Random.Range(0.5f, 0.7f)));
+            GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
+            b1.GetComponent<projectileScript>().SetType(1);
+            b1.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(CharacterStats.bulletSpeed * (Random.Range(0.5f, 0.7f)));
             if (backShot)
             {
-                GameObject pew2 = Instantiate(projectile, transform.position, Quaternion.identity);
-                pew2.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(-projectileSpeed * (Random.Range(0.5f, 0.7f)));
+                GameObject b2 = Instantiate(normalBullet, transform.position, Quaternion.identity);
+                b2.GetComponent<projectileScript>().SetType(1);
+                b2.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(-CharacterStats.bulletSpeed * (Random.Range(0.5f, 0.7f)));
             }
         }
         timer = atackSpeed * 10;
