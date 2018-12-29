@@ -50,7 +50,11 @@ public class SlashEffect : MonoBehaviour {
                         break;
                 }
                 collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
-                CharacterStats.energy += 5;
+                CharacterStats.energy += CharacterStats.energyRegen;
+                if(CharacterStats.energy > CharacterStats.total_energy)
+                {
+                    CharacterStats.energy = CharacterStats.total_energy;
+                }
             }
         }
     }

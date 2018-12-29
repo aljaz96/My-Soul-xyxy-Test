@@ -16,6 +16,8 @@ public class projectileScript : MonoBehaviour {
     public int type;
     float bulletTimer = 0;
     int phase = 0;
+    MissileProjectile mp;
+
 
     void Start()
     {
@@ -36,6 +38,15 @@ public class projectileScript : MonoBehaviour {
             case 4:
                 damage = CharacterStats.damage * 2;
                 break;
+            case 5:
+                damage = CharacterStats.damage * 4;
+                break;
+            case 6:
+                damage = CharacterStats.damage * 0;
+                break;
+            case 7:
+                damage = CharacterStats.damage / 2;
+                break;
         }
     }
 
@@ -52,6 +63,39 @@ public class projectileScript : MonoBehaviour {
         {
             BulletSprinkler(phase);
         }
+        if(type == 5)
+        {
+            Vector3 vel = GetComponent<Rigidbody2D>().velocity;
+            vel.x += (mp.StartingX * -1) / 10;
+            vel.y += (mp.StartingY * -1) / 10;
+            GetComponent<Rigidbody2D>().velocity = vel;
+        }
+        if(type == 6)
+        {
+            transform.position = GameObject.FindGameObjectWithTag("Vessel").transform.position;
+            if(transform.localScale.y != 2.5f)
+            {
+                transform.localScale += new Vector3(0, 0.04f, 0);
+            }
+            if(transform.localScale.y >= 2.5f)
+            {
+                GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
+                b1.transform.SetParent(transform.parent);
+                Destroy(gameObject);
+            }
+        }
+        if(type == 7)
+        {
+            transform.position = GameObject.FindGameObjectWithTag("Vessel").transform.position;
+            if (timer < 8)
+            {
+                transform.localScale -= new Vector3(0, 0.05f, 0);
+            }
+            if(transform.localScale.y <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,21 +107,32 @@ public class projectileScript : MonoBehaviour {
                 BulletBomb(50);
             }
             endPos = transform.position;
-            var relativePos = startPos - endPos;
-            angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
-            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
-            Destroy(gameObject);
+            DestroyProjectile();
         }
-        else if(collision.tag == "Enemy"){
+        else if (collision.tag == "Enemy")
+        {
             if (type == 3)
             {
                 BulletBomb(50);
             }
-            if (collision.gameObject.GetComponent<MonsterStats>().active)
-            {
-                collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
-            }           
+            collision.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage);
+            DestroyProjectile();
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage);
+           // transform.localScale += new Vector3(0, 0.10f, 0);
+        }
+    }
+
+    void DestroyProjectile()
+    {
+        if (type != 7)
+        {
             endPos = transform.position;
             var relativePos = startPos - endPos;
             angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
@@ -236,5 +291,23 @@ public class projectileScript : MonoBehaviour {
                 damage = CharacterStats.damage * 2;
                 break;
         }
+    }
+
+
+    public void SetStartSpeed(float x, float y)
+    {
+        mp = new MissileProjectile();
+        mp.StartingX = x;
+        mp.StartingY = y;
+        mp.CurrentX = x;
+        mp.CurrentY = y;
+    }
+
+    class MissileProjectile
+    {
+        public float StartingX { get; set; }
+        public float StartingY { get; set; }
+        public float CurrentX { get; set; }
+        public float CurrentY { get; set; }
     }
 }

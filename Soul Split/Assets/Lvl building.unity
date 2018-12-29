@@ -1158,8 +1158,10 @@ MonoBehaviour:
   bombBullet: {fileID: 1475529061389054, guid: 486027d56da22ff478bdf15b968a1d7a, type: 2}
   sprinklerBullet: {fileID: 1360342662123238, guid: c3b290f4d440e2945be4344f71e264db,
     type: 2}
+  rocketBullet: {fileID: 1206265142225178, guid: da2e3c6d10b50764ba1d0001fe3509b0,
+    type: 2}
+  laser: {fileID: 1804902763955704, guid: 1a53983c8318199478dfad0d3683da31, type: 2}
   numberOfBullets: 5
-  atackSpeed: 0.05
   isColiding: 0
   backShot: 0
 --- !u!212 &436680476
@@ -2377,9 +2379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_gen_room: 1
-  max_gen_room: 10
-  numberOfRooms: 10
+  min_gen_room: 11
+  max_gen_room: 11
+  numberOfRooms: 2
   limit: 220
   range: 21
 --- !u!4 &1058312653

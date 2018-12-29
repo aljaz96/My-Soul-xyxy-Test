@@ -51,8 +51,7 @@ public class TestMovement : MonoBehaviour {
             }
             if (Input.GetKey(KeyCode.Space) && timer < 0)
             {
-                //   animator.SetTrigger("HasAtacked");
-                //   timer = 1f;
+                CharacterStats.energy = 100;
             }
             if (Input.GetKey(KeyCode.LeftShift) && dodgeTimer < 0)
             {
@@ -82,6 +81,16 @@ public class TestMovement : MonoBehaviour {
                 CharacterStats.bulletType = 4;
                 CharacterStats.weaponType = 4;
                 atack = (GameObject)Resources.Load("Prefabs/slash4", typeof(GameObject));
+            }
+            if (Input.GetKey(KeyCode.Alpha5))
+            {
+                CharacterStats.bulletType = 5;
+              
+            }
+            if (Input.GetKey(KeyCode.Alpha6))
+            {
+                CharacterStats.bulletType = 6;
+
             }
         }
     }

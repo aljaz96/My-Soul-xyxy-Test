@@ -190,7 +190,7 @@ MonoBehaviour:
   destroyedEffect: {fileID: 1756056776893568, guid: 72140e317a67e4e4cb3ab25df33aacda,
     type: 2}
   bullet: {fileID: 1474658487439864, guid: 4e2a13bca5bef1c43ad7b3ed9f51eabd, type: 2}
-  type: 0
+  type: 3
 --- !u!212 &212642032211180318
 SpriteRenderer:
   m_ObjectHideFlags: 1

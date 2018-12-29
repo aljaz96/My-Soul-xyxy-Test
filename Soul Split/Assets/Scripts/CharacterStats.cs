@@ -16,6 +16,7 @@ public class CharacterStats : MonoBehaviour {
     public static float range;
     public static float atackSpeed;
     public static float bulletSpeed;
+    public static int energyRegen;
     public static int bulletType;
     public static int weaponType;
     public static List<string> all_items;
@@ -35,7 +36,7 @@ public class CharacterStats : MonoBehaviour {
     {
         hp = 100;
         total_hp = 100;
-        energy = 40;
+        energy = 100;
         total_energy = 100;
         stamina = 100;
         total_stamina = 100;
@@ -44,6 +45,7 @@ public class CharacterStats : MonoBehaviour {
         range = 1f;
         atackSpeed = 1;
         bulletSpeed = 5;
+        energyRegen = 5;
         bulletType = 1;
         weaponType = 1;
         ResetItems();

@@ -11,18 +11,21 @@ public class Rusher : MonoBehaviour {
     float speed;
     float rushTimer = 0;
     public float rushCooldown = 3;
-    bool rush = false;
+    public bool rush = false;
     float player_X;
     float player_Y;
     float enemy_X;
     float enemy_Y;
     int side = -1;
-    public float velocity;
+    float velocity;
+    string turned = "left";
+    Animator anim;
     // Use this for initialization
     void Start () {
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         player = GameObject.FindWithTag("Player");
+        anim = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -33,9 +36,10 @@ public class Rusher : MonoBehaviour {
         if (stats.active)
         {
             //do stuff
+
             if (movementTimer < 0 && !rush)
             {
-                changeDirection();
+                ChangeDirection();
             }
             if (rushTimer < 0)
             {
@@ -61,12 +65,12 @@ public class Rusher : MonoBehaviour {
                     else if (enemy_X > player_X && enemy_Y == player_Y)
                     {
                         RushPlayer(-speed * 4, 0);    
-                    }
+                    }                 
                 }
             }
             if (velocity == 0)
             {
-              changeDirection();
+              ChangeDirection();
             }
         }
     }
@@ -75,19 +79,59 @@ public class Rusher : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D col)
     {
         rush = false;
-        changeDirection();
+        ChangeDirection();
     }
 
     void RushPlayer(float x, float y)
     {
         rush = true;
         GetComponent<Rigidbody2D>().velocity = new Vector3(x, y, 0);
+        SetAnim(x,y);
         movementTimer = 10;
         rushTimer = rushCooldown;
     }
 
-    void changeDirection()
+    void SetAnim(float speedX, float speedY)
     {
+        if (speedY > 0.1f && !rush)
+        {
+            anim.SetTrigger("Up");
+        }
+        else if (speedY > 0.1f && rush)
+        {
+            anim.SetTrigger("RushUp");
+        }
+        else if (speedY < -0.1f && !rush)
+        {
+            anim.SetTrigger("Down");
+        }
+        else if (speedY < -0.1f && rush)
+        {
+            anim.SetTrigger("RushDown");
+        }
+        else if ((speedX < -0.1f && !rush)|| (speedX > 0.1f && !rush))
+        {
+            anim.SetTrigger("Side");
+        }
+        else if ((speedX < -0.1f && rush) || (speedX > 0.1f && rush))
+        {
+            anim.SetTrigger("RushSide");
+        }
+        if (speedX < 0 && turned == "left")
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            turned = "right";
+        }
+        else if (speedX > 0 && turned == "right")
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            turned = "left";
+        }
+    }
+
+    void ChangeDirection()
+    {
+        anim.SetInteger("Rush", 0);
         int decision = decision = UnityEngine.Random.Range(1, 5);
         while (decision == side)
         {
@@ -99,15 +143,19 @@ public class Rusher : MonoBehaviour {
         {
             case 1:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(speed, 0, 0);
+                SetAnim(speed, 0);
                 break;
             case 2:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(-speed, 0, 0);
+                SetAnim(-speed, 0);
                 break;
             case 3:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(0, -speed, 0);
+                SetAnim(0, -speed);
                 break;
             case 4:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(0, speed, 0);
+                SetAnim(0, speed);
                 break;
         }
         movementTimer = UnityEngine.Random.Range(1, 6);

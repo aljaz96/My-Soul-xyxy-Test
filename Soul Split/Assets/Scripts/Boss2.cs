@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Boss2 : MonoBehaviour {
 
-    public GameObject player;
-    public GameObject currentRoom;
-    public GameObject playerRoom;
+    GameObject player;
+    MonsterStats stats;
+    public GameObject boss2;
     public GameObject bullet;
-    public bool active = false;
     public float atackTimer = 0;
     public float actionTimer = 1;
     Vector3 originalPosition;
@@ -19,14 +18,13 @@ public class Boss2 : MonoBehaviour {
     float x = 1;
     float y = 1;
     public int movementLimit = 18;
+    float f;
 
 
     void Start()
     {
-        player = GameObject.Find("box");
-        currentRoom = new GameObject();
-        currentRoom = transform.parent.gameObject;
-        originalPosition = transform.position;
+        player = GameObject.FindGameObjectWithTag("Player");
+        stats = GetComponent<MonsterStats>();
     }
 
     void Update()
@@ -34,100 +32,98 @@ public class Boss2 : MonoBehaviour {
         atackTimer -= Time.deltaTime;
         actionTimer -= Time.deltaTime;
         bulletTimer -= Time.deltaTime;
-        if (active)
+        if (stats.active)
         {
             //do stuff
-            if (actionTimer < 0)
+            if(boss2 == null && actionTimer < 0)
             {
+                for (float f = 0.0f; f < 3.0f; f += 0.1f)
+                {
+                    StartCoroutine(AtackThree(f));
+                }
+                actionTimer = 3;
+            }
+            else if (actionTimer < 0)
+            {
+                f = Random.Range(-0.10f, 0.10f);
                 atack = Random.Range(1, 4);
                 if (atack == 1)
-                {
-                    int x = Random.Range(-movementLimit, movementLimit);
-                    int y = Random.Range(-movementLimit, movementLimit);
-                    Vector3 newPos = new Vector3 {
-                        x = x / 10,
-                        y = y / 10
-                    };
-                    GetComponent<Rigidbody2D>().velocity = newPos;
-                    actionTimer = 2;
-                    atackTimer = 2;
-                }
-                if (atack == 2)
                 {
                     actionTimer = 5;
                     atackTimer = 4;
                     atackPhase = 1;
-                    stopMoving();
                 }
-                if (atack == 3)
+                else if (atack == 2)
                 {
                     actionTimer = 7;
                     atackTimer = 6;
                     atackPhase = 1;
-                    bulletNumber = 0;
+                    bulletNumber = Random.Range(0,16);
                     x = 1;
                     y = 1;
-                    stopMoving();
                 }
+                else if (atack == 3)
+                {
+                    for(float f=0.0f; f<3.0f; f += 0.1f)
+                    {
+                        StartCoroutine(AtackThree(f));
+                    }
+                    actionTimer = 5;
+                    atackTimer = 0;
+                    atackPhase = 0;
+                }
+            }
+            if (atack == 1)
+            {
+                AtackOne();
             }
             if (atack == 2)
             {
-                atackOne();
-            }
-            if (atack == 3)
-            {
-                atackTwo();
+                AtackTwo();
             }
         }
-        else
-        {
-            playerRoom = player.transform.parent.gameObject;
-            if (playerRoom.name == currentRoom.name)
-            {
-                active = true;
-            }
-        }
-        /* if (transform.position.x > movementLimit || transform.position.x < -movementLimit || transform.position.y > movementLimit || transform.position.y < -movementLimit)
-        {
-            Vector3 v3 = new Vector3
-            {
-                x = 0,
-                y = 0
-            };
-            GetComponent<Rigidbody2D>().velocity = v3;
-        }
-        */
-
     }
 
-    void atackOne()
+    IEnumerator AtackThree(float t)
+    {
+        yield return new WaitForSeconds(t);
+        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        Vector3 v3 = new Vector3(Random.Range(-1.00f, 1.01f), Random.Range(-1.00f, 1.01f), 0);
+        v3.Normalize();
+        b1.GetComponent<Rigidbody2D>().velocity = v3 * 3;
+    }
+
+    void AtackOne()
     {
         if ((atackPhase == 1 && atackTimer < 4) || (atackPhase == 3 && atackTimer < 3))
         {
+           
             for (int i = 0; i < 4; i++)
             {
                 GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
                 {
                     case 0:
-                        v3.x = 0;
+                        v3.x = 0 + f;
                         v3.y = 1;
                         break;
                     case 1:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = 0;
                         break;
                     case 2:
-                        v3.x = 0;
+                        v3.x = 0 + f;
                         v3.y = -1;
                         break;
                     case 3:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = 0;
                         break;
                 }
-                b1.GetComponent<Rigidbody2D>().velocity = v3;
+                b1.GetComponent<Rigidbody2D>().velocity = v3 * 6;
             }
             atackPhase++;
         }
@@ -136,27 +132,29 @@ public class Boss2 : MonoBehaviour {
             for (int i = 0; i < 4; i++)
             {
                 GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
                 {
                     case 0:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = 1;
                         break;
                     case 1:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = -1;
                         break;
                     case 2:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = -1;
                         break;
                     case 3:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = 1;
                         break;
                 }
-                b1.GetComponent<Rigidbody2D>().velocity = v3;
+                v3.Normalize();
+                b1.GetComponent<Rigidbody2D>().velocity = v3 * 6;
             }
             atackPhase++;
         }
@@ -165,54 +163,57 @@ public class Boss2 : MonoBehaviour {
             for (int i = 0; i < 8; i++)
             {
                 GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
                 {
                     case 0:
-                        v3.x = 0;
+                        v3.x = 0 + f;
                         v3.y = 1;
                         break;
                     case 1:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = 1;
                         break;
                     case 2:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = 0;
                         break;
                     case 3:
-                        v3.x = 1;
+                        v3.x = 1 + f;
                         v3.y = -1;
                         break;
                     case 4:
-                        v3.x = 0;
+                        v3.x = 0 + f;
                         v3.y = -1;
                         break;
                     case 5:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = -1;
                         break;
                     case 6:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = 0;
                         break;
                     case 7:
-                        v3.x = -1;
+                        v3.x = -1 + f;
                         v3.y = 1;
                         break;
                 }
-                b1.GetComponent<Rigidbody2D>().velocity = v3;
+                v3.Normalize();
+                b1.GetComponent<Rigidbody2D>().velocity = v3 * 6;
             }
             atackPhase++;
             atack = 0;
         }
     }
 
-    void atackTwo()
+    void AtackTwo()
     {
         if (bulletTimer < 0)
         {
             GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
             Vector3 v3 = new Vector3();
             switch (bulletNumber)
             {
@@ -281,7 +282,9 @@ public class Boss2 : MonoBehaviour {
                     v3.y = y;
                     break;
             }
-            b1.GetComponent<Rigidbody2D>().velocity = v3;
+            v3.x += f;
+            v3.Normalize();
+            b1.GetComponent<Rigidbody2D>().velocity = v3 * 4;
             bulletTimer = 0.1f;
             bulletNumber++;
             if (bulletNumber == 16)
@@ -302,15 +305,5 @@ public class Boss2 : MonoBehaviour {
                 }
             }
         }
-    }
-
-    void stopMoving()
-    {
-        Vector3 v3 = new Vector3
-        {
-            x = 0,
-            y = 0
-        };
-        GetComponent<Rigidbody2D>().velocity = v3;
     }
 }

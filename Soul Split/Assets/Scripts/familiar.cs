@@ -11,16 +11,17 @@ public class familiar : MonoBehaviour
     //public float radius = 2.0f;
     //public float radiusSpeed = 0.5f;
     //public float rotationSpeed = 80.0f;
-    private float rotateSpeed = 2f;
-    private float radius = 0.5f;
+    float rotateSpeed = 2f;
+    float radius = 0.5f;
     public GameObject parent;
     public GameObject normalBullet;
     public GameObject bombBullet;
     public GameObject sprinklerBullet;
+    public GameObject rocketBullet;
+    public GameObject laser;
     private Vector2 center;
     private float angle;
     public float numberOfBullets = 20;
-    public float atackSpeed = 0.05f;
     public bool isColiding = false;
     public bool backShot = false;
     float timer = 0.02f;
@@ -68,6 +69,16 @@ public class familiar : MonoBehaviour
                 SprinklerBullet();
                 CharacterStats.energy -= 40;
             }
+            else if (CharacterStats.bulletType == 5 && CharacterStats.energy >= 15)
+            {
+                ChargeBullet();
+                CharacterStats.energy -= 15;
+            }
+            else if (CharacterStats.bulletType == 6 && CharacterStats.energy >= 60)
+            {
+                Laser();
+                CharacterStats.energy -= 60;
+            }
         }
     }
 
@@ -103,7 +114,7 @@ public class familiar : MonoBehaviour
             b2.GetComponent<projectileScript>().SetType(1);
             b2.GetComponent<Rigidbody2D>().velocity = direction * - CharacterStats.bulletSpeed;
         }
-        timer = atackSpeed;
+        timer = (CharacterStats.atackSpeed / 15);
     }
 
     void BombBullet()
@@ -114,7 +125,7 @@ public class familiar : MonoBehaviour
         GameObject b1 = Instantiate(bombBullet, transform.position, Quaternion.identity);
         b1.GetComponent<projectileScript>().SetType(3);
         b1.GetComponent<Rigidbody2D>().velocity = direction * CharacterStats.bulletSpeed;
-        timer = atackSpeed * 40;
+        timer = (CharacterStats.atackSpeed / 15) * 35;
     }
 
     void SprinklerBullet()
@@ -125,7 +136,7 @@ public class familiar : MonoBehaviour
         GameObject b1 = Instantiate(sprinklerBullet, transform.position, Quaternion.identity);
         b1.GetComponent<projectileScript>().SetType(4);
         b1.GetComponent<Rigidbody2D>().velocity = direction * 1;
-        timer = atackSpeed * 40;
+        timer = (CharacterStats.atackSpeed / 15) * 35;
     }
 
     void ShotgunBullets()
@@ -149,6 +160,38 @@ public class familiar : MonoBehaviour
                 b2.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(-CharacterStats.bulletSpeed * (Random.Range(0.5f, 0.7f)));
             }
         }
-        timer = atackSpeed * 10;
+        timer = (CharacterStats.atackSpeed) / 15 * 10;
+    }
+
+    void ChargeBullet()
+    {
+        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = pz - transform.position;
+        direction.Normalize();
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        var relativePos = mousePos - transform.position;
+        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+        var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        GameObject b1 = Instantiate(rocketBullet, transform.position, rotation);
+        b1.GetComponent<projectileScript>().SetType(5);
+        b1.GetComponent<Rigidbody2D>().velocity = (direction * (CharacterStats.bulletSpeed + 5)) * -1;
+        b1.GetComponent<projectileScript>().SetStartSpeed(b1.GetComponent<Rigidbody2D>().velocity.x, b1.GetComponent<Rigidbody2D>().velocity.y);
+        timer = (CharacterStats.atackSpeed / 15) * 15;
+    }
+
+    void Laser()
+    {
+        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = pz - transform.position;
+        direction.Normalize();
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        var relativePos = mousePos - transform.position;
+        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+        var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        GameObject b1 = Instantiate(laser, transform.position, rotation);
+        b1.GetComponent<projectileScript>().SetType(6);
+        timer = (CharacterStats.atackSpeed / 15) * 50;
     }
 }

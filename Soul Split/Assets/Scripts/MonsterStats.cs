@@ -17,6 +17,7 @@ public class MonsterStats : MonoBehaviour {
     GameObject player;
     GameObject currentRoom;
     GameObject playerRoom;
+    float invulnerable = 0.1f;
     AIPath aiPath;
     
 	void Start () {
@@ -37,7 +38,9 @@ public class MonsterStats : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer -= Time.deltaTime;
-		if(hp <= 0)
+        invulnerable -= Time.deltaTime;
+
+        if (hp <= 0)
         {
             Destroy(gameObject);
         }
@@ -65,6 +68,16 @@ public class MonsterStats : MonoBehaviour {
             aiPath = null;
         }
         active = true;
+    }
+
+    public void RecieveDamage(float d)
+    {
+        if (invulnerable < 0)
+        {
+            hp -= d;
+            invulnerable = 0.1f;
+        }
+
     }
 
 }
