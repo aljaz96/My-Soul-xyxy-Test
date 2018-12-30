@@ -236,35 +236,35 @@ public class projectileScript : MonoBehaviour {
             case 23:
                 v3 = new Vector3(-0.5f, -2, 0);
                 break;
-            case 25:
+            case 24:
                 v3 = new Vector3(0, -2, 0);
                 break;
-            case 26:
+            case 25:
                 v3 = new Vector3(0.5f, -2, 0);
                 break;
-            case 27:
+            case 26:
                 v3 = new Vector3(1, -2, 0);
                 break;
-            case 28:
+            case 27:
                 v3 = new Vector3(1.5f, -2, 0);
                 break;
-            case 29:
+            case 28:
                 v3 = new Vector3(2, -2, 0);
                 break;
-            case 30:
+            case 29:
                 v3 = new Vector3(2, -1.5f, 0);
                 break;
-            case 31:
+            case 30:
                 v3 = new Vector3(2, -1, 0);
                 break;
-            case 32:
+            case 31:
                 v3 = new Vector3(2, -0.5f, 0);
                 break;
         }
         phase++;
         v3.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = v3 * 8;
-        if (phase == 33)
+        if (phase == 32)
         {
             phase = 0;
         }

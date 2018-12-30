@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 50702650140770236}
   - component: {fileID: 61196582538061524}
   - component: {fileID: 114187766369635436}
+  - component: {fileID: 114007186018933288}
   m_Layer: 0
   m_Name: Boss3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +55,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -88,6 +89,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
+--- !u!114 &114007186018933288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584169341624304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e32c6a5ccd2934fa68ee7a65ae5a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 250
+  damage: 5
+  p_damage: 15
+  speed: 1
+  playerDistance: 1
+  active: 0
 --- !u!114 &114187766369635436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,14 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c958c882f0de2d428d3dcae05deecad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  currentRoom: {fileID: 0}
-  playerRoom: {fileID: 0}
-  bullet: {fileID: 1474658487439864, guid: 4e2a13bca5bef1c43ad7b3ed9f51eabd, type: 2}
-  bulletBomb: {fileID: 1762286316803046, guid: 3c382d898afa31e4f9d8e84db184e9e4, type: 2}
-  bulletSprinkler: {fileID: 1762286316803046, guid: 3c382d898afa31e4f9d8e84db184e9e4,
+  bullet: {fileID: 1784111359668638, guid: 87f4eba94a0653249b9443538309f3ac, type: 2}
+  bulletBomb: {fileID: 1824306689155244, guid: 3a6a903548d4ca442a75530a2dca077c, type: 2}
+  bulletSprinkler: {fileID: 1252104310249698, guid: 1ba7c2caedc3f3843800c188a51234c4,
     type: 2}
-  active: 0
   atackTimer: 0
   actionTimer: 2
   atack: 0
