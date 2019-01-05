@@ -42,6 +42,14 @@ public class MonsterStats : MonoBehaviour {
 
         if (hp <= 0)
         {
+            if(transform.childCount > 0)
+            {
+                GameObject ch = transform.GetChild(0).gameObject;
+                if (ch.name == "web")
+                {
+                    ch.transform.SetParent(currentRoom.transform);
+                }
+            }
             Destroy(gameObject);
         }
         if (!active)

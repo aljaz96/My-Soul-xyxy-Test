@@ -2379,8 +2379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_gen_room: 12
-  max_gen_room: 12
+  min_gen_room: 8
+  max_gen_room: 8
   numberOfRooms: 2
   limit: 220
   range: 21
