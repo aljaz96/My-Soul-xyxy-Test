@@ -13,12 +13,14 @@ public class MonsterStats : MonoBehaviour {
     public float speed = 1;
     public float playerDistance = 1;
     public bool active = false;
-    float timer = 0.5f;
+    public float timer = 0.5f;
     GameObject player;
     GameObject currentRoom;
     GameObject playerRoom;
     float invulnerable = 0.1f;
     AIPath aiPath;
+    public float wait = 1;
+    bool destroy = true;
     
 	void Start () {
         player = GameObject.FindWithTag("Player");
@@ -42,15 +44,11 @@ public class MonsterStats : MonoBehaviour {
 
         if (hp <= 0)
         {
-            if(transform.childCount > 0)
+            MonsterReactionsUponDeath();
+            if (destroy)
             {
-                GameObject ch = transform.GetChild(0).gameObject;
-                if (ch.name == "web")
-                {
-                    ch.transform.SetParent(currentRoom.transform);
-                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
         if (!active)
         {
@@ -64,7 +62,7 @@ public class MonsterStats : MonoBehaviour {
 
     IEnumerator SetActive()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(wait);
         try
         {
             GetComponent<AIPath>().enabled = true;
@@ -88,4 +86,48 @@ public class MonsterStats : MonoBehaviour {
 
     }
 
+    void MonsterReactionsUponDeath()
+    {
+        if (transform.childCount > 0)
+        {
+            GameObject ch = transform.GetChild(0).gameObject;
+            if (ch.name == "web")
+            {
+                ch.transform.SetParent(currentRoom.transform);
+            }
+        }
+        if (transform.name.Contains("Hanger"))
+        {
+
+            if (GetComponent<Hanger>().MAMA)
+            {
+                int num = Random.Range(3, 8);
+                for (int i = 0; i < num; i++)
+                {
+                    GameObject gb = Instantiate(Resources.Load("Prefabs/Egg", typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
+                    gb.name = "Egg";
+                    gb.transform.SetParent(transform.parent);
+                    //gb.GetComponent<CircleCollider2D>().isTrigger = true;
+                    float x = Random.Range(-1.0f, 1.1f);
+                    float y = Random.Range(-1.0f, 1.1f);
+                    gb.GetComponent<Rigidbody2D>().velocity = new Vector3(x, y, 0);
+                    gb.transform.localScale = gb.transform.localScale / 2;
+                    gb.GetComponent<Egg>().type = 2;
+                    gb.GetComponent<Egg>().timer = Random.Range(0.50f, 1.50f);
+                    gb.GetComponent<MonsterStats>().timer = 0;
+                    gb.GetComponent<MonsterStats>().wait = 0;
+                }
+            }
+        }
+        if (transform.name.Contains("Egg"))
+        {
+            GetComponent<Animator>().SetTrigger("Hatch");
+            GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+            Destroy(this);
+            Destroy(GetComponent<Egg>());
+            Destroy(GetComponent<CircleCollider2D>());
+            transform.SetParent(null);
+            destroy = false;
+        }
+    }
 }

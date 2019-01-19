@@ -76,10 +76,12 @@
     <Compile Include="Assets\Scripts\DestroyObject.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\E_zombie.cs" />
+    <Compile Include="Assets\Scripts\Egg.cs" />
     <Compile Include="Assets\Scripts\EnemyProjectile.cs" />
     <Compile Include="Assets\Scripts\Energybar.cs" />
     <Compile Include="Assets\Scripts\familiar.cs" />
     <Compile Include="Assets\Scripts\Hanger.cs" />
+    <Compile Include="Assets\Scripts\Hatchling.cs" />
     <Compile Include="Assets\Scripts\HPbar.cs" />
     <Compile Include="Assets\Scripts\MonsterStats.cs" />
     <Compile Include="Assets\Scripts\PickUp.cs" />

@@ -17,6 +17,7 @@ public class Hanger : MonoBehaviour {
     public char dir;
     public Vector3 v;
     Animator anim;
+    public bool MAMA = false;
 
     void Start()
     {
@@ -69,6 +70,7 @@ public class Hanger : MonoBehaviour {
                 MoveRandomly();
                 movementTimer = Random.Range(3.00f, 6.00f);
             }
+           
         }
     }
 
