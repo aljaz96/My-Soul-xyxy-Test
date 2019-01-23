@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : MonoBehaviour {
+public class Chest : MonoBehaviour
+{
 
     // Use this for initialization
     public GameObject E;
@@ -34,7 +35,7 @@ public class Chest : MonoBehaviour {
             string item = CharacterStats.all_items[r];
             CharacterStats.all_items.RemoveAt(r);
             GameObject g = Instantiate(Resources.Load("Prefabs/Items/" + item, typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
-            g.name = "Apple"; 
+            g.name = item;
             //Instantiate(item, new Vector3(0, 0, 0), Quaternion.identity);
             opened = true;
             E.SetActive(false);

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyProjectile : MonoBehaviour {
+public class EnemyProjectile : MonoBehaviour
+{
 
     // Use this for initialization
     // Use this for initialization
     float timer = 20;
     public GameObject destroyedEffect;
     public GameObject bullet;
+    public GameObject owner;
     float angle;
     Vector3 startPos;
     Vector3 endPos;
@@ -32,6 +34,34 @@ public class EnemyProjectile : MonoBehaviour {
         {
             BulletSprinkler(phase);
         }
+        if (type == 6)
+        {
+            transform.position = owner.transform.position;
+            if (transform.localScale.y != 36f)
+            {
+                transform.localScale += new Vector3(0, 0.8f, 0);
+            }
+            if (transform.localScale.y >= 36f)
+            {
+                GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
+                b1.transform.SetParent(transform.parent);
+                b1.GetComponent<EnemyProjectile>().owner = owner;
+                b1.transform.SetParent(owner.transform);
+                Destroy(gameObject);
+            }
+        }
+        if (type == 7)
+        {
+            transform.position = owner.transform.position;
+            if (timer < 17)
+            {
+                transform.localScale -= new Vector3(0, 0.6f, 0);
+            }
+            if (transform.localScale.y <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
         if (timer < 0)
         {
             Destroy(gameObject);
@@ -40,12 +70,29 @@ public class EnemyProjectile : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Wall" || collision.tag == "Player")
+        if (collision.tag == "Wall")
         {
-            if(type == 2)
+            if (type == 2)
             {
                 BulletBomb(20);
             }
+            endPos = transform.position;
+            DestroyProjectile();
+        }
+        else if (collision.tag == "Player")
+        {
+            if (type == 2)
+            {
+                BulletBomb(20);
+            }
+            DestroyProjectile();
+        }
+    }
+
+    void DestroyProjectile()
+    {
+        if (type != 7)
+        {
             endPos = transform.position;
             var relativePos = startPos - endPos;
             angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
@@ -168,8 +215,8 @@ public class EnemyProjectile : MonoBehaviour {
         bulletTimer = 0.2f;
     }
 
-        private void BulletBomb(int numBullets)
-        {
+    private void BulletBomb(int numBullets)
+    {
         for (int i = 0; i < numBullets; i++)
         {
             GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);

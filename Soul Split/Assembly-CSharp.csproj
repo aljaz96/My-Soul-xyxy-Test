@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Bullet_bomb.cs" />
     <Compile Include="Assets\Scripts\Camera_script.cs" />
     <Compile Include="Assets\Scripts\Caster.cs" />
+    <Compile Include="Assets\Scripts\Chained.cs" />
     <Compile Include="Assets\Scripts\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Charger.cs" />
     <Compile Include="Assets\Scripts\checkLocal.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\SlashEffect.cs" />
     <Compile Include="Assets\Scripts\SpiritRusher.cs" />
     <Compile Include="Assets\Scripts\TestMovement.cs" />
+    <Compile Include="Assets\Scripts\Turret.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/mikik/OneDrive/Documents/GitHub/Soul-Split/Soul Split/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

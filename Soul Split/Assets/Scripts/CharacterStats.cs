@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour {
+public class CharacterStats : MonoBehaviour
+{
 
     // Use this for initialization
     public static int hp;
@@ -23,14 +24,16 @@ public class CharacterStats : MonoBehaviour {
     public static List<string> used_items;
 
 
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public static void ResetStats()
     {
@@ -56,5 +59,46 @@ public class CharacterStats : MonoBehaviour {
         used_items = new List<string>();
         all_items = new List<string>();
         all_items.Add("Apple");
+        all_items.Add("Pear");
+        all_items.Add("Enegy_drink");
+        all_items.Add("Pills");
+        all_items.Add("Running_shoes");
+        all_items.Add("Syringe");
+        all_items.Add("Bandage");
+        all_items.Add("Halo");
+        all_items.Add("Pillow");
+        all_items.Add("Wings");
+        all_items.Add("Peace");
+        all_items.Add("Cross");
+        all_items.Add("Wine");
+        all_items.Add("Totem");
+        all_items.Add("Rune_of_death");
+        all_items.Add("Skull");
+        all_items.Add("Enegy_bar");
+        all_items.Add("Sugar");
+        all_items.Add("Broken_bone");
+        all_items.Add("Rune_of_life");
+        all_items.Add("Rune_of_rebirth");
+        all_items.Add("Rune_of_hell");
+        all_items.Add("Rune_of_heaven");
+        all_items.Add("Rune_of_concentration");
+        all_items.Add("Rune_of_action");
+        all_items.Add("Rune_of_pain");
+        all_items.Add("Rune_of_death");
+        all_items.Add("Working_gloves");
+        all_items.Add("Hope");
+        all_items.Add("Rune_of_range");
+        all_items.Add("Rune_of_mellee");
+        all_items.Add("Rune_of_destruction");
+        all_items.Add("Rune_of_speed");
+        all_items.Add("Rune_of_evasion");
+        all_items.Add("Dagger");
+        all_items.Add("Spear");
+        all_items.Add("Claw");
+        all_items.Add("ScatterShot");
+        all_items.Add("ClusterShot");
+        all_items.Add("Sprinkler");
+        all_items.Add("Missile");
+        all_items.Add("Laser");
     }
 }
