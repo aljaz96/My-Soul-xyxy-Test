@@ -8,10 +8,13 @@ public class Camera_script : MonoBehaviour {
 
     public float transitionDuration = 1f;
     public Vector3 target;
+    bool black = false;
+    GameObject B;
     // Use this for initialization
     void Start()
     {
         GameObject mainRoom = GameObject.Find("StartingRoom");
+        B = transform.Find("B").gameObject;
         Vector3 v3 = mainRoom.transform.Find("Mid").gameObject.transform.position;
         v3.z = -10;
         transform.position = v3;
@@ -20,7 +23,18 @@ public class Camera_script : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-       
+        if (black == false && B.GetComponent<Renderer>().material.color.a > 0)
+        {
+            var c = B.GetComponent<Renderer>().material.color;
+            c.a -= 0.01f;
+            B.GetComponent<Renderer>().material.color = c;
+        }
+        if (black == true && B.GetComponent<Renderer>().material.color.a < 1)
+        {
+            var c = B.GetComponent<Renderer>().material.color;
+            c.a += 0.01f;
+            B.GetComponent<Renderer>().material.color = c;
+        }
     }
 
     public IEnumerator Transition()
@@ -33,6 +47,16 @@ public class Camera_script : MonoBehaviour {
             transform.position = Vector3.Lerp(startingPos, target, t);
             yield return 0;
         }
+    }
+
+    public void DisappearB()
+    {
+        black = false;
+    }
+
+    public void AppearB()
+    {
+        black = true;
     }
 
 }

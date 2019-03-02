@@ -5,7 +5,7 @@ using UnityEngine;
 public class Egg : MonoBehaviour {
 
     // Use this for initialization
-    public float timer;
+    public float timer = 0;
     float totalTime;
     public int type = 1;
     Animator anim;
@@ -17,7 +17,7 @@ public class Egg : MonoBehaviour {
         stats = GetComponent<MonsterStats>();
         if (type == 1)
         {
-            totalTime = timer = Random.Range(1.00f, 7.00f);
+            totalTime = timer = Random.Range(timer + 1, timer + 7.00f);
         }
 
 	}
