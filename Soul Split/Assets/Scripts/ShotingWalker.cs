@@ -58,6 +58,7 @@ public class ShotingWalker : MonoBehaviour {
                 }
                 else if(type == 2)
                 {
+                    anim.SetTrigger("NormalShot");
                     StartCoroutine(ShootShell(10));
                 }
                 else if(type == 3)
@@ -66,6 +67,7 @@ public class ShotingWalker : MonoBehaviour {
                     {
                         StartCoroutine(ShootMany((float)i/20));
                     }
+                    anim.SetTrigger("SpamShot");
                     StartCoroutine(Move(2.5f, 5));
                 }
             }   
@@ -106,9 +108,11 @@ public class ShotingWalker : MonoBehaviour {
     IEnumerator ShootShell(int num)
     {
         yield return new WaitForSeconds(0.3f);
+        Vector3 pos = transform.position;
+        pos.y = pos.y - 0.25f;
         for (int i = 0; i < num; i++)
         {
-            GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            GameObject b1 = Instantiate(bullet, pos, Quaternion.identity);
             b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
             Vector2 direction = player.transform.position - transform.position;
             direction.x = direction.x + UnityEngine.Random.Range(-0.50f, 0.51f);
@@ -123,11 +127,13 @@ public class ShotingWalker : MonoBehaviour {
     IEnumerator ShootMany(float timer)
     {
         yield return new WaitForSeconds(timer);
-        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        Vector3 pos = transform.position;
+        pos.y = pos.y - 0.25f;
+        GameObject b1 = Instantiate(bullet, pos, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector2 direction = player.transform.position - transform.position;
-        direction.x = direction.x + UnityEngine.Random.Range(-0.30f, 0.31f);
-        direction.y = direction.y + UnityEngine.Random.Range(-0.30f, 0.31f);
+        direction.x = direction.x + UnityEngine.Random.Range(-0.50f, 0.51f);
+        direction.y = direction.y + UnityEngine.Random.Range(-0.50f, 0.51f);
         direction.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = direction * 6;
     }

@@ -801,7 +801,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4947358728327918, guid: 809c17d5fba960e45b446ae6cc8117e7, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212126379530147816, guid: 809c17d5fba960e45b446ae6cc8117e7,
         type: 2}
@@ -2372,12 +2372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_gen_room: 10
-  max_gen_room: 23
-  numberOfRooms: 12
+  min_gen_room: 18
+  max_gen_room: 18
+  numberOfRooms: 8
   limit: 220
-  path: Prefabs/Rooms/Stage1/
-  range: 21
+  path: Prefabs/Rooms/Stage2/
+  range: 30
 --- !u!4 &1058312653
 Transform:
   m_ObjectHideFlags: 0
@@ -3390,7 +3390,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4314086522525942, guid: 057225cf7f4de14469ffb1c606880fc2, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4230466217491116, guid: 057225cf7f4de14469ffb1c606880fc2, type: 2}
       propertyPath: m_LocalPosition.x

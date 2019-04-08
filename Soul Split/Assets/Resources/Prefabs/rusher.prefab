@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 58816812831374014}
   - component: {fileID: 111943070756167578}
   - component: {fileID: 95831220599367924}
+  - component: {fileID: 114741922282555532}
   m_Layer: 0
   m_Name: Rusher
   m_TagString: Enemy
@@ -126,6 +127,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rushCooldown: 3
   rush: 0
+--- !u!114 &114741922282555532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1890427016081364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f7426b0210a4946933e542fa58bffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  L: 0
+  R: 0
+  B: 0
+  T: 0
 --- !u!114 &114965409770506038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,6 +159,8 @@ MonoBehaviour:
   speed: 2
   playerDistance: 1
   active: 0
+  timer: 0.5
+  wait: 1
 --- !u!212 &212130672481929022
 SpriteRenderer:
   m_ObjectHideFlags: 1

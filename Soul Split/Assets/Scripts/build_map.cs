@@ -37,7 +37,7 @@ public class build_map : MonoBehaviour
     List<int> roomsY;
     public string path = "Prefabs/Rooms/Stage2/";
 
-    public int range = 20;
+    public int range = 40;
     /* 0-Empty Space
      * 1-Starting Room
      * 2-Normal Room
@@ -316,11 +316,16 @@ public class build_map : MonoBehaviour
             int cy = roomsY[Random.Range(0, roomsY.Count)];
             for (int i = 0; i < 5; i++)
             {
-                int rx = Random.Range(-1, 2);
-                int ry = Random.Range(-1, 2);
-                if (rx != 0 && ry != 0)
+                int rx = Random.Range(-1, 3);
+                int ry = 0;
+                if (rx == 0 || rx == 2)
                 {
-                    continue;
+                    rx = 0;
+                    ry = Random.Range(0, 2);
+                    if (ry == 0)
+                    {
+                        ry = -1;
+                    }
                 }
                 if (roomArray[cx + rx, cy + ry] == 0)
                 {

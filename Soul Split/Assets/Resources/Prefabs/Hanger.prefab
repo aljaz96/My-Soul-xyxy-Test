@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212300412696427760}
   - component: {fileID: 50412674000342024}
   - component: {fileID: 114725513126991986}
+  - component: {fileID: 114360448755321750}
   - component: {fileID: 114838616642035934}
   - component: {fileID: 61981788623811938}
   - component: {fileID: 111072329420527846}
@@ -153,6 +154,21 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114360448755321750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1913777325489992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f7426b0210a4946933e542fa58bffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  L: 0
+  R: 0
+  B: 0
+  T: 0
 --- !u!114 &114725513126991986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +186,8 @@ MonoBehaviour:
   speed: 1
   playerDistance: 1
   active: 0
+  timer: 0.5
+  wait: 1
 --- !u!114 &114838616642035934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,10 +202,10 @@ MonoBehaviour:
   bullet: {fileID: 1269691048615386, guid: 84e0a45de26758a469f2e5ea23d302b3, type: 2}
   moveLimit: 1.5
   movementTimer: 0
-  bulletCooldown: 1.5
   type: 1
   dir: 0
   v: {x: 0, y: 0, z: 0}
+  MAMA: 0
 --- !u!212 &212300412696427760
 SpriteRenderer:
   m_ObjectHideFlags: 1

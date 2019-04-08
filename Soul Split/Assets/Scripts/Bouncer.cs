@@ -6,6 +6,8 @@ public class Bouncer : MonoBehaviour {
 
     // Use this for initialization
     public GameObject Bullet;
+    public GameObject head;
+    Animator anim;
     Rigidbody2D Rb;
     MonsterStats stats;
     float speed;
@@ -15,16 +17,18 @@ public class Bouncer : MonoBehaviour {
     float ySpeed;
     bool moved = false;
     public int type;
-    float timer;
-
+    float timer = 0;
+    bool right = true;
+    bool down = true;
 
     void Start()
     {
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
-        minSpeed = speed - (speed / 10);
-        maxSpeed = speed + (speed / 10);
+        minSpeed = speed - (speed / 15);
+        maxSpeed = speed + (speed / 15);
         Rb = gameObject.GetComponent<Rigidbody2D>();
+        anim = head.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,13 +41,15 @@ public class Bouncer : MonoBehaviour {
         }
         if (stats.active)
         {
+            CheckVelocity();
             xSpeed = Rb.velocity.x;
             ySpeed = Rb.velocity.y;
-            keepMovementXY();
+            KeepMovementXY();
             timer -= Time.deltaTime;
             if (timer <= 0 && type == 3)
             {
                 SpawnManyBullets();
+                anim.SetTrigger("Shoot");
                 timer = Random.Range(1.5f, 3.0f);
             }
         }
@@ -57,15 +63,23 @@ public class Bouncer : MonoBehaviour {
         {
             case 1:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, speed);
+                right = true;
+                down = false;
                 break;
             case 2:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, -speed);
+                right = true;
+                down = true;
                 break;
             case 3:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, speed);
+                right = false;
+                down = false;
                 break;
             case 4:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, -speed);
+                right = false;
+                down = true;
                 break;
         }
         timer = Random.Range(1.5f, 3.0f);
@@ -73,18 +87,22 @@ public class Bouncer : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (type == 2)
+        if (type == 2 && timer < 0)
         {
-            SpawnManyBullets();
+            SpawnBullets();
+            anim.SetTrigger("Shoot");
+            timer = 1;
         }
     }
 
     void SpawnBullets()
     {
-        GameObject b1 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b2 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b3 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b4 = Instantiate(Bullet, transform.position, Quaternion.identity);
+        Vector3 v3 = transform.position;
+        v3.y -= 0.3f;
+        GameObject b1 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b2 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b3 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b4 = Instantiate(Bullet, v3, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
@@ -92,25 +110,27 @@ public class Bouncer : MonoBehaviour {
         Vector3 v = new Vector3();
         v.x = 1;
         v.y = 1;
-        b1.GetComponent<Rigidbody2D>().velocity = v * 3; //1,1
+        b1.GetComponent<Rigidbody2D>().velocity = v * 4; //1,1
         v.y = -1;
-        b2.GetComponent<Rigidbody2D>().velocity = v * 3; //1,-1
+        b2.GetComponent<Rigidbody2D>().velocity = v * 4; //1,-1
         v.x = -1;
-        b3.GetComponent<Rigidbody2D>().velocity = v * 3; //-1,-1
+        b3.GetComponent<Rigidbody2D>().velocity = v * 4; //-1,-1
         v.y = 1;
-        b4.GetComponent<Rigidbody2D>().velocity = v * 3; //-1,1
+        b4.GetComponent<Rigidbody2D>().velocity = v * 4; //-1,1
     }
 
     void SpawnManyBullets()
     {
-        GameObject b1 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b2 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b3 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b4 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b5 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b6 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b7 = Instantiate(Bullet, transform.position, Quaternion.identity);
-        GameObject b8 = Instantiate(Bullet, transform.position, Quaternion.identity);
+        Vector3 v3 = transform.position;
+        v3.y -= 0.3f;
+        GameObject b1 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b2 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b3 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b4 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b5 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b6 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b7 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b8 = Instantiate(Bullet, v3, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
@@ -122,41 +142,77 @@ public class Bouncer : MonoBehaviour {
         Vector3 v = new Vector3();
         v.x = 1;
         v.y = 1;
-        b1.GetComponent<Rigidbody2D>().velocity = v * 2; //1,1
+        b1.GetComponent<Rigidbody2D>().velocity = v * 3f; //1,1
         v.y = -1;
-        b2.GetComponent<Rigidbody2D>().velocity = v * 2; //1,-1
+        b2.GetComponent<Rigidbody2D>().velocity = v * 3f; //1,-1
         v.x = -1;
-        b3.GetComponent<Rigidbody2D>().velocity = v * 2; //-1,-1
+        b3.GetComponent<Rigidbody2D>().velocity = v * 3f; //-1,-1
         v.y = 1;
-        b4.GetComponent<Rigidbody2D>().velocity = v * 2; //-1,1
+        b4.GetComponent<Rigidbody2D>().velocity = v * 3f; //-1,1
         v.x = 0;
-        b5.GetComponent<Rigidbody2D>().velocity = v * 3; //0,1
+        b5.GetComponent<Rigidbody2D>().velocity = v * 4; //0,1
         v.y = -1;
-        b6.GetComponent<Rigidbody2D>().velocity = v * 3; //0,-1
+        b6.GetComponent<Rigidbody2D>().velocity = v * 4; //0,-1
         v.y = 0;
         v.x = 1;
-        b7.GetComponent<Rigidbody2D>().velocity = v * 3; //1,0
+        b7.GetComponent<Rigidbody2D>().velocity = v * 4; //1,0
         v.x = -1;
-        b8.GetComponent<Rigidbody2D>().velocity = v * 3; //-1,0
+        b8.GetComponent<Rigidbody2D>().velocity = v * 4; //-1,0
     }
 
-    void keepMovementXY()
+    void KeepMovementXY()
     {
         if (Rb.GetComponent<Rigidbody2D>().velocity.x < minSpeed && xSpeed > 0.001f || xSpeed > maxSpeed && xSpeed > 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, ySpeed);
+            right = true;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.x > -minSpeed && xSpeed < -0.001f || xSpeed < -maxSpeed && xSpeed < -0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, ySpeed);
+            right = false;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.y < minSpeed && ySpeed > 0.001f || ySpeed > maxSpeed && ySpeed > 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(xSpeed, speed);
+            down = false;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.y > -minSpeed && ySpeed < -0.001f || ySpeed < -maxSpeed && ySpeed < 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(xSpeed, -speed);
+            down = true;
         }
+    }
+
+    void CheckVelocity()
+    {
+        if (GetComponent<Rigidbody2D>().velocity.x > 0)
+        {
+            Vector3 v3 = head.transform.position;
+            v3.x = transform.position.x + 0.060f;
+            v3.y = transform.position.y;
+            head.transform.position = v3;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            head.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        if (GetComponent<Rigidbody2D>().velocity.x < 0)
+        {
+            Vector3 v3 = head.transform.position;
+            v3.x = transform.position.x -0.060f;
+            v3.y = transform.position.y;
+            head.transform.position = v3;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            head.GetComponent<SpriteRenderer>().flipX = true;
+        }
+       /* if (GetComponent<Rigidbody2D>().velocity.y > 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            head.GetComponent<SpriteRenderer>().flipY = true;
+        }
+        if (GetComponent<Rigidbody2D>().velocity.y < 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipY = false;
+            head.GetComponent<SpriteRenderer>().flipY = false;
+        }*/
     }
 }

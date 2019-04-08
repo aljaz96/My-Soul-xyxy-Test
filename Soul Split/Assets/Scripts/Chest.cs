@@ -51,7 +51,7 @@ public class Chest : MonoBehaviour
             active = true;
         }
     }
-
+    /*
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player" && !opened)
@@ -60,7 +60,7 @@ public class Chest : MonoBehaviour
             active = true;
         }
     }
-
+    */
     void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.tag == "Player")

@@ -8,6 +8,7 @@ public class EnemyProjectile : MonoBehaviour
     // Use this for initialization
     // Use this for initialization
     float timer = 20;
+    float hitTimer = 0.5f;
     public GameObject destroyedEffect;
     public GameObject bullet;
     public GameObject owner;
@@ -30,13 +31,14 @@ public class EnemyProjectile : MonoBehaviour
     {
         timer -= Time.deltaTime;
         bulletTimer -= Time.deltaTime;
+        hitTimer -= Time.deltaTime;
         if (type == 3 && bulletTimer <= 0)
         {
             BulletSprinkler(phase);
         }
         if (type == 6)
         {
-            transform.position = owner.transform.position;
+            //transform.position = owner.transform.position;
             if (transform.localScale.y != 36f)
             {
                 transform.localScale += new Vector3(0, 0.8f, 0);
@@ -52,7 +54,7 @@ public class EnemyProjectile : MonoBehaviour
         }
         if (type == 7)
         {
-            transform.position = owner.transform.position;
+            //transform.position = owner.transform.position;
             if (timer < 17)
             {
                 transform.localScale -= new Vector3(0, 0.6f, 0);
@@ -77,7 +79,17 @@ public class EnemyProjectile : MonoBehaviour
                 BulletBomb(20);
             }
             endPos = transform.position;
-            DestroyProjectile();
+            if (type != 9)
+            {
+                DestroyProjectile();
+            }
+            else
+            {
+                if (hitTimer < 0)
+                {
+                    DestroyProjectile();
+                }
+            }
         }
         else if (collision.tag == "Player")
         {

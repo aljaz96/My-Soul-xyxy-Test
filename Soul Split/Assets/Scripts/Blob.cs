@@ -27,6 +27,7 @@ public class Blob : MonoBehaviour {
     AIPath AI;
     Animator anim;
     SpriteRenderer sr;
+    float scaleX;
 
     void Start()
     {
@@ -39,6 +40,8 @@ public class Blob : MonoBehaviour {
         parent = gameObject.transform.parent.gameObject;
         anim = GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();
+        anim.SetTrigger("Side");
+        scaleX = transform.localScale.x;
     }
 
     // Update is called once per frame
@@ -104,14 +107,15 @@ public class Blob : MonoBehaviour {
         newYpos = transform.position.y;
         if (newXpos > oldXpos && !right)
         {
-            transform.localScale = new Vector3(transform.localScale.x * -1 ,transform.localScale.y);
+            transform.localScale = new Vector3(scaleX, transform.localScale.y);
             right = true;
         }
         else if (newXpos < oldXpos && right)
         {
-            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y);
+            transform.localScale = new Vector3(scaleX * -1, transform.localScale.y);
             right = false;
         }
+        /*
         if (blobSize != 5 && timer < 0)
         {
             
@@ -130,6 +134,7 @@ public class Blob : MonoBehaviour {
                 timer = 0.1f;
             }
         }
+        */
         oldXpos = newXpos;
         oldYpos = newYpos;
     }

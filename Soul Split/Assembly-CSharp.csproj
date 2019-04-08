@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\HPbar.cs" />
     <Compile Include="Assets\Scripts\MonsterStats.cs" />
     <Compile Include="Assets\Scripts\PickUp.cs" />
+    <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\ProjectileHitEffect.cs" />
     <Compile Include="Assets\Scripts\projectileScript.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />

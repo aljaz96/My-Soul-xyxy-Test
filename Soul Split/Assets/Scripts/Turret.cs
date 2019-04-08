@@ -5,8 +5,8 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
 
-    MonsterStats stats;
     GameObject player;
+    public int damage = 10;
     public GameObject bullet;
     public GameObject laser;
     public float bulletTimer = 0.5f;
@@ -15,20 +15,26 @@ public class Turret : MonoBehaviour
     public int y;
     public int type = 0;
     Vector3 v3;
+    Vector3 position;
     Animator anim;
+    public string roomName;
+    public string playerRoomName;
 
     void Start()
     {
-        stats = gameObject.GetComponent<MonsterStats>();
         player = GameObject.FindWithTag("Player");
         anim = GetComponent<Animator>();
         v3 = new Vector3(x, y, 0);
         v3.Normalize();
+        position = transform.position;
+        position.y += 0.35f;
+        roomName = transform.parent.gameObject.transform.parent.name;
     }
 
     void Update()
     {
-        if (stats.active)
+        playerRoomName = player.transform.parent.name;
+        if (roomName == playerRoomName)
         {
             bulletTimer -= Time.deltaTime;
             if (bulletTimer < 0)
@@ -51,6 +57,10 @@ public class Turret : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            bulletTimer = 1.5f;
+        }
     }
 
 
@@ -58,7 +68,7 @@ public class Turret : MonoBehaviour
     {
         var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        GameObject b1 = Instantiate(laser, transform.position, rotation);
+        GameObject b1 = Instantiate(laser, position, rotation);
         b1.GetComponent<EnemyProjectile>().type = 6;
         b1.GetComponent<EnemyProjectile>().owner = transform.gameObject;
         b1.transform.SetParent(transform.parent);
@@ -67,20 +77,20 @@ public class Turret : MonoBehaviour
     void SpawnBullet()
     {
         //anim.SetTrigger("shot");
-        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
-        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        GameObject b1 = Instantiate(bullet, position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = damage;
         b1.GetComponent<Rigidbody2D>().velocity = v3 * 4;
     }
 
     void Spawn3Bullets()
     {
         //anim.SetTrigger("shot");
-        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
-        b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
-        GameObject b2 = Instantiate(bullet, transform.position, Quaternion.identity);
-        b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
-        GameObject b3 = Instantiate(bullet, transform.position, Quaternion.identity);
-        b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
+        GameObject b1 = Instantiate(bullet, position, Quaternion.identity);
+        b1.GetComponent<EnemyProjectile>().damage = damage;
+        GameObject b2 = Instantiate(bullet, position, Quaternion.identity);
+        b2.GetComponent<EnemyProjectile>().damage = damage;
+        GameObject b3 = Instantiate(bullet, position, Quaternion.identity);
+        b3.GetComponent<EnemyProjectile>().damage = damage;
         if (x != 0)
         {
             b1.GetComponent<Rigidbody2D>().velocity = v3 * 4;
