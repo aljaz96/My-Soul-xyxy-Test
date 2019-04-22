@@ -14,6 +14,7 @@ public class Room_kill_enemies : MonoBehaviour {
     public bool B;
     public bool T;
     AIDestinationSetter ai;
+    public int type = 1;
 
     void Start()
     {
@@ -28,10 +29,20 @@ public class Room_kill_enemies : MonoBehaviour {
             ai = null;
         }
         GameObject room = gameObject.transform.parent.gameObject.transform.parent.gameObject;
-        topDoor = room.transform.Find("TopDoor").gameObject;
-        bottomDoor = room.transform.Find("BottomDoor").gameObject;
-        leftDoor = room.transform.Find("LeftDoor").gameObject;
-        rightDoor = room.transform.Find("RightDoor").gameObject;
+        if (type == 1)
+        {
+            topDoor = room.transform.Find("TopDoor").gameObject;
+            bottomDoor = room.transform.Find("BottomDoor").gameObject;
+            leftDoor = room.transform.Find("LeftDoor").gameObject;
+            rightDoor = room.transform.Find("RightDoor").gameObject;
+        }
+        else if(type == 2)
+        {
+            topDoor = room.transform.Find("TopPortal").gameObject;
+            bottomDoor = room.transform.Find("BottomPortal").gameObject;
+            leftDoor = room.transform.Find("LeftPortal").gameObject;
+            rightDoor = room.transform.Find("RightPortal").gameObject;
+        }
 
         if (L && leftDoor.tag == "EnterDoor")
         {
@@ -49,6 +60,7 @@ public class Room_kill_enemies : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+      
         Destroy(this);
         //StartCoroutine(DestroyGameObject());
     }

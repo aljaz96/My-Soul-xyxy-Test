@@ -1,2 +1,0 @@
-skripta ki preveri na enemiju ce je zraven vrat. Ce se je se destroya.
-skripta ki naredi enter door in exit doors. monsterji se despavnajo pri enter door ostaneju pri exit doors.

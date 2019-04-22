@@ -91,12 +91,17 @@
     <Compile Include="Assets\Scripts\projectileScript.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
     <Compile Include="Assets\Scripts\Room_kill_enemies.cs" />
+    <Compile Include="Assets\Scripts\RoomPortal.cs" />
+    <Compile Include="Assets\Scripts\RoomWithPortals.cs" />
     <Compile Include="Assets\Scripts\Rusher.cs" />
     <Compile Include="Assets\Scripts\ShotingWalker.cs" />
     <Compile Include="Assets\Scripts\SlashEffect.cs" />
     <Compile Include="Assets\Scripts\SpiritRusher.cs" />
     <Compile Include="Assets\Scripts\TestMovement.cs" />
     <Compile Include="Assets\Scripts\Turret.cs" />
+    <Compile Include="Assets\Scripts\Vase.cs" />
+    <Compile Include="Assets\Scripts\WallDown.cs" />
+    <None Include="Assets\Materials\grayScele.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/mikik/OneDrive/Documents/GitHub/Soul-Split/Soul Split/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

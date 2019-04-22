@@ -12,6 +12,7 @@ public class Portal : MonoBehaviour {
     public GameObject Chest;
     new GameObject camera;
     GameObject enemies;
+    public float size = 0.8f;
     // Use this for initialization
     void Start () {
         enemies = transform.parent.transform.Find("Enemies").gameObject;
@@ -23,7 +24,7 @@ public class Portal : MonoBehaviour {
 	void Update () {
         if (enemies.transform.childCount == 0 && !open)
         {
-            if (transform.localScale.x < 0.8f)
+            if (transform.localScale.x < size)
             {
                 transform.localScale += new Vector3(0.02f, 0.02f, 0);
             }
@@ -59,7 +60,7 @@ public class Portal : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && transform.localScale.x >= size)
         {
             E.SetActive(true);
             active = true;

@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 61135058415872042}
   - component: {fileID: 111940919516384300}
   - component: {fileID: 95880211712599524}
+  - component: {fileID: 114786863387841268}
   m_Layer: 0
   m_Name: NullHanger
   m_TagString: Enemy
@@ -170,6 +171,24 @@ MonoBehaviour:
   speed: 1
   playerDistance: 1
   active: 0
+  timer: 0.5
+  wait: 1
+--- !u!114 &114786863387841268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1386933517944090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f7426b0210a4946933e542fa58bffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  L: 0
+  R: 0
+  B: 0
+  T: 0
+  type: 2
 --- !u!114 &114976967293434970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,10 +203,10 @@ MonoBehaviour:
   bullet: {fileID: 1269691048615386, guid: 84e0a45de26758a469f2e5ea23d302b3, type: 2}
   moveLimit: 1.5
   movementTimer: 0
-  bulletCooldown: 1.5
   type: 3
   dir: 0
   v: {x: 0, y: 0, z: 0}
+  MAMA: 0
 --- !u!212 &212165446811308210
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -224,7 +243,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 116a60f90a1259c4884c99d9f734bcb0, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7137255}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

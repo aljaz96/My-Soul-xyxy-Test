@@ -20,6 +20,7 @@ public class TestMovement : MonoBehaviour {
     Vector2 startPos;
     Vector2 atackPos;
     public float active = 0;
+    public float moved;
 
     void Start()
     {
@@ -100,6 +101,7 @@ public class TestMovement : MonoBehaviour {
     {
         active -= Time.deltaTime;
         timer -= Time.deltaTime;
+        moved -= Time.deltaTime;
         invulnerability -= Time.deltaTime;
         player.velocity = new Vector3(0, 0, 0);
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
