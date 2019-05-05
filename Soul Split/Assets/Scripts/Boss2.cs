@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boss2 : MonoBehaviour {
 
-    GameObject player;
+   // GameObject player;
     MonsterStats stats;
     public GameObject boss2;
     public GameObject bullet;
@@ -23,7 +23,7 @@ public class Boss2 : MonoBehaviour {
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
         stats = GetComponent<MonsterStats>();
     }
 

@@ -132,7 +132,7 @@ public class Rusher : MonoBehaviour {
     void ChangeDirection()
     {
         anim.SetInteger("Rush", 0);
-        int decision = decision = UnityEngine.Random.Range(1, 5);
+        int decision = UnityEngine.Random.Range(1, 5);
         while (decision == side)
         {
             decision = UnityEngine.Random.Range(1, 5);

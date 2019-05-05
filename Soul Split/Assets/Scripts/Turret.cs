@@ -9,21 +9,20 @@ public class Turret : MonoBehaviour
     public int damage = 10;
     public GameObject bullet;
     public GameObject laser;
-    public float bulletTimer = 0.5f;
+    float bulletTimer;
     public float bulletCooldown = 1;
+    public float bulletStartTime = 1;
     public int x;
     public int y;
     public int type = 0;
     Vector3 v3;
     Vector3 position;
-    Animator anim;
     public string roomName;
     public string playerRoomName;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        anim = GetComponent<Animator>();
         v3 = new Vector3(x, y, 0);
         v3.Normalize();
         position = transform.position;
@@ -59,7 +58,7 @@ public class Turret : MonoBehaviour
         }
         else
         {
-            bulletTimer = 1.5f;
+            bulletTimer = bulletStartTime;
         }
     }
 

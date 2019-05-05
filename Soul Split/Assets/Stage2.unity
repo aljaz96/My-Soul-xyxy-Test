@@ -206,7 +206,7 @@ Transform:
   - {fileID: 1640734847}
   - {fileID: 2070021199}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183365491
 GameObject:
@@ -235,12 +235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
-  min_gen_room: 26
-  max_gen_room: 26
-  numberOfRooms: 20
+  type: 1
+  min_gen_room: 20
+  max_gen_room: 62
+  numberOfRooms: 15
   limit: 220
-  Stage: 3
+  Stage: 2
   range: 30
 --- !u!4 &1183365493
 Transform:
@@ -253,7 +253,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1640734846
 Prefab:

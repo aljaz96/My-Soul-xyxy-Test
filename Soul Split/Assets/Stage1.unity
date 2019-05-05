@@ -361,11 +361,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15962355893b0954c8e8c67c4c8d9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   min_gen_room: 10
   max_gen_room: 33
-  numberOfRooms: 4
+  numberOfRooms: 10
   limit: 220
-  path: Prefabs/Rooms/Stage1/
+  Stage: 1
   range: 30
 --- !u!4 &1437005168
 Transform:

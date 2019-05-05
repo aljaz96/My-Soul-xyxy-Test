@@ -5,8 +5,6 @@ using UnityEngine;
 public class Bullet_bomb : MonoBehaviour {
 
     public float x;
-    bool active = true;
-    float destroyTimer = 1f;
     public GameObject bullet;
     public int numberOfBullets = 20;
 
@@ -26,7 +24,6 @@ public class Bullet_bomb : MonoBehaviour {
     {
         if (col.tag == "Wall" || col.tag == "Enemy")
         {
-            active = false;
             for (int i = 0; i < numberOfBullets; i++)
             {
                 GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);

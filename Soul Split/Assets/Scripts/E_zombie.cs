@@ -16,7 +16,6 @@ public class E_zombie : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float distance = Vector3.Distance(player.transform.position, transform.position);
         if (player)
         {
             navMeshAgent.SetDestination(player.transform.position);

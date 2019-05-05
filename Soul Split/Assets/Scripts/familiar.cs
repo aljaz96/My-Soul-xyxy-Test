@@ -104,6 +104,8 @@ public class familiar : MonoBehaviour
     {
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = pz - transform.position;
+        direction.x = direction.x * Random.Range(0.80f, 1.21f);
+        direction.y = direction.y * Random.Range(0.80f, 1.21f);
         direction.Normalize();
         GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
         b1.GetComponent<projectileScript>().SetType(1);

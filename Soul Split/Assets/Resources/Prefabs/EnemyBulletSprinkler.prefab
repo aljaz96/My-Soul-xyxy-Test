@@ -185,11 +185,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322c074beb7fa454fb3521e77b21d61e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitTimer: 0
   destroyedEffect: {fileID: 1756056776893568, guid: 72140e317a67e4e4cb3ab25df33aacda,
     type: 2}
   bullet: {fileID: 1784111359668638, guid: 87f4eba94a0653249b9443538309f3ac, type: 2}
+  owner: {fileID: 0}
   damage: 5
   type: 3
+  canBeDestroyed: 1
 --- !u!212 &212960098790439668
 SpriteRenderer:
   m_ObjectHideFlags: 1

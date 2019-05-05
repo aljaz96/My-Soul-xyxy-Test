@@ -18,8 +18,6 @@ public class Bouncer : MonoBehaviour {
     bool moved = false;
     public int type;
     float timer = 0;
-    bool right = true;
-    bool down = true;
 
     void Start()
     {
@@ -63,23 +61,15 @@ public class Bouncer : MonoBehaviour {
         {
             case 1:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, speed);
-                right = true;
-                down = false;
                 break;
             case 2:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, -speed);
-                right = true;
-                down = true;
                 break;
             case 3:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, speed);
-                right = false;
-                down = false;
                 break;
             case 4:
                 Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, -speed);
-                right = false;
-                down = true;
                 break;
         }
         timer = Random.Range(1.5f, 3.0f);
@@ -165,22 +155,18 @@ public class Bouncer : MonoBehaviour {
         if (Rb.GetComponent<Rigidbody2D>().velocity.x < minSpeed && xSpeed > 0.001f || xSpeed > maxSpeed && xSpeed > 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, ySpeed);
-            right = true;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.x > -minSpeed && xSpeed < -0.001f || xSpeed < -maxSpeed && xSpeed < -0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, ySpeed);
-            right = false;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.y < minSpeed && ySpeed > 0.001f || ySpeed > maxSpeed && ySpeed > 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(xSpeed, speed);
-            down = false;
         }
         if (Rb.GetComponent<Rigidbody2D>().velocity.y > -minSpeed && ySpeed < -0.001f || ySpeed < -maxSpeed && ySpeed < 0.001f)
         {
             Rb.GetComponent<Rigidbody2D>().velocity = new Vector2(xSpeed, -speed);
-            down = true;
         }
     }
 
@@ -204,15 +190,5 @@ public class Bouncer : MonoBehaviour {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
             head.GetComponent<SpriteRenderer>().flipX = true;
         }
-       /* if (GetComponent<Rigidbody2D>().velocity.y > 0)
-        {
-            gameObject.GetComponent<SpriteRenderer>().flipY = true;
-            head.GetComponent<SpriteRenderer>().flipY = true;
-        }
-        if (GetComponent<Rigidbody2D>().velocity.y < 0)
-        {
-            gameObject.GetComponent<SpriteRenderer>().flipY = false;
-            head.GetComponent<SpriteRenderer>().flipY = false;
-        }*/
     }
 }

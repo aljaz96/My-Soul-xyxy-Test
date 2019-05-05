@@ -10,7 +10,7 @@ public class Boss3 : MonoBehaviour {
     GameObject player;
     public float atackTimer = 0;
     public float actionTimer = 2;
-    Vector3 originalPosition;
+    //Vector3 originalPosition;
     public int atack;
     public int atackPhase;
     float bulletTimer = 0.2f;
@@ -24,7 +24,7 @@ public class Boss3 : MonoBehaviour {
 
     void Start()
     {
-        originalPosition = transform.position;
+        //originalPosition = transform.position;
         stats = GetComponent<MonsterStats>();
         player = GameObject.FindGameObjectWithTag("Player");
     }

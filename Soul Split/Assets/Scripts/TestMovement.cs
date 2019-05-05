@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TestMovement : MonoBehaviour {
 
@@ -25,9 +26,12 @@ public class TestMovement : MonoBehaviour {
     void Start()
     {
         audioData = GetComponent<AudioSource>();
-        CharacterStats.ResetStats();
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        { 
+            CharacterStats.ResetStats();
+        }
     }
 
     void FixedUpdate()
@@ -135,7 +139,6 @@ public class TestMovement : MonoBehaviour {
             atackPos.y = (float)((1 - T) * startPos.y + T * mousePos.y);
             GameObject slash = Instantiate(atack, new Vector3(atackPos.x, atackPos.y, 0), rotation);
             audioData.Play();
-            //pew.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         }
         scythe.transform.rotation = rotation;
         //Quaternion target = Quaternion.Euler(0, 0, angle);

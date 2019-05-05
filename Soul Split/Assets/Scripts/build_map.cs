@@ -572,8 +572,9 @@ public class build_map : MonoBehaviour
 
         while (!treasure)
         {
-            int cx = roomsX[Random.Range(0, roomsX.Count)];
-            int cy = roomsY[Random.Range(0, roomsY.Count)];
+            int rr = Random.Range(0, roomsX.Count);
+            int cx = roomsX[rr];
+            int cy = roomsY[rr];
             for (int i = 0; i < 5; i++)
             {
                 int rx = Random.Range(-1, 3);
@@ -634,8 +635,9 @@ public class build_map : MonoBehaviour
 
         while (!treasure)
         {
-            int cx = roomsX[Random.Range(0, roomsX.Count)];
-            int cy = roomsY[Random.Range(0, roomsY.Count)];
+            int rr = Random.Range(0, roomsX.Count);
+            int cx = roomsX[rr];
+            int cy = roomsY[rr];
             for (int i = 0; i < 5; i++)
             {
                 int rx = Random.Range(-1, 3);

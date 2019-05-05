@@ -5,7 +5,6 @@ using UnityEngine;
 public class Hatchling : MonoBehaviour {
 
     // Use this for initialization
-    Animator anim;
     bool right = true;
     float oldXpos;
     float newXpos;
@@ -14,7 +13,6 @@ public class Hatchling : MonoBehaviour {
 
 	void Start () {
         oldXpos = transform.position.x;
-        anim = gameObject.GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();
     }
 	

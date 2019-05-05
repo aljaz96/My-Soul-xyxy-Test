@@ -20,7 +20,6 @@ public class SpiritRusher : MonoBehaviour {
     float enemy_X;
     float enemy_Y;
     int side = -1;
-    GameObject raycasted;
     float velocity;
     string turned = "left";
     Animator anim;
@@ -55,7 +54,6 @@ public class SpiritRusher : MonoBehaviour {
             if (rushTimer < 0)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
-                raycasted = hit.transform.gameObject;
                 if (hit.transform.gameObject == player)
                 {
                     player_X = (float)Math.Round(player.transform.position.x, 0, MidpointRounding.ToEven);
@@ -147,7 +145,7 @@ public class SpiritRusher : MonoBehaviour {
 
     void changeDirection()
     {
-        int decision = decision = UnityEngine.Random.Range(1, 5);
+        int decision = UnityEngine.Random.Range(1, 5);
         while (decision == side)
         {
             decision = UnityEngine.Random.Range(1, 5);

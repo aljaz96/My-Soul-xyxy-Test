@@ -7,8 +7,8 @@ public class EnemyProjectile : MonoBehaviour
 
     // Use this for initialization
     // Use this for initialization
-    float timer = 20;
-    float hitTimer = 0.5f;
+    float timer = 10;
+    public float hitTimer = 0.2f;
     public GameObject destroyedEffect;
     public GameObject bullet;
     public GameObject owner;
@@ -19,11 +19,16 @@ public class EnemyProjectile : MonoBehaviour
     public int type = 1;
     float bulletTimer;
     int phase;
+    public bool canBeDestroyed = true;
 
     void Start()
     {
         startPos = transform.position;
         phase = Random.Range(0, 32);
+        if(type == 6 && type == 7)
+        {
+            timer = 20;
+        }
     }
 
     // Update is called once per frame
@@ -68,6 +73,10 @@ public class EnemyProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (hitTimer < 0 && canBeDestroyed == false)
+        {
+            canBeDestroyed = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,7 +90,10 @@ public class EnemyProjectile : MonoBehaviour
             endPos = transform.position;
             if (type != 9)
             {
-                DestroyProjectile();
+                if (hitTimer < 0 && canBeDestroyed)
+                {
+                    DestroyProjectile();
+                }
             }
             else
             {
@@ -105,6 +117,21 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (type != 7)
         {
+            if(type == 8)
+            {
+                int r = Random.Range(1, 3);
+                GameObject m = new GameObject();
+                if (r == 1)
+                {
+                    m = Instantiate(Resources.Load("Prefabs/Phantom", typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    m = Instantiate(Resources.Load("Prefabs/Rusher", typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
+                }
+                m.GetComponent<Room_kill_enemies>().type = 2;
+                m.transform.SetParent(owner.transform.parent);
+            }
             endPos = transform.position;
             var relativePos = startPos - endPos;
             angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;

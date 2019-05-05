@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114292935689074860}
   - component: {fileID: 95195638975143624}
   - component: {fileID: 111139786261304906}
+  - component: {fileID: 114172913160101508}
   m_Layer: 0
   m_Name: BottomDoor
   m_TagString: Door
@@ -101,6 +102,17 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114172913160101508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1443970485880178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58ff0bad04b01040941de0a9f7d5783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114292935689074860
 MonoBehaviour:
   m_ObjectHideFlags: 1

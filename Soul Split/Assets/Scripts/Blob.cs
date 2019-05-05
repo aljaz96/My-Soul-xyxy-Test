@@ -24,7 +24,7 @@ public class Blob : MonoBehaviour {
     public float differenceY;
     bool died = false;
     string current;
-    AIPath AI;
+    //AIPath AI;
     Animator anim;
     SpriteRenderer sr;
     float scaleX;
@@ -36,7 +36,7 @@ public class Blob : MonoBehaviour {
         rushTimer = Random.Range(3, 5);
         player = GameObject.FindWithTag("Player");
         stats = gameObject.GetComponent<MonsterStats>();
-        AI = gameObject.GetComponent<AIPath>();
+       // AI = gameObject.GetComponent<AIPath>();
         parent = gameObject.transform.parent.gameObject;
         anim = GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();

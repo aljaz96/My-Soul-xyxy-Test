@@ -15,6 +15,8 @@ public class Caster : MonoBehaviour {
     public bool casting = false;
     public int type = 0;
     public AudioSource audio;
+    Animator anim;
+    string turned = "right";
 
     void Start()
     {
@@ -23,17 +25,18 @@ public class Caster : MonoBehaviour {
         player = GameObject.FindWithTag("Player");
         spellTimer = Random.Range(1.0f, 4.0f);
         audio = GetComponent<AudioSource>();
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        movementTimer -= Time.deltaTime;
-        spellTimer -= Time.deltaTime;
         velocity = gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
         if (stats.active)
         {
             //do stuff
+            movementTimer -= Time.deltaTime;
+            spellTimer -= Time.deltaTime;
             if (movementTimer < 0)
             {
                 changeDirection();
@@ -48,10 +51,15 @@ public class Caster : MonoBehaviour {
                     Vector3 v3 = player.transform.position;
                     v3.y = v3.y + 8.1f;
                     v3.x = v3.x + 2.2f;
-                    StartCoroutine(CastLightning(0.2f, v3)); 
+                    StartCoroutine(CastLightning(0.2f, v3));
+                    anim.SetTrigger("atack");
                 }
             }
             if (velocity == 0 && !casting)
+            {
+                changeDirection();
+            }
+            if(gameObject.GetComponent<Rigidbody2D>().velocity.x != 0 && gameObject.GetComponent<Rigidbody2D>().velocity.y != 0)
             {
                 changeDirection();
             }
@@ -69,7 +77,7 @@ public class Caster : MonoBehaviour {
 
     IEnumerator Move()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.55f);
         side = -1;
         spellTimer = Random.Range(2.0f, 6.0f);
         casting = false;
@@ -95,15 +103,31 @@ public class Caster : MonoBehaviour {
         {
             case 1:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(speed, 0, 0);
+                anim.SetTrigger("side");
+                if (turned == "right")
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                    turned = "left";
+                }
                 break;
+
             case 2:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(-speed, 0, 0);
+                anim.SetTrigger("side");
+                if (turned == "left")
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                    turned = "right";
+                }
                 break;
+               
             case 3:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(0, -speed, 0);
+                anim.SetTrigger("down");
                 break;
             case 4:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(0, speed, 0);
+                anim.SetTrigger("up");
                 break;
         }
         movementTimer = UnityEngine.Random.Range(1.0f, 6.0f);
