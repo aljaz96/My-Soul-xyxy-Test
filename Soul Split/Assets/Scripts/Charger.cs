@@ -11,12 +11,17 @@ public class Charger : MonoBehaviour {
     float rushTimer;
     bool rush = false;
     public bool boss = false;
+    Animator anim;
+    string turned = "right";
+    Rigidbody2D rg;
     // Use this for initialization
     void Start()
     {
         stats = gameObject.GetComponent<MonsterStats>();
         player = GameObject.FindWithTag("Player");
         rushTimer = Random.Range(1.00f, 3.00f);
+        anim = GetComponent<Animator>();
+        rg = GetComponent<Rigidbody2D>();
         if (boss)
         {
             rushTimer = Random.Range(3.00f, 6.00f);
@@ -29,6 +34,7 @@ public class Charger : MonoBehaviour {
         if (stats.active)
         {
             rushTimer -= Time.deltaTime;
+            ChangeSide(rg.velocity.x);
             if (rushTimer < 0 && !rush)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
@@ -39,6 +45,7 @@ public class Charger : MonoBehaviour {
                     GetComponent<AIPath>().enabled = false;
                     GetComponent<Seeker>().enabled = false;
                     GetComponent<AIDestinationSetter>().enabled = false;
+                    anim.SetTrigger("Thinking");
                     if (boss)
                     {
                         int r = Random.Range(1, 3);
@@ -73,7 +80,21 @@ public class Charger : MonoBehaviour {
                 SpawnBullers();
                 rushTimer = Random.Range(2.0f, 5.0f);
             }
-            StartCoroutine(Move(1));
+            StartCoroutine(Move(0));
+        }
+    }
+
+    void ChangeSide(float x)
+    {
+        if (x > 0 && turned == "left")
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            turned = "right";
+        }
+        else if (x < 0 && turned == "right")
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            turned = "left";
         }
     }
 
@@ -84,11 +105,13 @@ public class Charger : MonoBehaviour {
         GetComponent<AIPath>().enabled = true;
         GetComponent<Seeker>().enabled = true;
         GetComponent<AIDestinationSetter>().enabled = true;
+        anim.SetTrigger("Reset");
     }
 
     IEnumerator RushPlayer()
     {
         yield return new WaitForSeconds(1);
+        anim.SetTrigger("Rush");
         Vector3 v3 = player.transform.position - transform.position;
         v3.Normalize();
         if (boss)
@@ -116,7 +139,8 @@ public class Charger : MonoBehaviour {
     IEnumerator Puke()
     {
         yield return new WaitForSeconds(1);
-        for(int i=0; i<10; i++)
+        anim.SetTrigger("Shot");
+        for (int i=0; i<10; i++)
         {
             GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
             b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
@@ -127,7 +151,7 @@ public class Charger : MonoBehaviour {
             b1.GetComponent<Rigidbody2D>().velocity = direction * Random.Range(4.0f, 6.0f);
         }
         rushTimer = Random.Range(2.0f, 4.0f);
-        StartCoroutine(Move(0.2f));
+        StartCoroutine(Move(0.5f));
     }
 
 

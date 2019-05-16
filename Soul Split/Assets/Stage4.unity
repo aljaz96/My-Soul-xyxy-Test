@@ -268,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   min_gen_room: 11
-  max_gen_room: 41
+  max_gen_room: 46
   numberOfRooms: 10
   limit: 220
   Stage: 4

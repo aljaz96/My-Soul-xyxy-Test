@@ -11,6 +11,7 @@ public class Camera_script : MonoBehaviour {
     bool black = false;
     public GameObject B;
     GameObject mainRoom;
+    public bool menu = false;
     // Use this for initialization
     void Start()
     {
@@ -31,7 +32,7 @@ public class Camera_script : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(mainRoom == null)
+        if(mainRoom == null && !menu)
         {
             FindMainRoom();
         }

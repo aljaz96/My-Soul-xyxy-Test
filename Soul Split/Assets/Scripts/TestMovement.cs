@@ -28,10 +28,10 @@ public class TestMovement : MonoBehaviour {
         audioData = GetComponent<AudioSource>();
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        { 
-            CharacterStats.ResetStats();
-        }
+        // if (SceneManager.GetActiveScene().buildIndex == 0)
+        //{ 
+        //CharacterStats.ResetStats();
+        // }
     }
 
     void FixedUpdate()
@@ -96,6 +96,10 @@ public class TestMovement : MonoBehaviour {
             {
                 CharacterStats.bulletType = 6;
 
+            }
+            if (Input.GetKey(KeyCode.M))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }
     }

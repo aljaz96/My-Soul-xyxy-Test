@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   min_gen_room: 11
-  max_gen_room: 70
+  max_gen_room: 81
   numberOfRooms: 20
   limit: 220
   Stage: 3
@@ -254,6 +254,7 @@ MonoBehaviour:
   transitionDuration: 1
   target: {x: 0, y: 0, z: 0}
   B: {fileID: 0}
+  menu: 0
 --- !u!81 &640497366
 AudioListener:
   m_ObjectHideFlags: 0

@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\Chest.cs" />
     <Compile Include="Assets\Scripts\DestroyObject.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
+    <Compile Include="Assets\Scripts\Drop.cs" />
     <Compile Include="Assets\Scripts\E_zombie.cs" />
     <Compile Include="Assets\Scripts\Egg.cs" />
     <Compile Include="Assets\Scripts\EnemyProjectile.cs" />
@@ -85,7 +86,10 @@
     <Compile Include="Assets\Scripts\Hanger.cs" />
     <Compile Include="Assets\Scripts\Hatchling.cs" />
     <Compile Include="Assets\Scripts\HPbar.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
+    <Compile Include="Assets\Scripts\MenuButton.cs" />
     <Compile Include="Assets\Scripts\MonsterStats.cs" />
+    <Compile Include="Assets\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\PickUp.cs" />
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\ProjectileHitEffect.cs" />
