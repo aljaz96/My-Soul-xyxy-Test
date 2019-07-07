@@ -115,7 +115,7 @@ public class TestMovement : MonoBehaviour {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         var relativePos = mousePos - transform.position;
-        angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+        angle = (Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg) +20;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         if (Input.GetMouseButtonDown(0) && timer < 0)
         {

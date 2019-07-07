@@ -149,20 +149,20 @@ public class familiar : MonoBehaviour
         for (int i = 0; i < numberOfBullets; i++)
         {
             Vector2 changedDirection = direction;
-            changedDirection.x = changedDirection.x * (Random.Range(0.7f, 1.3f));
-            changedDirection.y = changedDirection.y * (Random.Range(0.7f, 1.3f));
+            changedDirection.x = changedDirection.x * (Random.Range(0.6f, 1.4f));
+            changedDirection.y = changedDirection.y * (Random.Range(0.6f, 1.4f));
             changedDirection.Normalize();
             GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
             b1.GetComponent<projectileScript>().SetType(1);
-            b1.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(CharacterStats.bulletSpeed * (Random.Range(0.5f, 0.7f)));
+            b1.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(CharacterStats.bulletSpeed * (Random.Range(1.5f, 1.7f)));
             if (backShot)
             {
                 GameObject b2 = Instantiate(normalBullet, transform.position, Quaternion.identity);
                 b2.GetComponent<projectileScript>().SetType(1);
-                b2.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(-CharacterStats.bulletSpeed * (Random.Range(0.5f, 0.7f)));
+                b2.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(-CharacterStats.bulletSpeed * (Random.Range(1.5f, 1.7f)));
             }
         }
-        timer = (CharacterStats.atackSpeed) / 15 * 10;
+        timer = (CharacterStats.atackSpeed / 15) * 10;
     }
 
     void ChargeBullet()

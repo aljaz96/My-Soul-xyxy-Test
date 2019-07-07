@@ -76,11 +76,14 @@ public class MonsterStats : MonoBehaviour {
         active = true;
     }
 
-    public void RecieveDamage(float d)
+    public void RecieveDamage(float d, string name)
     {
         if (invulnerable < 0)
         {
             hp -= d;
+        }
+        if (name.Contains("laserE"))
+        {
             invulnerable = 0.1f;
         }
 

@@ -18,6 +18,9 @@ public class Boss2 : MonoBehaviour {
     float x = 1;
     float y = 1;
     public int movementLimit = 18;
+    Animator anim;
+    int numbOfBullers = 0;
+    bool animTrigger = true;
     float f;
 
 
@@ -25,6 +28,7 @@ public class Boss2 : MonoBehaviour {
     {
         //player = GameObject.FindGameObjectWithTag("Player");
         stats = GetComponent<MonsterStats>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -37,28 +41,45 @@ public class Boss2 : MonoBehaviour {
             //do stuff
             if(boss2 == null && actionTimer < 0)
             {
-                for (float f = 0.0f; f < 3.0f; f += 0.1f)
+                if (animTrigger)
                 {
-                    StartCoroutine(AtackThree(f));
+                    anim.SetTrigger("Atack3");
+                    animTrigger = false;
+                    for (float f = 0.25f; f < 3.0f; f += 0.1f)
+                    {
+                        StartCoroutine(AtackThree(f));
+                    }
+                    actionTimer = 3.25f;
                 }
-                actionTimer = 3;
+                else
+                {
+                    for (float f = 0.25f; f < 3.0f; f += 0.1f)
+                    {
+                        StartCoroutine(AtackThree(f));
+                    }
+                    actionTimer = 3;
+                }
             }
             else if (actionTimer < 0)
             {
+                anim.SetTrigger("reset");
                 f = Random.Range(-0.10f, 0.10f);
-                atack = Random.Range(1, 4);
+                atack = Random.Range(1, 4); //1,4
                 if (atack == 1)
                 {
                     actionTimer = 5;
-                    atackTimer = 4;
+                    atackTimer = 4.25f;
                     atackPhase = 1;
+                    anim.SetTrigger("Atack1");
                 }
                 else if (atack == 2)
                 {
-                    actionTimer = 7;
+                    actionTimer = 7.5f;
                     atackTimer = 6;
                     atackPhase = 1;
+                    bulletTimer = 0.25f;
                     bulletNumber = Random.Range(0,16);
+                    anim.SetTrigger("Atack2");
                     x = 1;
                     y = 1;
                 }
@@ -66,8 +87,9 @@ public class Boss2 : MonoBehaviour {
                 {
                     for(float f=0.0f; f<3.0f; f += 0.1f)
                     {
-                        StartCoroutine(AtackThree(f));
+                        StartCoroutine(AtackThree(f + 0.25f));
                     }
+                    anim.SetTrigger("Atack4");
                     actionTimer = 5;
                     atackTimer = 0;
                     atackPhase = 0;
@@ -87,7 +109,9 @@ public class Boss2 : MonoBehaviour {
     IEnumerator AtackThree(float t)
     {
         yield return new WaitForSeconds(t);
-        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        Vector3 v = transform.position;
+        v.x -= 0.31f;
+        GameObject b1 = Instantiate(bullet, v, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         Vector3 v3 = new Vector3(Random.Range(-1.00f, 1.01f), Random.Range(-1.00f, 1.01f), 0);
         v3.Normalize();
@@ -96,12 +120,13 @@ public class Boss2 : MonoBehaviour {
 
     void AtackOne()
     {
+        Vector3 v = transform.position;
+        v.x -= 0.31f;
         if ((atackPhase == 1 && atackTimer < 4) || (atackPhase == 3 && atackTimer < 3))
         {
-           
             for (int i = 0; i < 4; i++)
             {
-                GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                GameObject b1 = Instantiate(bullet, v, Quaternion.identity);
                 b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
@@ -131,7 +156,7 @@ public class Boss2 : MonoBehaviour {
         {
             for (int i = 0; i < 4; i++)
             {
-                GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                GameObject b1 = Instantiate(bullet, v, Quaternion.identity);
                 b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
@@ -162,7 +187,7 @@ public class Boss2 : MonoBehaviour {
         {
             for (int i = 0; i < 8; i++)
             {
-                GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                GameObject b1 = Instantiate(bullet, v, Quaternion.identity);
                 b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
                 Vector3 v3 = new Vector3();
                 switch (i)
@@ -212,7 +237,9 @@ public class Boss2 : MonoBehaviour {
     {
         if (bulletTimer < 0)
         {
-            GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            Vector3 v = transform.position;
+            v.x -= 0.31f;
+            GameObject b1 = Instantiate(bullet, v, Quaternion.identity);
             b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
             Vector3 v3 = new Vector3();
             switch (bulletNumber)
@@ -287,9 +314,14 @@ public class Boss2 : MonoBehaviour {
             b1.GetComponent<Rigidbody2D>().velocity = v3 * 4;
             bulletTimer = 0.1f;
             bulletNumber++;
+            numbOfBullers++;
             if (bulletNumber == 16)
             {
                 bulletNumber = 0;
+            }
+            if (numbOfBullers == 16)
+            {
+                numbOfBullers = 0;
                 atackPhase++;
                 if (atackPhase == 2)
                 {

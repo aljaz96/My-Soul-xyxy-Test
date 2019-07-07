@@ -27,7 +27,7 @@ public class projectileScript : MonoBehaviour {
         switch (type)
         {
             case 1:
-                damage = CharacterStats.damage / 5;
+                damage = CharacterStats.damage / 4;
                 break;
             case 2:
                 damage = CharacterStats.damage / 5;
@@ -115,7 +115,7 @@ public class projectileScript : MonoBehaviour {
             {
                 BulletBomb(50);
             }
-            collision.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage);
+            collision.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage, name);
             DestroyProjectile();
         }
     }
@@ -124,7 +124,7 @@ public class projectileScript : MonoBehaviour {
     {
         if (other.tag == "Enemy")
         {
-            other.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage);
+            other.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage, name);
            // transform.localScale += new Vector3(0, 0.10f, 0);
         }
     }

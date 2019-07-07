@@ -26,11 +26,11 @@ public class PickUp : MonoBehaviour
     void Update()
     {
         timer -= Time.deltaTime;
-        if (transform.localScale.x < 0.02f)
+        if (transform.localScale.x < 1f)
         {
-            transform.localScale += new Vector3(0.001f, 0.001f, 0);
+            transform.localScale += new Vector3(0.025f, 0.025f, 0);
         }
-        if (transform.localScale.x >= 0.02f && !moving)
+        if (transform.localScale.x >= 1f && !moving)
         {
             moving = true;
             Vector3 v1 = new Vector3();
