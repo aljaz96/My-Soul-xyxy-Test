@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\EnemyProjectile.cs" />
     <Compile Include="Assets\Scripts\Energybar.cs" />
     <Compile Include="Assets\Scripts\familiar.cs" />
+    <Compile Include="Assets\Scripts\Hand.cs" />
     <Compile Include="Assets\Scripts\Hanger.cs" />
     <Compile Include="Assets\Scripts\Hatchling.cs" />
     <Compile Include="Assets\Scripts\HPbar.cs" />

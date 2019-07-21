@@ -126,7 +126,15 @@ MonoBehaviour:
   bulletSprinkler: {fileID: 1462481051553830, guid: 919636abde92fa9439e8feb98d2e485d,
     type: 2}
   laser: {fileID: 1134840161562712, guid: 76bd6a6b12b932342a56eff3eb7f4f41, type: 2}
+  BHand1: {fileID: 0}
+  BHand2: {fileID: 0}
+  MHand1: {fileID: 0}
+  MHand2: {fileID: 0}
+  THand1: {fileID: 0}
+  THand2: {fileID: 0}
+  Eye: {fileID: 0}
   actionTimer: 2
+  animationTimer: 0
   atack: 0
   atackPhase: 0
 --- !u!212 &212505170881168806

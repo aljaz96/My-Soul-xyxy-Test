@@ -126,13 +126,12 @@ public class build_map : MonoBehaviour
                     roomsY.Add(y+1);
                     roomDistance[x, y + 1] = distance;
                     y++;
-                    currentRoom = Instantiate(Resources.Load(path + "Room" + roomNumber, typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
+                    currentRoom = Instantiate(Resources.Load(path + "Room" + roomNumber, 
+                                  typeof(GameObject)) as GameObject, new Vector3(x * range, y * range, 0), Quaternion.identity);
                     currentRoom.name = "Room" + roomCounter;
                     roomCounter++;
                     removeWall("Top", previousRoom);
                     removeWall("Bottom", currentRoom);
-                    //Instantiate(currentRoom, new Vector3(10, 0, 0), Quaternion.identity);
-
                     setDoors("Top", "Bottom");
                 }
                 else

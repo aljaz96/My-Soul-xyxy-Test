@@ -9,8 +9,16 @@ public class Boss4 : MonoBehaviour {
     public GameObject bulletSkull;
     public GameObject bulletSprinkler;
     public GameObject laser;
+    public GameObject BHand1;
+    public GameObject BHand2;
+    public GameObject MHand1;
+    public GameObject MHand2;
+    public GameObject THand1;
+    public GameObject THand2;
+    public GameObject Eye;
     GameObject player;
     public float actionTimer = 2;
+    public float animationTimer;
     public int atack;
     public int atackPhase;
     MonsterStats stats;
@@ -23,6 +31,13 @@ public class Boss4 : MonoBehaviour {
     GameObject spawnPointE;
     GameObject spawnPointS;
     GameObject spawnPointW;
+    Hand BHand1_script;
+    Hand BHand2_script;
+    Hand MHand1_script;
+    Hand MHand2_script;
+    Hand THand1_script;
+    Hand THand2_script;
+    Animator anim;
 
 
     void Start()
@@ -37,6 +52,14 @@ public class Boss4 : MonoBehaviour {
         spawnPointW = GameObject.Find("spawnPointWest");
         stats = GetComponent<MonsterStats>();
         player = GameObject.FindGameObjectWithTag("Player");
+        BHand1_script = BHand1.GetComponent<Hand>();
+        BHand2_script = BHand2.GetComponent<Hand>();
+        MHand1_script = MHand1.GetComponent<Hand>();
+        MHand2_script = MHand2.GetComponent<Hand>();
+        THand1_script = THand1.GetComponent<Hand>();
+        THand2_script = THand2.GetComponent<Hand>();
+        anim = Eye.GetComponent<Animator>();
+        animationTimer = Random.Range(2.00f, 8.00f);
     }
 
     //big head, 1 eye, big mouth, 4 arms
@@ -44,6 +67,7 @@ public class Boss4 : MonoBehaviour {
     {
         if (stats.active)
         {
+            animationTimer -= Time.deltaTime;
             actionTimer -= Time.deltaTime;
             //do stuff
             while (actionTimer < 0)
@@ -54,6 +78,7 @@ public class Boss4 : MonoBehaviour {
                 {
                     StartCoroutine(Sprinkler(0));
                     StartCoroutine(Sprinkler(1));
+                    THand2_script.ColorHand(1.5f);
                     actionTimer = 4;
                 }
                 //spread shot
@@ -64,12 +89,14 @@ public class Boss4 : MonoBehaviour {
                     StartCoroutine(MultiShots(1));
                     StartCoroutine(MultiShots(1.5f));
                     StartCoroutine(MultiShots(2));
+                    MHand1_script.ColorHand(2);
                     actionTimer = 3.5f;
                 }
                 //skull shot/spawn
                 if (atack == 3)
                 {
                     StartCoroutine(SkullShots(0.5f));
+                    MHand2_script.ColorHand(1);
                     actionTimer = 2f;
                 }
                 //lasers
@@ -79,6 +106,10 @@ public class Boss4 : MonoBehaviour {
                     StartCoroutine(Laserbeam(0.66f));
                     StartCoroutine(Laserbeam(1.33f));
                     StartCoroutine(Laserbeam(2));
+                    BHand1_script.ColorHand(2.5f);
+                    BHand2_script.ColorHand(2.5f);
+                    anim.SetTrigger("Laser");
+                    animationTimer = Random.Range(4.00f, 8.00f);
                     actionTimer = 4.5f;
                 }
                 //side shot x4
@@ -87,6 +118,7 @@ public class Boss4 : MonoBehaviour {
                     StartCoroutine(SideShotPrep(0));
                     StartCoroutine(SideShotPrep(0.66f));
                     StartCoroutine(SideShotPrep(1.33f));
+                    THand1_script.ColorHand(2.5f);
                     actionTimer = 4;
                 }
                 //increasingBulletsInARow
@@ -97,6 +129,7 @@ public class Boss4 : MonoBehaviour {
                         StartCoroutine(IncreasingBullets(f, f));
                     }
                     actionTimer = 4;
+                    BHand2_script.ColorHand(3f);
                 }
                 //FallingBullets
                 if (atack == 7)
@@ -105,8 +138,32 @@ public class Boss4 : MonoBehaviour {
                     StartCoroutine(BulletFallPrep(3f));
                     StartCoroutine(BulletFallPrep(6f));
                     StartCoroutine(BulletFallPrep(9f));
+                    BHand1_script.ColorHand(11);
+                    BHand2_script.ColorHand(11);
+                    MHand1_script.ColorHand(11);
+                    MHand2_script.ColorHand(11);
+                    THand1_script.ColorHand(11);
+                    THand2_script.ColorHand(11);
                     actionTimer = 14;
                 }
+            }
+            if (animationTimer < 0)
+            {
+                int a = Random.Range(1, 3);
+                if(a == 1)
+                {
+                    anim.SetTrigger("Look");
+                }
+                else
+                {
+                    anim.SetTrigger("Look2");
+                }
+                a = Random.Range(1, 3);
+                if(a == 1)
+                {
+                    Eye.GetComponent<SpriteRenderer>().flipX = !Eye.GetComponent<SpriteRenderer>().flipX;
+                }
+                animationTimer = Random.Range(2.00f, 8.00f);
             }
         }
     }
@@ -138,7 +195,7 @@ public class Boss4 : MonoBehaviour {
     IEnumerator IncreasingBullets(float f, float s)
     {
         yield return new WaitForSeconds(f);
-        GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        GameObject b1 = Instantiate(bullet, Eye.transform.position, Quaternion.identity);
         b1.transform.localScale += new Vector3(s / 10, s / 10, 0);
         Vector3 direction = player.transform.position - transform.position;
         direction.Normalize();
@@ -166,7 +223,7 @@ public class Boss4 : MonoBehaviour {
         for (int i = 0; i < 19; i++)
         {
             Vector3 v3 = new Vector3();
-            GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            GameObject b1 = Instantiate(bullet, Eye.transform.position, Quaternion.identity);
             switch (i)
             {
                 case 0:
@@ -238,7 +295,7 @@ public class Boss4 : MonoBehaviour {
         Vector3 direction = player.transform.position - transform.position;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        GameObject b1 = Instantiate(laser, transform.position, rotation);
+        GameObject b1 = Instantiate(laser, Eye.transform.position, rotation);
         b1.GetComponent<EnemyProjectile>().type = 6;
         b1.GetComponent<EnemyProjectile>().owner = transform.gameObject;
         b1.transform.SetParent(transform.parent);
@@ -351,7 +408,7 @@ public class Boss4 : MonoBehaviour {
     IEnumerator SkullShots(float f)
     {
         yield return new WaitForSeconds(f);
-        GameObject b1 = Instantiate(bulletSkull, transform.position, Quaternion.identity);
+        GameObject b1 = Instantiate(bulletSkull, Eye.transform.position, Quaternion.identity);
         Vector3 direction = player.transform.position - transform.position;
         direction.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = direction * 8f;

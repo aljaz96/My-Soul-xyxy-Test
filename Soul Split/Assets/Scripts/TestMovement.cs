@@ -10,6 +10,9 @@ public class TestMovement : MonoBehaviour {
     // Use this for initialization
     Rigidbody2D player;
     AudioSource audioData;
+    SpriteRenderer charRenderer;
+    SpriteRenderer scytheRenderer;
+    Animator anim;
     public GameObject scythe;
     public GameObject atack;
     public Animator animator;
@@ -22,12 +25,21 @@ public class TestMovement : MonoBehaviour {
     Vector2 atackPos;
     public float active = 0;
     public float moved;
+    public bool right = true;
+    public float speed;
+    public Vector3 oldPos, newPos;
+    int running = 0;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         audioData = GetComponent<AudioSource>();
         transform.TransformPoint(Vector3.zero);
         player = GetComponent<Rigidbody2D>();
+        charRenderer = GetComponent<SpriteRenderer>();
+        scytheRenderer = scythe.GetComponent<SpriteRenderer>();
+        oldPos = newPos = gameObject.transform.position;
+        
         // if (SceneManager.GetActiveScene().buildIndex == 0)
         //{ 
         //CharacterStats.ResetStats();
@@ -38,21 +50,26 @@ public class TestMovement : MonoBehaviour {
     {
         if (active < 0)
         {
+            running = 0;
             if (Input.GetKey(KeyCode.A))
             {
                 transform.position += Vector3.left * CharacterStats.speed * Time.deltaTime;
+                running = 1;
             }
             if (Input.GetKey(KeyCode.D))
             {
                 transform.position += Vector3.right * CharacterStats.speed * Time.deltaTime;
+                running = 1;
             }
             if (Input.GetKey(KeyCode.W))
             {
                 transform.position += Vector3.up * CharacterStats.speed * Time.deltaTime;
+                running = 1;
             }
             if (Input.GetKey(KeyCode.S))
             {
                 transform.position += Vector3.down * CharacterStats.speed * Time.deltaTime;
+                running = 1;
             }
             if (Input.GetKey(KeyCode.Space) && timer < 0)
             {
@@ -107,6 +124,11 @@ public class TestMovement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        newPos = gameObject.transform.position;
+        //anim.SetFloat("Speed", (oldPos-newPos).magnitude);
+        anim.SetInteger("Running", running);
+        speed = oldPos.x - newPos.x;
+        ChangeDirection(speed);
         active -= Time.deltaTime;
         timer -= Time.deltaTime;
         moved -= Time.deltaTime;
@@ -115,7 +137,15 @@ public class TestMovement : MonoBehaviour {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         var relativePos = mousePos - transform.position;
-        angle = (Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg) +20;
+        if (right)
+        {
+            angle = (Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg) + 200;
+        }
+        else
+        {
+            angle = (Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg) + 20;
+        }
+        
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         if (Input.GetMouseButtonDown(0) && timer < 0)
         {
@@ -145,6 +175,8 @@ public class TestMovement : MonoBehaviour {
             audioData.Play();
         }
         scythe.transform.rotation = rotation;
+        oldPos = newPos;
+
         //Quaternion target = Quaternion.Euler(0, 0, angle);
         //scythe.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
     }
@@ -164,7 +196,6 @@ public class TestMovement : MonoBehaviour {
         {
             invulnerability = 0.5f;
             CharacterStats.hp -= collision.gameObject.GetComponent<EnemyProjectile>().damage;
-            //CharacterStats.hp -= 10;
         }
         if (collision.tag == "EnemyBullet" && invulnerability < 0)
         {
@@ -176,5 +207,21 @@ public class TestMovement : MonoBehaviour {
     public void passing()
     {
         active = 1;
+    }
+
+    void ChangeDirection(float diff)
+    {
+        if (diff > 0.001f)
+        {
+            right = true;
+            charRenderer.flipX = false;
+            scytheRenderer.flipX = true;
+        }
+        if (diff < -0.001f)
+        {
+            right = false;
+            charRenderer.flipX = true;
+            scytheRenderer.flipX = false;
+        }
     }
 }

@@ -772,7 +772,7 @@ MonoBehaviour:
   type: 1
   min_gen_room: 20
   max_gen_room: 62
-  numberOfRooms: 15
+  numberOfRooms: 3
   limit: 220
   Stage: 2
   range: 30
