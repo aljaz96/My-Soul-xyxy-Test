@@ -7,7 +7,7 @@ public class SpiritRusher : MonoBehaviour {
 
     GameObject player;
     MonsterStats stats;
-    public GameObject bullet;
+    GameObject bullet;
     float movementTimer;
     float speed;
     float rushTimer = 0;
@@ -26,6 +26,7 @@ public class SpiritRusher : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         player = GameObject.FindWithTag("Player");

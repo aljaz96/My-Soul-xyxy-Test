@@ -7,7 +7,7 @@ public class Charger : MonoBehaviour {
 
     GameObject player;
     MonsterStats stats;
-    public GameObject bullet;
+    GameObject bullet;
     float rushTimer;
     bool rush = false;
     public bool boss = false;
@@ -17,6 +17,7 @@ public class Charger : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
         stats = gameObject.GetComponent<MonsterStats>();
         player = GameObject.FindWithTag("Player");
         rushTimer = Random.Range(1.00f, 3.00f);

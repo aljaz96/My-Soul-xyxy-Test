@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bouncer : MonoBehaviour {
 
     // Use this for initialization
-    public GameObject Bullet;
+    GameObject bullet;
     public GameObject head;
     Animator anim;
     Rigidbody2D Rb;
@@ -21,6 +21,7 @@ public class Bouncer : MonoBehaviour {
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         minSpeed = speed - (speed / 15);
@@ -89,10 +90,10 @@ public class Bouncer : MonoBehaviour {
     {
         Vector3 v3 = transform.position;
         v3.y -= 0.3f;
-        GameObject b1 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b2 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b3 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b4 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b1 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b2 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b3 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b4 = Instantiate(bullet, v3, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;
@@ -113,14 +114,14 @@ public class Bouncer : MonoBehaviour {
     {
         Vector3 v3 = transform.position;
         v3.y -= 0.3f;
-        GameObject b1 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b2 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b3 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b4 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b5 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b6 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b7 = Instantiate(Bullet, v3, Quaternion.identity);
-        GameObject b8 = Instantiate(Bullet, v3, Quaternion.identity);
+        GameObject b1 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b2 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b3 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b4 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b5 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b6 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b7 = Instantiate(bullet, v3, Quaternion.identity);
+        GameObject b8 = Instantiate(bullet, v3, Quaternion.identity);
         b1.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b2.GetComponent<EnemyProjectile>().damage = stats.p_damage;
         b3.GetComponent<EnemyProjectile>().damage = stats.p_damage;

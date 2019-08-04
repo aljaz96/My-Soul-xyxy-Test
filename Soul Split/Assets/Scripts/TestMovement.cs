@@ -29,9 +29,11 @@ public class TestMovement : MonoBehaviour {
     public float speed;
     public Vector3 oldPos, newPos;
     int running = 0;
+    bool r = false;
 
     void Start()
     {
+        atack = (GameObject)Resources.Load("Prefabs/Slash" + CharacterStats.weaponType, typeof(GameObject));
         anim = GetComponent<Animator>();
         audioData = GetComponent<AudioSource>();
         transform.TransformPoint(Vector3.zero);
@@ -55,21 +57,25 @@ public class TestMovement : MonoBehaviour {
             {
                 transform.position += Vector3.left * CharacterStats.speed * Time.deltaTime;
                 running = 1;
+                r = true;
             }
             if (Input.GetKey(KeyCode.D))
             {
                 transform.position += Vector3.right * CharacterStats.speed * Time.deltaTime;
                 running = 1;
+                r = true;
             }
             if (Input.GetKey(KeyCode.W))
             {
                 transform.position += Vector3.up * CharacterStats.speed * Time.deltaTime;
                 running = 1;
+                r = true;
             }
             if (Input.GetKey(KeyCode.S))
             {
                 transform.position += Vector3.down * CharacterStats.speed * Time.deltaTime;
                 running = 1;
+                r = true;
             }
             if (Input.GetKey(KeyCode.Space) && timer < 0)
             {
@@ -84,25 +90,23 @@ public class TestMovement : MonoBehaviour {
             {
                 CharacterStats.bulletType = 1;
                 CharacterStats.weaponType = 1;
-                atack = (GameObject)Resources.Load("Prefabs/slash", typeof(GameObject));
+                atack = (GameObject)Resources.Load("Prefabs/Slash1", typeof(GameObject));
             }
             if (Input.GetKey(KeyCode.Alpha2))
             {
                 CharacterStats.bulletType = 2;
                 CharacterStats.weaponType = 2;
-                atack = (GameObject)Resources.Load("Prefabs/slash2", typeof(GameObject));
+                atack = (GameObject)Resources.Load("Prefabs/Slash2", typeof(GameObject));
             }
             if (Input.GetKey(KeyCode.Alpha3))
             {
                 CharacterStats.bulletType = 3;
                 CharacterStats.weaponType = 3;
-                atack = (GameObject)Resources.Load("Prefabs/slash3", typeof(GameObject));
+                atack = (GameObject)Resources.Load("Prefabs/Slash3", typeof(GameObject));
             }
             if (Input.GetKey(KeyCode.Alpha4))
             {
                 CharacterStats.bulletType = 4;
-                CharacterStats.weaponType = 4;
-                atack = (GameObject)Resources.Load("Prefabs/slash4", typeof(GameObject));
             }
             if (Input.GetKey(KeyCode.Alpha5))
             {
@@ -126,7 +130,21 @@ public class TestMovement : MonoBehaviour {
     {
         newPos = gameObject.transform.position;
         //anim.SetFloat("Speed", (oldPos-newPos).magnitude);
-        anim.SetInteger("Running", running);
+        if (running == 0 && r == true)
+        {
+            r = false;
+            anim.SetInteger("Running", 0);
+        }
+        else if(running == 1 && r == true)
+        {
+            anim.SetInteger("Running", 1);
+        }
+        else
+        {
+            anim.SetInteger("Running", -1);
+        }
+     
+        
         speed = oldPos.x - newPos.x;
         ChangeDirection(speed);
         active -= Time.deltaTime;
@@ -147,6 +165,8 @@ public class TestMovement : MonoBehaviour {
         }
         
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        scythe.transform.rotation = rotation;
+        oldPos = newPos;
         if (Input.GetMouseButtonDown(0) && timer < 0)
         {
             animator.SetTrigger("HasAtacked");
@@ -171,11 +191,11 @@ public class TestMovement : MonoBehaviour {
             double T = CharacterStats.range / distance;
             atackPos.x = (float)((1 - T) * startPos.x + T * mousePos.x);
             atackPos.y = (float)((1 - T) * startPos.y + T * mousePos.y);
+            angle = (Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg);
+            rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             GameObject slash = Instantiate(atack, new Vector3(atackPos.x, atackPos.y, 0), rotation);
             audioData.Play();
         }
-        scythe.transform.rotation = rotation;
-        oldPos = newPos;
 
         //Quaternion target = Quaternion.Euler(0, 0, angle);
         //scythe.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);

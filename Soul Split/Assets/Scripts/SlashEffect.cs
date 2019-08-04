@@ -5,8 +5,8 @@ using UnityEngine;
 public class SlashEffect : MonoBehaviour {
 
     // Use this for initialization
-    float timer = 0.1f;
     //public GameObject destroyedEffect;
+    BoxCollider2D cd;
 
     void Start()
     {
@@ -14,17 +14,16 @@ public class SlashEffect : MonoBehaviour {
         Vector2 direction = pz - transform.position;
         direction.Normalize();
         GetComponent<Rigidbody2D>().velocity = direction * 0.1f;
+        cd = GetComponent<BoxCollider2D>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer < 0)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, 0.35f);
+        Destroy(cd, 0.1f);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

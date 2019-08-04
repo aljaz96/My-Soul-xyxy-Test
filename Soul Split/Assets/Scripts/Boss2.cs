@@ -7,7 +7,7 @@ public class Boss2 : MonoBehaviour {
    // GameObject player;
     MonsterStats stats;
     public GameObject boss2;
-    public GameObject bullet;
+    GameObject bullet;
     public float atackTimer = 0;
     public float actionTimer = 1;
     Vector3 originalPosition;
@@ -26,6 +26,7 @@ public class Boss2 : MonoBehaviour {
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet");
         //player = GameObject.FindGameObjectWithTag("Player");
         stats = GetComponent<MonsterStats>();
         anim = GetComponent<Animator>();

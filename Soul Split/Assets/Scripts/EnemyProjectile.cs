@@ -9,7 +9,7 @@ public class EnemyProjectile : MonoBehaviour
     // Use this for initialization
     float timer = 10;
     public float hitTimer = 0.2f;
-    public GameObject destroyedEffect;
+    //public GameObject destroyedEffect;
     public GameObject bullet;
     public GameObject owner;
     float angle;
@@ -20,9 +20,35 @@ public class EnemyProjectile : MonoBehaviour
     float bulletTimer;
     int phase;
     public bool canBeDestroyed = true;
+    Rigidbody2D rg;
+    Animator anim;
+    CircleCollider2D col;
+
 
     void Start()
     {
+        rg = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        col = GetComponent<CircleCollider2D>();
+        if(type == 6)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, 0, transform.localScale.z);
+        }
+        if (type != 6 && type != 7)
+        {
+            float angle;
+            if (type != 5)
+            {
+                angle = (Mathf.Atan2(rg.velocity.y, rg.velocity.x) * Mathf.Rad2Deg) + 90;
+            }
+            else
+            {
+                angle = (Mathf.Atan2(rg.velocity.y, rg.velocity.x) * Mathf.Rad2Deg) - 90;
+            }
+            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            gameObject.transform.rotation = rotation;
+
+        }
         startPos = transform.position;
         phase = Random.Range(0, 32);
         if(type == 6 && type == 7)
@@ -41,7 +67,7 @@ public class EnemyProjectile : MonoBehaviour
         {
             BulletSprinkler(phase);
         }
-        if (type == 6)
+        /*if (type == 6)
         {
             //transform.position = owner.transform.position;
             if (transform.localScale.y != 36f)
@@ -63,6 +89,31 @@ public class EnemyProjectile : MonoBehaviour
             if (timer < 17)
             {
                 transform.localScale -= new Vector3(0, 0.6f, 0);
+            }
+            if (transform.localScale.y <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        */
+        if (type == 6)
+        {
+            if (transform.localScale.y != 2.5f)
+            {
+                transform.localScale += new Vector3(0, 0.05f, 0);
+            }
+            if (transform.localScale.y >= 2.5f)
+            {
+                GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
+                b1.transform.SetParent(transform.parent);
+                Destroy(gameObject);
+            }
+        }
+        if (type == 7)
+        {
+            if (timer < 8)
+            {
+                transform.localScale -= new Vector3(0, 0.7f, 0);
             }
             if (transform.localScale.y <= 0)
             {
@@ -132,12 +183,27 @@ public class EnemyProjectile : MonoBehaviour
                 m.GetComponent<Room_kill_enemies>().type = 2;
                 m.transform.SetParent(owner.transform.parent);
             }
-            endPos = transform.position;
-            var relativePos = startPos - endPos;
-            angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
-            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
-            Destroy(gameObject);
+            if (type == 2 || type == 3)
+            {
+                Destroy(rg);
+                Destroy(col);
+                bulletTimer = 100;
+                anim.SetTrigger("Break");
+                Destroy(gameObject, 0.5f);
+            }
+            else if(type == 8)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(rg);
+                Destroy(col);
+                bulletTimer = 100;
+                anim.SetTrigger("Break");
+                Destroy(gameObject, 0.3f);
+            }
+            //GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
         }
     }
 

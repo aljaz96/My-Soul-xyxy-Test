@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Boss4 : MonoBehaviour {
 
-    public GameObject bullet;
-    public GameObject bulletBomb;
-    public GameObject bulletSkull;
-    public GameObject bulletSprinkler;
-    public GameObject laser;
+    GameObject bullet;
+    GameObject bulletBomb;
+    GameObject bulletSkull;
+    GameObject bulletSprinkler;
+    GameObject laser;
     public GameObject BHand1;
     public GameObject BHand2;
     public GameObject MHand1;
@@ -42,6 +42,11 @@ public class Boss4 : MonoBehaviour {
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet3");
+        bulletBomb = (GameObject)Resources.Load("Prefabs/EnemyBulletBomb");
+        bulletSkull = (GameObject)Resources.Load("Prefabs/SkullBullet");
+        bulletSprinkler = (GameObject)Resources.Load("Prefabs/EnemyBulletSprinkler2");
+        laser = (GameObject)Resources.Load("Prefabs/EnemyLaserPreparing");
         spawnPointNW = GameObject.Find("spawnPointNorthWest");
         spawnPointNE = GameObject.Find("spawnPointNorthEast");
         spawnPointSW = GameObject.Find("spawnPointSouthWest");
@@ -196,8 +201,8 @@ public class Boss4 : MonoBehaviour {
     {
         yield return new WaitForSeconds(f);
         GameObject b1 = Instantiate(bullet, Eye.transform.position, Quaternion.identity);
-        b1.transform.localScale += new Vector3(s / 10, s / 10, 0);
-        Vector3 direction = player.transform.position - transform.position;
+        b1.transform.localScale += new Vector3(s, s, 0);
+        Vector3 direction = player.transform.position - Eye.transform.position;
         direction.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = direction * 7;
     }
@@ -292,7 +297,7 @@ public class Boss4 : MonoBehaviour {
     IEnumerator Laserbeam(float f)
     {
         yield return new WaitForSeconds(f);
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = player.transform.position - Eye.transform.position;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         GameObject b1 = Instantiate(laser, Eye.transform.position, rotation);
@@ -409,7 +414,7 @@ public class Boss4 : MonoBehaviour {
     {
         yield return new WaitForSeconds(f);
         GameObject b1 = Instantiate(bulletSkull, Eye.transform.position, Quaternion.identity);
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = player.transform.position - Eye.transform.position;
         direction.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = direction * 8f;
         b1.GetComponent<EnemyProjectile>().owner = gameObject;
@@ -419,7 +424,7 @@ public class Boss4 : MonoBehaviour {
     {
         yield return new WaitForSeconds(f);
         GameObject b1 = Instantiate(bulletBomb, transform.position, Quaternion.identity);
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = player.transform.position - Eye.transform.position;
         direction.x = direction.x * (Random.Range(0.9f, 1.1f));
         direction.y = direction.y * (Random.Range(0.9f, 1.1f));
         direction.Normalize();

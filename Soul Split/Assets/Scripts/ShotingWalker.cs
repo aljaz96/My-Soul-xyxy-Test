@@ -21,6 +21,11 @@ public class ShotingWalker : MonoBehaviour {
     Animator anim;
 
     void Start () {
+        bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
+        if (type == 5)
+        {
+            bullet = (GameObject)Resources.Load("Prefabs/EnemyBulletBomb");
+        }
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         player = GameObject.FindWithTag("Player");
@@ -56,7 +61,7 @@ public class ShotingWalker : MonoBehaviour {
                     anim.SetTrigger("NormalShot");
                     StartCoroutine(Shoot());
                 }
-                else if(type == 2)
+                else if(type == 2 || type == 5)
                 {
                     anim.SetTrigger("NormalShot");
                     StartCoroutine(ShootShell(10));

@@ -6,7 +6,7 @@ public class Hanger : MonoBehaviour {
 
     MonsterStats stats;
     GameObject player;
-    public GameObject bullet;
+    GameObject bullet;
     public float moveLimit = 3;
     public float movementTimer = 0;
     float speed;
@@ -21,6 +21,7 @@ public class Hanger : MonoBehaviour {
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         player = GameObject.FindWithTag("Player");

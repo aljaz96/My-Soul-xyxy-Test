@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomWithPortals : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class RoomWithPortals : MonoBehaviour {
     public bool active = false;
     public string test;
 
+    public string sceneName;
+
 
     void Start () {
         middle = transform.Find("Mid").gameObject;
@@ -30,6 +33,57 @@ public class RoomWithPortals : MonoBehaviour {
         catch
         {
             pathing = null;
+        }
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        sceneName = currentScene.name;
+
+        if (sceneName == "Stage3")
+        {
+            GameObject walls = gameObject.transform.Find("Walls").gameObject;
+            foreach (Transform child in walls.transform)
+            {
+                SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
+                Color cc = new Color();
+                cc.r = 0.69F;
+                cc.b = 0.68F;
+                cc.g = 0.45F;
+                cc.a = 1;
+                r.color = cc;
+            }
+            GameObject floors = gameObject.transform.Find("Floors").gameObject;
+            foreach (Transform child in floors.transform)
+            {
+                SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
+                Color cc = new Color();
+                cc.r = 0.69F;
+                cc.b = 0.68F;
+                cc.g = 0.45F;
+                cc.a = 1;
+                r.color = cc;
+            }
+            GameObject objects = gameObject.transform.Find("Objects").gameObject;
+            foreach (Transform child in objects.transform)
+            {
+                if (child.name.Contains("Block"))
+                {
+                    foreach (Transform c in child.transform)
+                    {
+                        SpriteRenderer r = c.gameObject.GetComponent<SpriteRenderer>();
+                        Color cc = new Color();
+                        cc.r = 0.69F;
+                        cc.b = 0.68F;
+                        cc.g = 0.45F;
+                        cc.a = 1;
+                        r.color = cc;
+                        /* if (child.name.Contains("Block"))
+                         {
+                             SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
+                             r.color = Color.grey;
+                         }*/
+                    }
+                }
+            }
         }
     }
 

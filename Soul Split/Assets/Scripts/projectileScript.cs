@@ -6,8 +6,8 @@ public class projectileScript : MonoBehaviour {
 
     // Use this for initialization
     public float timer = 10;
-    public AudioSource audioData;
-    public GameObject destroyedEffect;
+    //public AudioSource audioData;
+    //public GameObject destroyedEffect;
     public GameObject bullet;
     float angle;
     Vector3 startPos;
@@ -17,13 +17,34 @@ public class projectileScript : MonoBehaviour {
     float bulletTimer = 0;
     int phase = 0;
     MissileProjectile mp;
+    Rigidbody2D rg;
+    Animator anim;
+    CircleCollider2D col;
 
 
     void Start()
     {
+        rg = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        col = GetComponent<CircleCollider2D>();
+        if (type != 6 && type != 7)
+        {
+            float angle;
+            if (type != 5)
+            {
+                angle = (Mathf.Atan2(rg.velocity.y, rg.velocity.x) * Mathf.Rad2Deg) + 90;
+            }
+            else
+            {
+                angle = (Mathf.Atan2(rg.velocity.y, rg.velocity.x) * Mathf.Rad2Deg) - 90;
+            }
+            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            gameObject.transform.rotation = rotation;
+         
+        }
         startPos = transform.position;
-        audioData = GetComponent<AudioSource>();
-        audioData.Play();
+       // audioData = GetComponent<AudioSource>();
+       // audioData.Play();
         switch (type)
         {
             case 1:
@@ -45,7 +66,7 @@ public class projectileScript : MonoBehaviour {
                 damage = CharacterStats.damage * 0;
                 break;
             case 7:
-                damage = CharacterStats.damage / 2;
+                damage = CharacterStats.damage / 12;
                 break;
         }
     }
@@ -66,9 +87,12 @@ public class projectileScript : MonoBehaviour {
         if(type == 5)
         {
             Vector3 vel = GetComponent<Rigidbody2D>().velocity;
-            vel.x += (mp.StartingX * -1) / 10;
-            vel.y += (mp.StartingY * -1) / 10;
-            GetComponent<Rigidbody2D>().velocity = vel;
+            if (vel.magnitude < 15)
+            {
+                vel.x += (mp.StartingX * -1) / 10;
+                vel.y += (mp.StartingY * -1) / 10;
+                GetComponent<Rigidbody2D>().velocity = vel;
+            }
         }
         if(type == 6)
         {
@@ -89,7 +113,7 @@ public class projectileScript : MonoBehaviour {
             transform.position = GameObject.FindGameObjectWithTag("Vessel").transform.position;
             if (timer < 8)
             {
-                transform.localScale -= new Vector3(0, 0.05f, 0);
+                transform.localScale -= new Vector3(0, 0.1f, 0);
             }
             if(transform.localScale.y <= 0)
             {
@@ -107,7 +131,7 @@ public class projectileScript : MonoBehaviour {
                 BulletBomb(50);
             }
             endPos = transform.position;
-            DestroyProjectile();
+            DestroyProjectile(collision);
         }
         else if (collision.tag == "Enemy")
         {
@@ -116,7 +140,7 @@ public class projectileScript : MonoBehaviour {
                 BulletBomb(50);
             }
             collision.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage, name);
-            DestroyProjectile();
+            DestroyProjectile(collision);
         }
     }
 
@@ -129,16 +153,33 @@ public class projectileScript : MonoBehaviour {
         }
     }
 
-    void DestroyProjectile()
+    void DestroyProjectile(Collider2D collision)
     {
         if (type != 7)
         {
-            endPos = transform.position;
-            var relativePos = startPos - endPos;
-            angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
-            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
-            Destroy(gameObject);
+            //endPos = transform.position;
+            Destroy(rg);
+            Destroy(col);
+            bulletTimer = 100;
+            anim.SetTrigger("Break");
+            if (type == 3 || type == 4)
+            {
+                Destroy(gameObject, 0.5f);
+            }
+            if(type == 5)
+            {
+                gameObject.transform.parent = collision.gameObject.transform;
+                Destroy(this);
+            }
+            else
+            {
+                Destroy(gameObject, 0.3f);
+            }
+            //var relativePos = startPos - endPos;
+            //angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+            //var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            //GameObject effect = Instantiate(destroyedEffect, endPos, rotation);
+            //Destroy(gameObject);
         }
     }
 
@@ -160,7 +201,9 @@ public class projectileScript : MonoBehaviour {
     private void BulletSprinkler(int p)
     {
         GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
+        GameObject b2 = Instantiate(bullet, transform.position, Quaternion.identity);
         b1.GetComponent<projectileScript>().SetType(1);
+        b2.GetComponent<projectileScript>().SetType(1);
         Vector3 v3 = new Vector3();
         switch (p)
         {
@@ -264,6 +307,7 @@ public class projectileScript : MonoBehaviour {
         phase++;
         v3.Normalize();
         b1.GetComponent<Rigidbody2D>().velocity = v3 * 8;
+        b2.GetComponent<Rigidbody2D>().velocity = v3 * -8;
         if (phase == 32)
         {
             phase = 0;

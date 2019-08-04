@@ -7,7 +7,7 @@ public class Turret : MonoBehaviour
 
     GameObject player;
     public int damage = 10;
-    public GameObject bullet;
+    GameObject bullet;
     public GameObject laser;
     float bulletTimer;
     public float bulletCooldown = 1;
@@ -22,6 +22,7 @@ public class Turret : MonoBehaviour
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet2");
         player = GameObject.FindWithTag("Player");
         v3 = new Vector3(x, y, 0);
         v3.Normalize();

@@ -17,30 +17,62 @@ public class Portal : MonoBehaviour {
     void Start () {
         enemies = transform.parent.transform.Find("Enemies").gameObject;
         camera = GameObject.FindGameObjectWithTag("MainCamera");
-        transform.localScale = new Vector3(0, 0, 0);
+        if (gameObject.name == "Portal")
+        {
+            transform.localScale = new Vector3(0, 0, 0);
+        }
+        else if(gameObject.name == "Echo")
+        {
+            Color c = GetComponent<Renderer>().material.color;
+            c.a = 0;
+            GetComponent<Renderer>().material.color = c;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (enemies.transform.childCount == 0 && !open)
         {
-            if (transform.localScale.x < size)
+            if (gameObject.name == "Portal")
             {
-                transform.localScale += new Vector3(0.02f, 0.02f, 0);
+                if (transform.localScale.x < size)
+                {
+                    transform.localScale += new Vector3(0.02f, 0.02f, 0);
+                }
+                else
+                {
+                    open = true;
+                    Vector3 v3 = transform.transform.position;
+                    v3.y -= 2;
+                    Instantiate(Chest, v3, Quaternion.identity);
+                }
             }
-            else
+            if(gameObject.name == "Echo")
             {
-                open = true;
-                Vector3 v3 = transform.transform.position;
-                v3.y -= 2;
-                Instantiate(Chest, v3, Quaternion.identity);
+                if (GetComponent<Renderer>().material.color.a < 1)
+                {
+                    var c = GetComponent<Renderer>().material.color;
+                    c.a += 0.01f;
+                    GetComponent<Renderer>().material.color = c;
+                }
+                else
+                {
+                    open = true;
+                }
             }
         }
         if(ported == true)
         {
-            if(camera.GetComponent<Camera_script>().B.GetComponent<Renderer>().material.color.a == 1)
+            if (camera.GetComponent<Camera_script>().B.GetComponent<Renderer>().material.color.a == 1)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                if (gameObject.name == "Portal")
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                else if (gameObject.name == "Echo")
+                {
+                    SceneManager.LoadScene(0);
+                }
             }
         }
 	}
@@ -61,6 +93,11 @@ public class Portal : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player" && transform.localScale.x >= size)
+        {
+            E.SetActive(true);
+            active = true;
+        }
+        else if(col.gameObject.tag == "Player" && gameObject.name == "Echo")
         {
             E.SetActive(true);
             active = true;

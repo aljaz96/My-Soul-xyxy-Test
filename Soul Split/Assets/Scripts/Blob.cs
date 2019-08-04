@@ -6,7 +6,7 @@ using UnityEngine;
 public class Blob : MonoBehaviour {
 
     public GameObject LesserBlob;
-    public GameObject Bullet;
+    GameObject Bullet;
     MonsterStats stats;
     GameObject player;
     GameObject parent;
@@ -31,6 +31,11 @@ public class Blob : MonoBehaviour {
 
     void Start()
     {
+        Bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
+        if(gameObject.name == "Blobber" || gameObject.name == "Blobber_miniboss")
+        {
+            Bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet");
+        }
         oldXpos = newXpos = transform.position.x;
         oldYpos = newYpos = transform.position.y;
         rushTimer = Random.Range(3, 5);

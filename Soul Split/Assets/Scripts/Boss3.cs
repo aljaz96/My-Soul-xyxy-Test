@@ -20,13 +20,19 @@ public class Boss3 : MonoBehaviour {
     Vector3 playerPos;
     MonsterStats stats;
     bool hasTeleported = false;
+    Animator anim;
+
 
 
     void Start()
     {
+        bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet");
+        bulletBomb = (GameObject)Resources.Load("Prefabs/EnemyBulletBomb");
+        bulletSprinkler = (GameObject)Resources.Load("Prefabs/EnemyBulletSprinkler");
         //originalPosition = transform.position;
         stats = GetComponent<MonsterStats>();
         player = GameObject.FindGameObjectWithTag("Player");
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -57,25 +63,34 @@ public class Boss3 : MonoBehaviour {
                     actionTimer = 2;
                     atackPhase = 1;
                     playerPos = player.transform.position;
-                    StartCoroutine(SnipeShots(0.1f, playerPos));
+                    anim.SetTrigger("Atack");
+                    StartCoroutine(SnipeShots(0.7f, playerPos));
+                    StartCoroutine(SetAnim(1));
                 }
                 if (atack == 3)
                 {
-                    actionTimer = 4;
-                    for (float f = 0; f < 2.8f; f += 0.7f)
+                    actionTimer = 4.7f;
+                    anim.SetTrigger("Atack");
+                    for (float f = 0.7f; f < 3.5f; f += 0.7f)
                     {
                         StartCoroutine(MultiShots(f));
+
                     }
+                    StartCoroutine(SetAnim(3.7f));
                 }
                 if (atack == 4)
                 {
-                    actionTimer = 1.5f;
-                    StartCoroutine(BombShot(0.1f));
+                    actionTimer = 2f;
+                    anim.SetTrigger("Atack");
+                    StartCoroutine(BombShot(0.7f));
+                    StartCoroutine(SetAnim(1f));
                 }
                 if (atack == 5)
                 {
                     actionTimer = 2;
-                    StartCoroutine(BulletSprinkler(0.0f));
+                    anim.SetTrigger("Atack");
+                    StartCoroutine(BulletSprinkler(0.7f));
+                    StartCoroutine(SetAnim(1f));
                 }
             }
             if (atack == 1)
@@ -87,48 +102,67 @@ public class Boss3 : MonoBehaviour {
 
     void Teleport(int pos)
     {
-        if (transform.localScale.x > 0 && !hasTeleported)
+        if (GetComponent<Renderer>().material.color.a > 0 && !hasTeleported)
         {
-            transform.localScale -= new Vector3(0.005f, 0, 0);
+            var c = GetComponent<Renderer>().material.color;
+            c.a -= 0.05f;
+            GetComponent<Renderer>().material.color = c;
         }
-        else if (transform.localScale.x <= 0 && !hasTeleported)
+        else if (GetComponent<Renderer>().material.color.a <= 0 && !hasTeleported)
         {
             GameObject newPosition = GameObject.Find("Boss3P" + pos);
             transform.position = newPosition.transform.position;
             hasTeleported = true;
         }
-        else if (transform.localScale.x <= 0.1f && hasTeleported)
+        else if (GetComponent<Renderer>().material.color.a < 1 && hasTeleported)
         {
-            transform.localScale += new Vector3(0.005f, 0, 0);
+            var c = GetComponent<Renderer>().material.color;
+            c.a += 0.05f;
+            GetComponent<Renderer>().material.color = c;
         }
-        else if(transform.localScale.x >= 0.1f && hasTeleported)
+        else if(GetComponent<Renderer>().material.color.a >= 1f && hasTeleported)
         {
             atack = 0;
         }
+    }
+
+    IEnumerator SetAnim(float f)
+    {
+        yield return new WaitForSeconds(f);
+        anim.SetTrigger("Return");
     }
 
     void CheckIfOutOfBounds()
     {
         if(currentPos == 1 && player.transform.position.y > transform.position.y && actionTimer < 0)
         {
-            actionTimer = 0.5f;
+            actionTimer = 1f;
             atackPhase = 1;
             playerPos = player.transform.position;
-            StartCoroutine(SnipeShots(0.0f, playerPos));
+            anim.SetTrigger("Atack");
+            StartCoroutine(SnipeShots(0.3f, playerPos));
+            StartCoroutine(SnipeShots(0.6f, playerPos));
+            StartCoroutine(SetAnim(0.8f));
         }
         if (currentPos == 2 && player.transform.position.x > transform.position.x && actionTimer < 0)
         {
-            actionTimer = 0.5f;
+            actionTimer = 1f;
             atackPhase = 1;
             playerPos = player.transform.position;
-            StartCoroutine(SnipeShots(0.0f, playerPos));
+            anim.SetTrigger("Atack");
+            StartCoroutine(SnipeShots(0.3f, playerPos));
+            StartCoroutine(SnipeShots(0.6f, playerPos));
+            StartCoroutine(SetAnim(0.8f));
         }
         if (currentPos == 3 && player.transform.position.x < transform.position.x && actionTimer < 0)
         {
-            actionTimer = 0.5f;
+            actionTimer = 1f;
             atackPhase = 1;
             playerPos = player.transform.position;
-            StartCoroutine(SnipeShots(0.0f, playerPos));
+            anim.SetTrigger("Atack");
+            StartCoroutine(SnipeShots(0.3f, playerPos));
+            StartCoroutine(SnipeShots(0.6f, playerPos));
+            StartCoroutine(SetAnim(0.8f));
         }
     }
 
@@ -139,7 +173,7 @@ public class Boss3 : MonoBehaviour {
         float r = Random.Range(-0.40f, 1.80f);
         switch (currentPos) {
             case 1:
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Vector3 v3 = new Vector3();
                     GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
@@ -172,13 +206,31 @@ public class Boss3 : MonoBehaviour {
                         case 8:
                             v3 = new Vector3(-3f, -2 + r, 0);
                             break;
+                        case 9:
+                            v3 = new Vector3(3.75f, -2 + r, 0);
+                            break;
+                        case 10:
+                            v3 = new Vector3(4.5f, -2 + r, 0);
+                            break;
+                        case 11:
+                            v3 = new Vector3(5.25f, -2 + r, 0);
+                            break;
+                        case 12:
+                            v3 = new Vector3(-3.75f, -2 + r, 0);
+                            break;
+                        case 13:
+                            v3 = new Vector3(-4.5f, -2 + r, 0);
+                            break;
+                        case 14:
+                            v3 = new Vector3(-5.25f, -2 + r, 0);
+                            break;
                     }
                     v3.Normalize();
                     b1.GetComponent<Rigidbody2D>().velocity = v3 * 6;
                 }
                 break;
             case 2:
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Vector3 v3 = new Vector3();
                     GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
@@ -211,13 +263,31 @@ public class Boss3 : MonoBehaviour {
                         case 8:
                             v3 = new Vector3(-2 + r, 3f, 0);
                             break;
+                        case 9:
+                            v3 = new Vector3(-2 + r, 3.75f, 0);
+                            break;
+                        case 10:
+                            v3 = new Vector3(-2 + r, 4.5f, 0);
+                            break;
+                        case 11:
+                            v3 = new Vector3(-2 + r, 5.25f, 0);
+                            break;
+                        case 12:
+                            v3 = new Vector3(-2 + r, -3.75f, 0);
+                            break;
+                        case 13:
+                            v3 = new Vector3(-2 + r, -4.5f, 0);
+                            break;
+                        case 14:
+                            v3 = new Vector3(-2 + r, -5.25f, 0);
+                            break;
                     }
                     v3.Normalize();
                     b1.GetComponent<Rigidbody2D>().velocity = v3 * 6;
                 }
                 break;
             case 3:
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Vector3 v3 = new Vector3();
                     GameObject b1 = Instantiate(bullet, transform.position, Quaternion.identity);
@@ -249,6 +319,24 @@ public class Boss3 : MonoBehaviour {
                             break;
                         case 8:
                             v3 = new Vector3(2 + r, 3f, 0);
+                            break;
+                        case 9:
+                            v3 = new Vector3(2 + r, 3.75f, 0);
+                            break;
+                        case 10:
+                            v3 = new Vector3(2 + r, 4.5f, 0);
+                            break;
+                        case 11:
+                            v3 = new Vector3(2 + r, 5.25f, 0);
+                            break;
+                        case 12:
+                            v3 = new Vector3(2 + r, -3.75f, 0);
+                            break;
+                        case 13:
+                            v3 = new Vector3(2 + r, -4.5f, 0);
+                            break;
+                        case 14:
+                            v3 = new Vector3(2 + r, -5.25f, 0);
                             break;
                     }
                     v3.Normalize();
@@ -295,7 +383,7 @@ public class Boss3 : MonoBehaviour {
     {
         yield return new WaitForSeconds(f);
         GameObject b1 = Instantiate(bulletSprinkler, transform.position, Quaternion.identity);
-        Vector3 direction = playerPos - transform.position;
+        Vector3 direction = player.transform.position - transform.position;
         direction.x = direction.x * (Random.Range(0.9f, 1.1f));
         direction.y = direction.y * (Random.Range(0.9f, 1.1f));
         direction.Normalize();

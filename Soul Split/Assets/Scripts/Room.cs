@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Room : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class Room : MonoBehaviour {
     Door d;
     bool active = false;
     public string test;
+    public string sceneName;
 
     void Start()
     {
@@ -32,7 +34,25 @@ public class Room : MonoBehaviour {
         {
             pathing = null;
         }
-        
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        sceneName = currentScene.name;
+
+        if (sceneName == "Stage3")
+        {
+            GameObject walls = gameObject.transform.Find("Walls").gameObject;
+            foreach (Transform child in walls.transform)
+            {
+                SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
+                r.color = Color.grey;
+            }
+            GameObject floors = gameObject.transform.Find("Floors").gameObject;
+            foreach (Transform child in floors.transform)
+            {
+                SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
+                r.color = Color.grey;
+            }
+        }
     }
 
     // Update is called once per frame
