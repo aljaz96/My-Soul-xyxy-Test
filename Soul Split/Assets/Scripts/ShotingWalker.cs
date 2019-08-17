@@ -33,7 +33,7 @@ public class ShotingWalker : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (stats.active)
+        if (stats.active && player != null)
         {
             if (!shoting)
             {

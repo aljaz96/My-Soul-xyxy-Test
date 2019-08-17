@@ -79,56 +79,58 @@ public class RoomWithPortals : MonoBehaviour {
 
     void Update()
     {
-        if (!active && player.transform.parent.name == gameObject.name && enemies.transform.childCount > 0)
+        if (player != null)
         {
-            if (topPortal.activeSelf)
+            if (!active && player.transform.parent.name == gameObject.name && enemies.transform.childCount > 0)
             {
-                topPortal.GetComponent<RoomPortal>().active = false;
+                if (topPortal.activeSelf)
+                {
+                    topPortal.GetComponent<RoomPortal>().active = false;
+                }
+                if (bottomPortal.activeSelf)
+                {
+                    bottomPortal.GetComponent<RoomPortal>().active = false;
+                }
+                if (leftPortal.activeSelf)
+                {
+                    leftPortal.GetComponent<RoomPortal>().active = false;
+                }
+                if (rightPortal.activeSelf)
+                {
+                    rightPortal.GetComponent<RoomPortal>().active = false;
+                }
+                active = true;
+                pathing.SetActive(true);
+                AstarPath astar = pathing.GetComponent<AstarPath>();
+                test = astar.graphs[0].name;
+                GridGraph g = (GridGraph)astar.graphs[0];
+                g.center = middle.transform.position;
+                astar.graphs[0] = g;
+                astar.graphs[0].Scan();
             }
-            if (bottomPortal.activeSelf)
-            {
-                bottomPortal.GetComponent<RoomPortal>().active = false;
-            }
-            if (leftPortal.activeSelf)
-            {
-                leftPortal.GetComponent<RoomPortal>().active = false;
-            }
-            if (rightPortal.activeSelf)
-            {
-                rightPortal.GetComponent<RoomPortal>().active = false;
-            }
-            active = true;
-            pathing.SetActive(true);
-            AstarPath astar = pathing.GetComponent<AstarPath>();
-            test = astar.graphs[0].name;
-            GridGraph g = (GridGraph)astar.graphs[0];
-            g.center = middle.transform.position;
-            astar.graphs[0] = g;
-            astar.graphs[0].Scan();
 
-        }
-
-        else if (enemies.transform.childCount == 0)
-        {
-            active = false;
-            if (topPortal.activeSelf)
+            else if (enemies.transform.childCount == 0)
             {
-                topPortal.GetComponent<RoomPortal>().active = true;
+                active = false;
+                if (topPortal.activeSelf)
+                {
+                    topPortal.GetComponent<RoomPortal>().active = true;
+                }
+                if (bottomPortal.activeSelf)
+                {
+                    bottomPortal.GetComponent<RoomPortal>().active = true;
+                }
+                if (leftPortal.activeSelf)
+                {
+                    leftPortal.GetComponent<RoomPortal>().active = true;
+                }
+                if (rightPortal.activeSelf)
+                {
+                    rightPortal.GetComponent<RoomPortal>().active = true;
+                }
+                pathing.SetActive(false);
+                //Destroy(this);
             }
-            if (bottomPortal.activeSelf)
-            {
-                bottomPortal.GetComponent<RoomPortal>().active = true;
-            }
-            if (leftPortal.activeSelf)
-            {
-                leftPortal.GetComponent<RoomPortal>().active = true;
-            }
-            if (rightPortal.activeSelf)
-            {
-                rightPortal.GetComponent<RoomPortal>().active = true;
-            }
-            pathing.SetActive(false);
-            //Destroy(this);
         }
     }
 }

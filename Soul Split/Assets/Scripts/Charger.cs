@@ -17,6 +17,7 @@ public class Charger : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+  
         bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
         stats = gameObject.GetComponent<MonsterStats>();
         player = GameObject.FindWithTag("Player");
@@ -27,6 +28,17 @@ public class Charger : MonoBehaviour {
         {
             rushTimer = Random.Range(3.00f, 6.00f);
         }
+        if (!name.Contains("Chargoo"))
+        {
+            if (name.Contains("Null"))
+            {
+                stats.hp = 50;
+            }
+            else
+            {
+                stats.hp = 35;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +48,7 @@ public class Charger : MonoBehaviour {
         {
             rushTimer -= Time.deltaTime;
             ChangeSide(rg.velocity.x);
-            if (rushTimer < 0 && !rush)
+            if (rushTimer < 0 && !rush && player != null)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
                 if (hit.transform.gameObject == player && !rush)
@@ -47,6 +59,7 @@ public class Charger : MonoBehaviour {
                     GetComponent<Seeker>().enabled = false;
                     GetComponent<AIDestinationSetter>().enabled = false;
                     anim.SetTrigger("Thinking");
+                    rushTimer = 1.2f;
                     if (boss)
                     {
                         int r = Random.Range(1, 3);
@@ -63,8 +76,11 @@ public class Charger : MonoBehaviour {
                     {
                         StartCoroutine(RushPlayer());
                     }
-                    rush = true;
                 }
+            }
+            if (rush && rg.velocity.magnitude < 1)
+            {
+                DissableRush();
             }
         }
     }
@@ -74,14 +90,7 @@ public class Charger : MonoBehaviour {
     {
         if (rush)
         {
-            rush = false;
-            rushTimer = Random.Range(3.0f, 6.0f);
-            if (boss)
-            {
-                SpawnBullers();
-                rushTimer = Random.Range(2.0f, 5.0f);
-            }
-            StartCoroutine(Move(0));
+            DissableRush();
         }
     }
 
@@ -102,7 +111,6 @@ public class Charger : MonoBehaviour {
     IEnumerator Move(float f)
     {
         yield return new WaitForSeconds(f);
-        rush = false;
         GetComponent<AIPath>().enabled = true;
         GetComponent<Seeker>().enabled = true;
         GetComponent<AIDestinationSetter>().enabled = true;
@@ -112,6 +120,7 @@ public class Charger : MonoBehaviour {
     IEnumerator RushPlayer()
     {
         yield return new WaitForSeconds(1);
+        rush = true;
         anim.SetTrigger("Rush");
         Vector3 v3 = player.transform.position - transform.position;
         v3.Normalize();
@@ -155,6 +164,16 @@ public class Charger : MonoBehaviour {
         StartCoroutine(Move(0.5f));
     }
 
-
+    void DissableRush()
+    {
+        rush = false;
+        rushTimer = Random.Range(3.0f, 6.0f);
+        if (boss)
+        {
+            SpawnBullers();
+            rushTimer = Random.Range(2.0f, 5.0f);
+        }
+        StartCoroutine(Move(0));
+    }
 
 }

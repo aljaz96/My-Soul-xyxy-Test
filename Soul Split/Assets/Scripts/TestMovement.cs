@@ -231,6 +231,15 @@ public class TestMovement : MonoBehaviour {
         }
     }
 
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Enemy" && invulnerability < 0)
+        {
+            invulnerability = 0.5f;
+            CharacterStats.hp -= col.gameObject.GetComponent<MonsterStats>().damage;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "EnemySpell" && invulnerability < 0)

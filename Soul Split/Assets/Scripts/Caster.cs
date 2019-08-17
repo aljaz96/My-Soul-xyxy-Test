@@ -78,8 +78,8 @@ public class Caster : MonoBehaviour {
         yield return new WaitForSeconds(0.55f);
         side = -1;
         spellTimer = Random.Range(2.0f, 6.0f);
-        casting = false;
         changeDirection();
+        casting = false;
     }
 
 

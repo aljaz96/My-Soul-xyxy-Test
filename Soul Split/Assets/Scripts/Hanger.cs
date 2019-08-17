@@ -34,7 +34,7 @@ public class Hanger : MonoBehaviour {
     {
         movementTimer -= Time.deltaTime;
         bulletTimer -= Time.deltaTime;
-        if (stats.active)
+        if (stats.active && player != null)
         {
             //do stuff
             anim.SetFloat("movement", GetComponent<Rigidbody2D>().velocity.y);

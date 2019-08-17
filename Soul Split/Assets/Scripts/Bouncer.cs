@@ -55,6 +55,10 @@ public class Bouncer : MonoBehaviour {
                 anim.SetTrigger("Shoot");
                 timer = Random.Range(1.5f, 3.0f);
             }
+            if(xSpeed == 0 || ySpeed == 0)
+            {
+                firstMove();
+            }
         }
         
     }

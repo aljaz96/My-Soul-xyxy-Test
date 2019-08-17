@@ -39,33 +39,36 @@ public class Turret : MonoBehaviour
 
     void Update()
     {
-        playerRoomName = player.transform.parent.name;
-        if (roomName == playerRoomName)
+        if (player != null)
         {
-            bulletTimer -= Time.deltaTime;
-            if (bulletTimer < 0)
+            playerRoomName = player.transform.parent.name;
+            if (roomName == playerRoomName)
             {
-                if (type == 1 || type == 4)
+                bulletTimer -= Time.deltaTime;
+                if (bulletTimer < 0)
                 {
-                    SpawnBullet();
-                    bulletTimer = bulletCooldown;
-                }
-                else if (type == 2 || type == 5)
-                {
-                    Spawn3Bullets();
+                    if (type == 1 || type == 4)
+                    {
+                        SpawnBullet();
+                        bulletTimer = bulletCooldown;
+                    }
+                    else if (type == 2 || type == 5)
+                    {
+                        Spawn3Bullets();
 
                         bulletTimer = bulletCooldown;
-                }
-                else if (type == 3)
-                {
-                    Laser();
-                    bulletTimer = bulletCooldown;
+                    }
+                    else if (type == 3)
+                    {
+                        Laser();
+                        bulletTimer = bulletCooldown;
+                    }
                 }
             }
-        }
-        else
-        {
-            bulletTimer = bulletStartTime;
+            else
+            {
+                bulletTimer = bulletStartTime;
+            }
         }
     }
 

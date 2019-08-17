@@ -23,21 +23,24 @@ public class RoomPortal : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!active && transform.localScale.x > 0.4f)
+        if (player != null)
         {
-            transform.localScale -= new Vector3(0.01f, 0.01f, 0);
-        }
-        else if (active && transform.localScale.x < 0.7f)
-        {
-            transform.localScale += new Vector3(0.01f, 0.01f, 0);
-        }
-        if(transform.parent.name == player.transform.parent.name)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            timer = 1.2f;
+            if (!active && transform.localScale.x > 0.4f)
+            {
+                transform.localScale -= new Vector3(0.01f, 0.01f, 0);
+            }
+            else if (active && transform.localScale.x < 0.7f)
+            {
+                transform.localScale += new Vector3(0.01f, 0.01f, 0);
+            }
+            if (transform.parent.name == player.transform.parent.name)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                timer = 1.2f;
+            }
         }
     }
 
