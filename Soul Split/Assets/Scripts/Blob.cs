@@ -13,6 +13,7 @@ public class Blob : MonoBehaviour {
     public int hp = 999;
     public int blobSize = 1;
     public float rushTimer;
+    public float bulletTimer;
     float timer = 0.1f;
     public bool rush = false;
     bool right = true;
@@ -36,6 +37,7 @@ public class Blob : MonoBehaviour {
         {
             Bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet");
         }
+        MakeCollider();
         oldXpos = newXpos = transform.position.x;
         oldYpos = newYpos = transform.position.y;
         rushTimer = Random.Range(3, 5);
@@ -55,25 +57,41 @@ public class Blob : MonoBehaviour {
         if (stats.active)
         {
             timer -= Time.deltaTime;
-            Destroy(GetComponent<PolygonCollider2D>());
-            gameObject.AddComponent<PolygonCollider2D>();   
+            if (blobSize == 5)
+            {
+                Destroy(GetComponent<PolygonCollider2D>());
+                gameObject.AddComponent<PolygonCollider2D>();
+            }
             ChangeSpriteSide();
             rushTimer -= Time.deltaTime;
+            bulletTimer -= Time.deltaTime;
             if (stats.hp < hp)
             {
                 if (blobSize == 1)
                 {
+                    Vector3 v3 = transform.position;
+                    v3.y += 1;
+                    GameObject p = Instantiate(Resources.Load("Prefabs/Poof", typeof(GameObject)) as GameObject, v3, Quaternion.identity);
+                    Destroy(p, 0.85f);
                     Destroy(gameObject);
                 }
                 if (blobSize == 2 || blobSize == 3)
                 {
                     MakeBlobs(2);
+                    Vector3 v3 = transform.position;
+                    v3.y += 1;
+                    GameObject p = Instantiate(Resources.Load("Prefabs/Poof", typeof(GameObject)) as GameObject, v3, Quaternion.identity);
+                    Destroy(p, 0.85f);
                     Destroy(gameObject);
                 }
                 else if (blobSize == 4)
                 {
                     SpawnBullets();
                     MakeBlobs(2);
+                    Vector3 v3 = transform.position;
+                    v3.y += 1;
+                    GameObject p = Instantiate(Resources.Load("Prefabs/Poof", typeof(GameObject)) as GameObject, v3, Quaternion.identity);
+                    Destroy(p, 0.85f);
                     Destroy(gameObject);
                 }
                 else if (blobSize == 5 && !died)
@@ -169,9 +187,10 @@ public class Blob : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (blobSize == 5 && collision.gameObject.tag != "Player")
+        if (blobSize == 5 && collision.gameObject.tag != "Player" && bulletTimer < 0)
         {
             SpawnManyBullets();
+            bulletTimer = 0.3f;
         }
     }
 
@@ -264,6 +283,8 @@ public class Blob : MonoBehaviour {
             blob.GetComponent<Seeker>().enabled = true;
             blob.GetComponent<AIDestinationSetter>().enabled = true;
             blob.GetComponent<AIPath>().maxSpeed = blob.GetComponent<MonsterStats>().speed;
+            blob.GetComponent<MonsterStats>().timer = 0.2f;
+            blob.GetComponent<MonsterStats>().wait = 0.2f;
 
         }
         Destroy(gameObject);
@@ -300,6 +321,19 @@ public class Blob : MonoBehaviour {
         blob.GetComponent<Seeker>().enabled = true;
         blob.GetComponent<AIDestinationSetter>().enabled = true;
         blob.GetComponent<AIPath>().maxSpeed = blob.GetComponent<MonsterStats>().speed;
+    }
+
+    void MakeCollider()
+    {
+        if(blobSize != 5)
+        {
+            Destroy(GetComponent<PolygonCollider2D>());
+            gameObject.AddComponent<BoxCollider2D>();
+            BoxCollider2D bc = GetComponent<BoxCollider2D>();
+            bc.offset = new Vector2(0.05f, -0.03f);
+            bc.size = new Vector2(0.4f, 0.4f);    
+        }
+
     }
 
 }

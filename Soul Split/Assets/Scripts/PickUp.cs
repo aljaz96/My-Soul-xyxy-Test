@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickUp : MonoBehaviour
 {
@@ -80,6 +81,10 @@ public class PickUp : MonoBehaviour
     {
         switch (name)
         {
+            case "SpiritBond":
+                CharacterStats.hp += 50;
+                CharacterStats.energy = (int)(CharacterStats.total_energy * 0.8f);
+                break;
             case "Apple":
                 CharacterStats.hp += 25;
                 CharacterStats.total_hp += 25;

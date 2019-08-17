@@ -22,6 +22,10 @@ public class Bouncer : MonoBehaviour {
     void Start()
     {
         bullet = (GameObject)Resources.Load("Prefabs/EnemyBullet");
+        if(type == 4)
+        {
+            bullet = (GameObject)Resources.Load("Prefabs/EnemyBulletBomb");
+        }
         stats = gameObject.GetComponent<MonsterStats>();
         speed = stats.speed;
         minSpeed = speed - (speed / 15);
@@ -45,7 +49,7 @@ public class Bouncer : MonoBehaviour {
             ySpeed = Rb.velocity.y;
             KeepMovementXY();
             timer -= Time.deltaTime;
-            if (timer <= 0 && type == 3)
+            if (timer <= 0 && (type == 3 || type == 4))
             {
                 SpawnManyBullets();
                 anim.SetTrigger("Shoot");
@@ -78,7 +82,7 @@ public class Bouncer : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (type == 2 && timer < 0)
+        if ((type == 2 || type == 4) && timer < 0)
         {
             SpawnBullets();
             anim.SetTrigger("Shoot");

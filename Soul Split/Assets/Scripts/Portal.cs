@@ -97,7 +97,7 @@ public class Portal : MonoBehaviour {
             E.SetActive(true);
             active = true;
         }
-        else if(col.gameObject.tag == "Player" && gameObject.name == "Echo")
+        else if(col.gameObject.tag == "Player" && gameObject.name == "Echo" && gameObject.GetComponent<Renderer>().material.color.a > 0.9f)
         {
             E.SetActive(true);
             active = true;

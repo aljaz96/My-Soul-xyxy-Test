@@ -59,82 +59,85 @@ public class Room : MonoBehaviour {
     
     void Update()
     {
-        if (!active && player.transform.parent.name == gameObject.name && enemies.transform.childCount > 0)
+        if (player != null)
         {
-            if (topDoor.activeSelf)
+            if (!active && player.transform.parent.name == gameObject.name && enemies.transform.childCount > 0)
             {
-                topDoor.GetComponent<Door>().animator.SetTrigger("Close");
-                topDoor.GetComponent<Door>().isOpen = false;
-            }
-            if (bottomDoor.activeSelf)
-            {
-                bottomDoor.GetComponent<Door>().animator.SetTrigger("Close");
-                bottomDoor.GetComponent<Door>().isOpen = false;
-            }
-            if (leftDoor.activeSelf)
-            {
-                leftDoor.GetComponent<Door>().animator.SetTrigger("Close");
-                leftDoor.GetComponent<Door>().isOpen = false;
-            }
-            if (rightDoor.activeSelf)
-            {
-                rightDoor.GetComponent<Door>().animator.SetTrigger("Close");
-                rightDoor.GetComponent<Door>().isOpen = false;
-            }
-            active = true;
-            pathing.SetActive(true);
-            AstarPath astar = pathing.GetComponent<AstarPath>();
-            test = astar.graphs[0].name;
-            GridGraph g = (GridGraph)astar.graphs[0];
-            g.center = middle.transform.position;
-            astar.graphs[0] = g;
-            astar.graphs[0].Scan();
-            
-            /*
-            foreach (Transform child in enemies.transform)
-            {
-                try
+                if (topDoor.activeSelf)
                 {
-                    child.GetComponent<AIPath>().enabled = true;
-                    child.GetComponent<Seeker>().enabled = true;
-                    child.GetComponent<AIDestinationSetter>().enabled = true;
+                    topDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                    topDoor.GetComponent<Door>().isOpen = false;
                 }
-                catch
+                if (bottomDoor.activeSelf)
                 {
-                   // do nothing;
+                    bottomDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                    bottomDoor.GetComponent<Door>().isOpen = false;
                 }
+                if (leftDoor.activeSelf)
+                {
+                    leftDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                    leftDoor.GetComponent<Door>().isOpen = false;
+                }
+                if (rightDoor.activeSelf)
+                {
+                    rightDoor.GetComponent<Door>().animator.SetTrigger("Close");
+                    rightDoor.GetComponent<Door>().isOpen = false;
+                }
+                active = true;
+                pathing.SetActive(true);
+                AstarPath astar = pathing.GetComponent<AstarPath>();
+                test = astar.graphs[0].name;
+                GridGraph g = (GridGraph)astar.graphs[0];
+                g.center = middle.transform.position;
+                astar.graphs[0] = g;
+                astar.graphs[0].Scan();
+
+                /*
+                foreach (Transform child in enemies.transform)
+                {
+                    try
+                    {
+                        child.GetComponent<AIPath>().enabled = true;
+                        child.GetComponent<Seeker>().enabled = true;
+                        child.GetComponent<AIDestinationSetter>().enabled = true;
+                    }
+                    catch
+                    {
+                       // do nothing;
+                    }
+                }
+                */
             }
-            */
-        }
-        else if (active && enemies.transform.childCount == 0)
-        {
-            active = false;
-            if (topDoor.activeSelf)
+            else if (active && enemies.transform.childCount == 0 && player != null)
             {
-                d = topDoor.GetComponent<Door>();
-                d.isOpen = true;
-                openDoor();
+                active = false;
+                if (topDoor.activeSelf)
+                {
+                    d = topDoor.GetComponent<Door>();
+                    d.isOpen = true;
+                    openDoor();
+                }
+                if (bottomDoor.activeSelf)
+                {
+                    d = bottomDoor.GetComponent<Door>();
+                    d.isOpen = true;
+                    openDoor();
+                }
+                if (leftDoor.activeSelf)
+                {
+                    d = leftDoor.GetComponent<Door>();
+                    d.isOpen = true;
+                    openDoor();
+                }
+                if (rightDoor.activeSelf)
+                {
+                    d = rightDoor.GetComponent<Door>();
+                    d.isOpen = true;
+                    openDoor();
+                }
+                pathing.SetActive(false);
+                Destroy(this);
             }
-            if (bottomDoor.activeSelf)
-            {
-                d = bottomDoor.GetComponent<Door>();
-                d.isOpen = true;
-                openDoor();
-            }
-            if (leftDoor.activeSelf)
-            {
-                d = leftDoor.GetComponent<Door>();
-                d.isOpen = true;
-                openDoor();
-            }
-            if (rightDoor.activeSelf)
-            {
-                d = rightDoor.GetComponent<Door>();
-                d.isOpen = true;
-                openDoor();
-            }
-            pathing.SetActive(false);
-            Destroy(this);
         }
     }
     

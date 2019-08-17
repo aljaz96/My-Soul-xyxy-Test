@@ -7,17 +7,17 @@ public class Rusher : MonoBehaviour {
 
     GameObject player;
     MonsterStats stats;
-    float movementTimer;
+    float movementTimer = 0;
     float speed;
-    float rushTimer = 0;
+    float rushTimer = 0.5f;
     public float rushCooldown = 3;
     public bool rush = false;
     float player_X;
     float player_Y;
     float enemy_X;
     float enemy_Y;
-    int side = -1;
-    float velocity;
+    public int side = -1;
+    public Vector2 velocity;
     string turned = "left";
     Animator anim;
     // Use this for initialization
@@ -30,17 +30,16 @@ public class Rusher : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rushTimer -= Time.deltaTime;
-        movementTimer -= Time.deltaTime;
-        velocity = gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
         if (stats.active)
         {
             //do stuff
-
+            rushTimer -= Time.deltaTime;
+            movementTimer -= Time.deltaTime;
             if (movementTimer < 0 && !rush)
             {
                 ChangeDirection();
             }
+            velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
             if (rushTimer < 0)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
@@ -68,7 +67,7 @@ public class Rusher : MonoBehaviour {
                     }                 
                 }
             }
-            if (velocity == 0)
+            if (velocity.magnitude == 0 || (velocity.x != 0 && velocity.y != 0))
             {
               ChangeDirection();
             }
@@ -109,7 +108,7 @@ public class Rusher : MonoBehaviour {
         {
             anim.SetTrigger("RushDown");
         }
-        else if ((speedX < -0.1f && !rush)|| (speedX > 0.1f && !rush))
+        else if ((speedX < -0.1f && !rush) || (speedX > 0.1f && !rush))
         {
             anim.SetTrigger("Side");
         }
@@ -131,7 +130,6 @@ public class Rusher : MonoBehaviour {
 
     void ChangeDirection()
     {
-        anim.SetInteger("Rush", 0);
         int decision = UnityEngine.Random.Range(1, 5);
         while (decision == side)
         {
@@ -139,7 +137,7 @@ public class Rusher : MonoBehaviour {
         }
         side = decision;
 
-        switch (decision)
+        switch (side)
         {
             case 1:
                 GetComponent<Rigidbody2D>().velocity = new Vector3(speed, 0, 0);

@@ -13,6 +13,7 @@ public class RoomWithPortals : MonoBehaviour {
     public GameObject bottomPortal;
     public GameObject leftPortal;
     public GameObject rightPortal;
+    Color newColor;
     GameObject pathing;
     GameObject middle;
     public bool active = false;
@@ -25,6 +26,10 @@ public class RoomWithPortals : MonoBehaviour {
         middle = transform.Find("Mid").gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
         enemies = transform.Find("Enemies").gameObject;
+        newColor.r = 0.65F;
+        newColor.b = 0.65F;
+        newColor.g = 0.65F;
+        newColor.a = 1;
         try
         {
             pathing = transform.Find("A_").gameObject;
@@ -44,23 +49,13 @@ public class RoomWithPortals : MonoBehaviour {
             foreach (Transform child in walls.transform)
             {
                 SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
-                Color cc = new Color();
-                cc.r = 0.69F;
-                cc.b = 0.68F;
-                cc.g = 0.45F;
-                cc.a = 1;
-                r.color = cc;
+                r.color = newColor;
             }
             GameObject floors = gameObject.transform.Find("Floors").gameObject;
             foreach (Transform child in floors.transform)
             {
                 SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();
-                Color cc = new Color();
-                cc.r = 0.69F;
-                cc.b = 0.68F;
-                cc.g = 0.45F;
-                cc.a = 1;
-                r.color = cc;
+                r.color = newColor;
             }
             GameObject objects = gameObject.transform.Find("Objects").gameObject;
             foreach (Transform child in objects.transform)
@@ -70,12 +65,7 @@ public class RoomWithPortals : MonoBehaviour {
                     foreach (Transform c in child.transform)
                     {
                         SpriteRenderer r = c.gameObject.GetComponent<SpriteRenderer>();
-                        Color cc = new Color();
-                        cc.r = 0.69F;
-                        cc.b = 0.68F;
-                        cc.g = 0.45F;
-                        cc.a = 1;
-                        r.color = cc;
+                        r.color = newColor;
                         /* if (child.name.Contains("Block"))
                          {
                              SpriteRenderer r = child.gameObject.GetComponent<SpriteRenderer>();

@@ -13,11 +13,10 @@ public class ShotingWalker : MonoBehaviour {
     public float shotTimer = 0.5f;
     float speed;
     int side = -1;
-    float velocity;
+    public Vector2 velocity;
     bool shoting = false;
     public int type = 0;
     string turned = "left";
-    float turned_x;
     Animator anim;
 
     void Start () {
@@ -34,21 +33,19 @@ public class ShotingWalker : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!shoting)
-        {
-            movementTimer -= Time.deltaTime;
-        }
-        shotTimer -= Time.deltaTime;
-        velocity = GetComponent<Rigidbody2D>().velocity.magnitude;
         if (stats.active)
         {
-            //do stuff
+            if (!shoting)
+            {
+                movementTimer -= Time.deltaTime;
+            }
+            shotTimer -= Time.deltaTime;
             if (movementTimer < 0)
             {
                 changeDirection();
             }
-            turned_x = GetComponent<Rigidbody2D>().velocity.x;
-            ChangeSide(turned_x);
+            velocity = GetComponent<Rigidbody2D>().velocity;
+            ChangeSide(velocity.x);
             Vector3 direction = player.transform.position - transform.position;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction);
             if (hit.transform.gameObject == player && shotTimer < 0 && !shoting)
@@ -76,7 +73,7 @@ public class ShotingWalker : MonoBehaviour {
                     StartCoroutine(Move(2.5f, 5));
                 }
             }   
-            if (velocity == 0 && !shoting)
+            if (velocity.magnitude == 0 && !shoting || (velocity.x != 0 && velocity.y != 0 && !shoting))
             {
                 changeDirection();
             }

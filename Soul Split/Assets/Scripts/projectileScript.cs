@@ -66,7 +66,7 @@ public class projectileScript : MonoBehaviour {
                 damage = CharacterStats.damage * 0;
                 break;
             case 7:
-                damage = CharacterStats.damage / 12;
+                damage = CharacterStats.damage / 4;
                 break;
         }
     }

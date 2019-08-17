@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HPbar : MonoBehaviour {
 
     // Use this for initialization
-    public int totalHP;
-    public int currentHP;
+   // public int totalHP;
+   // public int currentHP;
     public float totalWidth;
     public float currentWidth;
     public float color;
@@ -14,8 +15,8 @@ public class HPbar : MonoBehaviour {
 	void Start () {
         try
         {
-            totalHP = CharacterStats.total_hp;
-            currentHP = CharacterStats.hp;
+            //totalHP = CharacterStats.total_hp;
+            //currentHP = CharacterStats.hp;
             totalWidth = transform.localScale.x;
             currentWidth = transform.localScale.x;
         }
@@ -27,18 +28,28 @@ public class HPbar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (totalHP == 0)
+        if(CharacterStats.hp > CharacterStats.total_hp)
         {
-            totalHP = CharacterStats.total_hp;
-            currentHP = CharacterStats.hp;
+            CharacterStats.hp = CharacterStats.total_hp;
         }
-        else
-        {
-            color = 1.7f / (float)totalHP;
-            currentHP = CharacterStats.hp;
-            transform.localScale = new Vector3(((totalWidth / totalHP) * currentHP), transform.localScale.y, transform.localScale.z);
-            GetComponent<SpriteRenderer>().color = new Color((float)(color * currentHP), 0, 0);
-        }
+        color = 1.7f / (float)CharacterStats.total_hp;
+        transform.localScale = new Vector3(((totalWidth / CharacterStats.total_hp) * CharacterStats.hp), transform.localScale.y, transform.localScale.z);
+        GetComponent<SpriteRenderer>().color = new Color((float)(color * CharacterStats.hp), 0, 0);
     
+    }
+
+    public void PlayerDied()
+    {
+        GameObject camera = GameObject.Find("MainCamera");
+        Camera_script cs = camera.GetComponent<Camera_script>();
+        cs.DisappearB();
+        StartCoroutine(LoadMenu());
+    }
+
+
+    public IEnumerator LoadMenu()
+    {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
     }
 }

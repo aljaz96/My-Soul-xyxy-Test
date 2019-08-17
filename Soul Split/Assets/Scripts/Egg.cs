@@ -34,8 +34,10 @@ public class Egg : MonoBehaviour {
                 hatched = true;
                 Destroy(GetComponent<CircleCollider2D>());
                 GameObject spoder = Instantiate(Resources.Load("Prefabs/Hatchling", typeof(GameObject)) as GameObject, transform.position, Quaternion.identity);
+                spoder.transform.localScale = spoder.transform.localScale / 2;
                 spoder.transform.SetParent(transform.parent);
                 spoder.GetComponent<MonsterStats>().timer = 0;
+                spoder.GetComponent<MonsterStats>().hp = 5;
                 spoder.GetComponent<MonsterStats>().wait = 0;
                 transform.SetParent(null);
                 Destroy(this);

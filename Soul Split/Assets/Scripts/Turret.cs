@@ -7,7 +7,7 @@ public class Turret : MonoBehaviour
 
     GameObject player;
     public int damage = 10;
-    GameObject bullet;
+    public GameObject bullet;
     public GameObject laser;
     float bulletTimer;
     public float bulletCooldown = 1;
@@ -22,7 +22,13 @@ public class Turret : MonoBehaviour
 
     void Start()
     {
+
         bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet2");
+        if(type == 4 || type == 5)
+        {
+            bullet = (GameObject)Resources.Load("Prefabs/BigEnemyBullet3");
+        }
+        laser = (GameObject)Resources.Load("Prefabs/EnemyLaserPreparing");
         player = GameObject.FindWithTag("Player");
         v3 = new Vector3(x, y, 0);
         v3.Normalize();
@@ -39,12 +45,12 @@ public class Turret : MonoBehaviour
             bulletTimer -= Time.deltaTime;
             if (bulletTimer < 0)
             {
-                if (type == 1)
+                if (type == 1 || type == 4)
                 {
                     SpawnBullet();
                     bulletTimer = bulletCooldown;
                 }
-                else if (type == 2)
+                else if (type == 2 || type == 5)
                 {
                     Spawn3Bullets();
 

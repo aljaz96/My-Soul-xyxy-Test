@@ -27,14 +27,21 @@ public class EnemyProjectile : MonoBehaviour
 
     void Start()
     {
-        rg = GetComponent<Rigidbody2D>();
+        try
+        {
+            rg = GetComponent<Rigidbody2D>();
+        }
+        catch
+        {
+           //do nothing
+        }
         anim = GetComponent<Animator>();
         col = GetComponent<CircleCollider2D>();
         if(type == 6)
         {
             transform.localScale = new Vector3(transform.localScale.x, 0, transform.localScale.z);
         }
-        if (type != 6 && type != 7)
+        if (type != 6 && type != 7 && type != 10)
         {
             float angle;
             if (type != 5)
@@ -192,6 +199,10 @@ public class EnemyProjectile : MonoBehaviour
                 Destroy(gameObject, 0.5f);
             }
             else if(type == 8)
+            {
+                Destroy(gameObject);
+            }
+            else if (type == 10)
             {
                 Destroy(gameObject);
             }

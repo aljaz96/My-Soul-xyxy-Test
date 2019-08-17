@@ -14,15 +14,31 @@ public class MonsterStats : MonoBehaviour {
     public float playerDistance = 1;
     public bool active = false;
     public float timer = 0.5f;
-    GameObject player;
+    public GameObject player;
     GameObject currentRoom;
     GameObject playerRoom;
+    SpriteRenderer sr;
     float invulnerable = 0.1f;
     AIPath aiPath;
     public float wait = 1;
     bool destroy = true;
+    bool blink = false;
+    Color normal;
+    Color invisible;
+    float invisiTimer;
     
 	void Start () {
+        try
+        {
+            sr = GetComponent<SpriteRenderer>();
+            normal = sr.color;
+        }
+        catch
+        {
+            //do nothing
+        }
+        invisible = normal;
+        invisible.a = 0;
         player = GameObject.FindWithTag("Player");
         currentRoom = transform.parent.gameObject.transform.parent.gameObject;
         try
@@ -36,21 +52,46 @@ public class MonsterStats : MonoBehaviour {
             aiPath = null;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         timer -= Time.deltaTime;
         invulnerable -= Time.deltaTime;
-
+       /* 
+        invisiTimer -= Time.deltaTime;  
+        if(!name.Contains("Egg") && !name.Contains("Echo"))
+        if (invulnerable > 0 && blink)
+        {
+            sr.color = normal;
+            blink = false;
+        }
+        else if (invulnerable > 0 && !blink)
+        {
+            sr.color = invisible;
+            blink = true;
+        }
+        else if (invulnerable < 0 && blink)
+        {
+            sr.color = normal;
+            blink = false;
+        }
+        */
         if (hp <= 0)
         {
             MonsterReactionsUponDeath();
             if (destroy)
             {
+                if (transform.name.Contains("Egg") == false && transform.name.Contains("Echo") == false)
+                {
+                    Vector3 v3 = transform.position;
+                    v3.y += 1;
+                    GameObject p = Instantiate(Resources.Load("Prefabs/Poof", typeof(GameObject)) as GameObject, v3, Quaternion.identity);
+                    Destroy(p, 0.85f);
+                }
                 Destroy(gameObject);
             }
         }
-        if (!active)
+        if (!active && player != null)
         {
             playerRoom = player.transform.parent.gameObject;
         }
@@ -82,7 +123,11 @@ public class MonsterStats : MonoBehaviour {
         {
             hp -= d;
         }
-        if (name.Contains("laserE"))
+        if (name.Contains("Slash") && invulnerable < 0)
+        {
+            invulnerable = 0.12f;
+        }
+        if (name.Contains("Laser") && invulnerable < 0)
         {
             invulnerable = 0.1f;
         }

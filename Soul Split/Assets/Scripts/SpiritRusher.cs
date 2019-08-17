@@ -10,7 +10,7 @@ public class SpiritRusher : MonoBehaviour {
     GameObject bullet;
     float movementTimer;
     float speed;
-    float rushTimer = 0;
+    float rushTimer = 1;
     public float rushCooldown = 3;
     float bulletTimer = 0;
     public float bulletCooldown = 0.15f;
@@ -20,7 +20,7 @@ public class SpiritRusher : MonoBehaviour {
     float enemy_X;
     float enemy_Y;
     int side = -1;
-    float velocity;
+    public Vector2 velocity;
     string turned = "left";
     Animator anim;
     // Use this for initialization
@@ -36,16 +36,16 @@ public class SpiritRusher : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        rushTimer -= Time.deltaTime;
-        bulletTimer -= Time.deltaTime;
-        movementTimer -= Time.deltaTime;
-        velocity = gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
         if (stats.active)
         {
             //do stuff
+            rushTimer -= Time.deltaTime;
+            bulletTimer -= Time.deltaTime;
+            movementTimer -= Time.deltaTime;
+            velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
             if (movementTimer < 0 && !rush)
             {
-                changeDirection();
+                ChangeDirection();
             }
             if (rush && bulletTimer < 0)
             {
@@ -83,9 +83,9 @@ public class SpiritRusher : MonoBehaviour {
                     }
                 }
             }
-            if (velocity == 0)
+            if (velocity.magnitude == 0 || (velocity.x != 0 && velocity.y != 0))
             {
-                changeDirection();
+                ChangeDirection();
             }
         }
     }
@@ -94,7 +94,7 @@ public class SpiritRusher : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D col)
     {
         rush = false;
-        changeDirection();
+        ChangeDirection();
     }
 
     void SetAnim(float speedX, float speedY)
@@ -144,7 +144,7 @@ public class SpiritRusher : MonoBehaviour {
         rushTimer = rushCooldown;
     }
 
-    void changeDirection()
+    void ChangeDirection()
     {
         int decision = UnityEngine.Random.Range(1, 5);
         while (decision == side)

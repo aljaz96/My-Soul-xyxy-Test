@@ -133,12 +133,12 @@ public class familiar : MonoBehaviour
     {
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = pz - transform.position;
-        direction.x = direction.x * Random.Range(0.80f, 1.21f);
-        direction.y = direction.y * Random.Range(0.80f, 1.21f);
         direction.Normalize();
+        direction.x = direction.x + Random.Range(-0.1f, 0.1f);
+        direction.y = direction.y + Random.Range(-0.1f, 0.1f);
         GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
         b1.GetComponent<projectileScript>().SetType(1);
-        b1.GetComponent<Rigidbody2D>().velocity = direction * CharacterStats.bulletSpeed;
+        b1.GetComponent<Rigidbody2D>().velocity = direction * CharacterStats.bulletSpeed * 1.5f;
         if (backShot)
         {
             GameObject b2 = Instantiate(normalBullet, transform.position, Quaternion.identity);
@@ -178,9 +178,9 @@ public class familiar : MonoBehaviour
         for (int i = 0; i < numberOfBullets; i++)
         {
             Vector2 changedDirection = direction;
-            changedDirection.x = changedDirection.x * (Random.Range(0.6f, 1.4f));
-            changedDirection.y = changedDirection.y * (Random.Range(0.6f, 1.4f));
             changedDirection.Normalize();
+            changedDirection.x = changedDirection.x + (Random.Range(-0.4f, 0.4f));
+            changedDirection.y = changedDirection.y + (Random.Range(-0.4f, 0.4f));
             GameObject b1 = Instantiate(normalBullet, transform.position, Quaternion.identity);
             b1.GetComponent<projectileScript>().SetType(1);
             b1.GetComponent<Rigidbody2D>().velocity = changedDirection * (float)(CharacterStats.bulletSpeed * (Random.Range(1.5f, 1.7f)));

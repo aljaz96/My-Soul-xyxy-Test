@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Camera_script : MonoBehaviour {
 
@@ -48,6 +49,20 @@ public class Camera_script : MonoBehaviour {
             c.a += 0.01f;
             B.GetComponent<Renderer>().material.color = c;
         }
+    }
+
+
+    public void PlayerDied()
+    {
+        AppearB();
+        StartCoroutine(LoadMenu());
+    }
+
+
+    public IEnumerator LoadMenu()
+    {
+        yield return new WaitForSeconds(4);
+        SceneManager.LoadScene(0);
     }
 
     public IEnumerator Transition()

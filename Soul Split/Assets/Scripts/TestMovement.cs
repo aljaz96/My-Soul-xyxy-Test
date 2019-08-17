@@ -79,7 +79,8 @@ public class TestMovement : MonoBehaviour {
             }
             if (Input.GetKey(KeyCode.Space) && timer < 0)
             {
-                CharacterStats.energy = 100;
+                CharacterStats.energy = CharacterStats.total_energy;
+                CharacterStats.hp = CharacterStats.total_hp;
             }
             if (Input.GetKey(KeyCode.LeftShift) && dodgeTimer < 0)
             {
@@ -122,6 +123,15 @@ public class TestMovement : MonoBehaviour {
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
+            if (Input.GetKey(KeyCode.K))
+            {
+                GameObject r = transform.parent.gameObject;
+                foreach (Transform child in r.transform.Find("Enemies").transform)
+                {
+                    MonsterStats ms = child.GetComponent<MonsterStats>();
+                    ms.hp -= 600;
+                }
+            }
         }
     }
 
@@ -129,6 +139,17 @@ public class TestMovement : MonoBehaviour {
     void Update()
     {
         newPos = gameObject.transform.position;
+        if (CharacterStats.hp < 0)
+        {
+            Camera_script cs = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera_script>();
+            Vector3 v3 = transform.position;
+            v3.y += 0.5f;
+            GameObject p = Instantiate(Resources.Load("Prefabs/Poof", typeof(GameObject)) as GameObject, v3, Quaternion.identity);
+            Destroy(p, 0.85f);
+            cs.PlayerDied();
+            Destroy(gameObject);
+            Destroy(this);
+        }
         //anim.SetFloat("Speed", (oldPos-newPos).magnitude);
         if (running == 0 && r == true)
         {

@@ -15,7 +15,6 @@ public class SlashEffect : MonoBehaviour {
         direction.Normalize();
         GetComponent<Rigidbody2D>().velocity = direction * 0.1f;
         cd = GetComponent<BoxCollider2D>();
-
     }
 
     // Update is called once per frame
@@ -48,7 +47,7 @@ public class SlashEffect : MonoBehaviour {
                         damage = CharacterStats.damage * 0.9f;
                         break;
                 }
-                collision.gameObject.GetComponent<MonsterStats>().hp -= damage;
+                collision.gameObject.GetComponent<MonsterStats>().RecieveDamage(damage, name);
                 CharacterStats.energy += CharacterStats.energyRegen;
                 if(CharacterStats.energy > CharacterStats.total_energy)
                 {
