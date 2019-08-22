@@ -83,7 +83,7 @@ public class PickUp : MonoBehaviour
         {
             case "SpiritBond":
                 CharacterStats.hp += 50;
-                CharacterStats.energy = (int)(CharacterStats.total_energy * 0.8f);
+                CharacterStats.energy += (int)(CharacterStats.total_energy * 0.8f);
                 break;
             case "Apple":
                 CharacterStats.hp += 25;

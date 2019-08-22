@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/mikik/OneDrive/Desktop/New folder/Soul Split.exe
+C:/Users/mikik/OneDrive/Desktop/SS/Soul Split.exe
 SceneListBegin?
 Assets/Menu.unity
 Assets/Stage1.unity
